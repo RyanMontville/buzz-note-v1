@@ -10,3 +10,6 @@ My parents are bee keepers as a hobby. They wanted to start recording the state 
 <br>-Currently the program does not store the data in any way, just takes in data then prints it out nicely formatted.
 <br>-The next thing I'm working on is probably writting the data to a file.
 
+## V 0.2.1
+-I have started working on creating the Dao. the current code uploaded does not connect to the local database I set up, still trying to get this code to work.
+
