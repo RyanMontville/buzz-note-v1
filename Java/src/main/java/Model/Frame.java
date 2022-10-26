@@ -1,4 +1,4 @@
-package com.ryanmontville.inspection.Model;
+package Model;
 
 public class Frame {
 
@@ -76,3 +76,4 @@ public class Frame {
 
     public void setQueenSpotted(boolean queenSpotted) { this.queenSpotted = queenSpotted; }
 }
+

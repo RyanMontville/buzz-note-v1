@@ -1,4 +1,4 @@
-package com.ryanmontville.inspection.Model;
+package Model;
 
 import java.util.ArrayList;
 import java.util.List;

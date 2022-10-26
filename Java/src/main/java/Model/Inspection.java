@@ -1,4 +1,4 @@
-package com.ryanmontville.inspection.Model;
+package Model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
