@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>End of inspection</title>
+        <link rel="stylesheet" type="text/css" href="https://ryanmontville.com/style.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                background-color: black;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+        <h1>End of Inspection</h1>
+        <h3>Bee temperament:</h3><!--1-->
+            <div id="button-group">
+                <button type="button" class="small button green" id="1A"
+                onclick="document.getElementById('1A').className = 'small button green';
+                         document.getElementById('1B').className = 'small button grey';
+                         document.getElementById('1C').className = 'small button grey';
+                         document.getElementById('1D').className = 'small button grey'">Calm</button>
+                <button type="button" class="small button yellow" id="1B"
+                onclick="document.getElementById('1A').className = 'small button grey';
+                         document.getElementById('1B').className = 'small button yellow';
+                         document.getElementById('1C').className = 'small button grey';
+                         document.getElementById('1D').className = 'small button grey'">Nervous</button>
+                <button type="button" class="small button orange" id="1C"
+                onclick="document.getElementById('1A').className = 'small button grey';
+                         document.getElementById('1B').className = 'small button grey';
+                         document.getElementById('1C').className = 'small button orange';
+                         document.getElementById('1D').className = 'small button grey'">Angry</button>
+                <button type="button" class="small button red" id="1D"
+                onclick="document.getElementById('1A').className = 'small button grey';
+                         document.getElementById('1B').className = 'small button grey';
+                         document.getElementById('1C').className = 'small button grey';
+                         document.getElementById('1D').className = 'small button red'">Crazy</button>
+            </div>
+        <h3>Bee population:</h3><!--2-->
+            <div id="button-group">
+                <button type="button" class="small button yellow" id="2A"
+                onclick="document.getElementById('2A').className = 'small button yellow';
+                         document.getElementById('2B').className = 'small button grey';
+                         document.getElementById('2C').className = 'small button grey'">Low</button>
+                <button type="button" class="small button green" id="2B"
+                onclick="document.getElementById('2A').className = 'small button grey';
+                         document.getElementById('2B').className = 'small button green';
+                         document.getElementById('2C').className = 'small button grey'">Normal</button>
+                <button type="button" class="small button yellow" id="2C"
+                onclick="document.getElementById('2A').className = 'small button grey';
+                         document.getElementById('2B').className = 'small button grey';
+                         document.getElementById('2C').className = 'small button yellow'">Crowded</button>
+            </div>
+        <h3>Drone population:</h3><!--3-->
+            <div id="button-group">
+                <button type="button" class="small button yellow" id="3A"
+                onclick="document.getElementById('3A').className = 'small button yellow';
+                         document.getElementById('3B').className = 'small button grey';
+                         document.getElementById('3C').className = 'small button grey'">Low</button>
+                <button type="button" class="small button green" id="3B"
+                onclick="document.getElementById('3A').className = 'small button grey';
+                         document.getElementById('3B').className = 'small button green';
+                         document.getElementById('3C').className = 'small button grey'">Normal</button>
+                <button type="button" class="small button yellow" id="3C"
+                onclick="document.getElementById('3A').className = 'small button grey';
+                         document.getElementById('3B').className = 'small button grey';
+                         document.getElementById('3C').className = 'small button yellow'">Crowded</button>
+            </div>
+        <h3>Laying pattern:</h3><!--4-->
+            <div id="button-group">
+                <button type="button" class="small button green" id="4A"
+                onclick="document.getElementById('4A').className = 'small button green';
+                         document.getElementById('4B').className = 'small button grey'">Good</button>
+                <button type="button" class="small button yellow" id="4B"
+                onclick="document.getElementById('4A').className = 'small button grey';
+                         document.getElementById('4B').className = 'small button yellow'">Spotty</button>
+            </div>
+        <h3>Hive beetles:</h3><!--5-->
+            <div id="button-group">
+                <button type="button" class="small button green" id="5A"
+                onclick="document.getElementById('5A').className = 'small button green';
+                         document.getElementById('5B').className = 'small button grey';
+                         document.getElementById('5C').className = 'small button grey'">None</button>
+                <button type="button" class="small button yellow" id="5B"
+                onclick="document.getElementById('5A').className = 'small button grey';
+                         document.getElementById('5B').className = 'small button yellow';
+                         document.getElementById('5C').className = 'small button grey'">Few</button>
+                <button type="button" class="small button red" id="5C"
+                onclick="document.getElementById('5A').className = 'small button grey';
+                         document.getElementById('5B').className = 'small button grey';
+                         document.getElementById('5C').className = 'small button red'">Lots</button>
+            </div>
+            <h3>Other pests:</h3><!--6-->
+            <div id="button-group">
+                <button type="button" class="small button green" id="6A"
+                onclick="document.getElementById('6A').className = 'small button green';
+                         document.getElementById('6B').className = 'small button grey';
+                         document.getElementById('6C').className = 'small button grey'">None</button>
+                <button type="button" class="small button yellow" id="6B"
+                onclick="document.getElementById('6A').className = 'small button grey';
+                         document.getElementById('6B').className = 'small button yellow';
+                         document.getElementById('6C').className = 'small button grey'">Few</button>
+                <button type="button" class="small button red" id="6C"
+                onclick="document.getElementById('6A').className = 'small button grey';
+                         document.getElementById('6B').className = 'small button grey';
+                         document.getElementById('6C').className = 'small button red'">Lots</button>
+            </div>
+            <h3>Notes:</h3>
+            <div id="flex"><textarea name="message" class="textbox"></textarea></div>
+            <input type="submit" class="skip button green">
+            <a href="index.html" class="small button blue">Finish inspection</a>
+        </div>
+    </body>
+</html>

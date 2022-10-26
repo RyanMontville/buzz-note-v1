@@ -1,0 +1,299 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+:root{
+    --white: #ffffff;
+    --red: #b81f24;
+    --gray: #85888C;
+}
+body {
+	background-color: #e5e5e5;
+}
+/*********** NAV ***********/
+h1.title {
+	position: absolute;
+	top: 5px;
+	left: 470px;
+	font-size: 50px;
+}
+#nav{
+	display: flex;
+	list-style-type: none;
+	align-items: center;
+	justify-content: space-around;
+	background: var(--red);
+	height: 70px;
+	margin: 100px 10px 0 10px;
+	-moz-border-radius: 70px;
+	-webkit-border-radius: 70px;
+	border-radius: 70px;
+}
+#nav li,
+#nav li a {
+	text-decoration: none;
+	color: var(--white);
+	font-family: 'Roboto', sans-serif;
+	font-size: 30px;
+}
+#nav i:hover {
+	-ms-transform: scale(1.3); /* IE 9 */
+	transform: scale(1.3);
+}
+#nav li a:hover{ text-decoration: underline; }
+img.logo{
+	-moz-border-radius: 200px;
+	-webkit-border-radius: 200px;
+	border-radius: 200px;
+	height: 200px;
+	width: auto;
+	border: 10px solid var(--red);
+	margin: 0 -20px;
+}
+.active { font-size: 30px; }
+/*********** MOBILE NAV ***********/
+.mobile-header a{
+    text-decoration: none;
+	color: var(--white);
+}
+.mobile-header i {
+	font-size: 60px;
+	margin: 0 10px;
+}
+.mobile-header i:hover {
+	-ms-transform: scale(1.3); /* IE 9 */
+  transform: scale(1.3);}
+.mobile-header{
+    background-color: var(--red);
+    box-shadow: 1px 1px 5px 0px var(--gray);
+    position: relative;
+	margin: 10px 10px 0 10px;
+	border-radius: 70px;
+    top: 0;
+    width: 98%;
+	height: 70px;
+	font-family: 'Roboto', sans-serif;
+}
+.ryanmontville{
+    display: inline-block;
+    color: var(--white);
+    font-size: 30px;
+    margin: 15px;
+}
+.mobile-nav{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+	left:0;
+	right:0;
+    background-color: var(--red);
+    overflow: hidden;
+	margin:0 auto;
+}
+.mobile-menu a{
+    display: block;
+    padding: 30px;
+    color: var(--white);
+	font-size: 30px;
+}
+.mobile-menu a:hover{ background-color: var(--gray); }
+.mobile-nav{
+    max-height: 0;
+    transition: max-height .5s ease-out;
+}
+.social {
+	display: flex;
+	list-style-type: none;
+	align-items: center;
+	justify-content: space-around;
+}
+.hamb{
+    cursor: pointer;
+    float: right;
+    padding: 30px 20px;
+}
+.hamb-line {
+    background: var(--white);
+    display: block;
+    height: 2px;
+    position: relative;
+    width: 24px;
+
+}
+.hamb-line::before,
+.hamb-line::after{
+    background: var(--white);
+    content: '';
+    display: block;
+    height: 100%;
+    position: absolute;
+    transition: all .2s ease-out;
+    width: 100%;
+}
+.hamb-line::before{ top: 5px; }
+.hamb-line::after{ top: -5px; }
+.side-menu { display: none; }
+.side-menu:checked ~ nav{ max-height: 100%;}
+.side-menu:checked ~ .hamb .hamb-line { background: transparent; }
+.side-menu:checked ~ .hamb .hamb-line::before {
+    transform: rotate(-45deg);
+    top:0;
+}
+.side-menu:checked ~ .hamb .hamb-line::after {
+    transform: rotate(45deg);
+    top:0;
+}
+/*********** MAIN CONTENT ***********/
+main{
+	max-width: 900px; 
+	background-color: var(--white);
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+main p { margin: 10px; }
+
+main li { margin: 0 25px; }
+.rss-feed {
+	margin-left: 15px;
+}
+main h1,main h2,main h3,main h4 {color: var(--red);}
+.screenshots {
+	display: flex;
+	list-style-type: none;
+	align-items: center;
+	justify-content: space-around;
+}
+#app {
+    max-width: 900px; 
+	background-color: var(--white);
+	margin: 0 auto;
+}
+.screenshots img {
+	height: 200px;
+	width: auto;
+}
+.w_e-badge {
+	height: 300px;
+	width: auto;
+	float: right;
+}
+/*********** HR ANIMATION ***********/
+#hr1 {
+	width: 100%;
+	height: 5px;
+	background-color:var(--red);
+	margin: 20px 0;
+  }
+  #hr2 {
+	  width: 100%;
+	height: 5px;
+	background-color:var(--red);
+	margin: 20px 0;
+  }
+@media (prefers-reduced-motion: no-preference) {
+  .grow {
+    animation-name: example;
+	animation-duration: 1s;
+	animation-fill-mode: forwards;
+  }
+}
+
+@keyframes example {
+  from {width:0;}
+  to {width:98%;}
+}
+/*********** BUTTONS ***********/
+#button-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+.button {
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    margin: 5px;
+    text-align: center;
+    box-shadow:inset 0 -0.6em 0 -0.35em rgba(0,0,0,0.17);
+}
+.date-time {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    margin: 5px;
+    text-align: center;
+}
+.button:active {
+  box-shadow: 0 0 #ffffff;
+  transform: translateY(4px);
+}
+.bee-home {
+    padding: 5px;
+}
+.big {
+    width: 100%;
+    background-color: green;
+    color: white;
+    
+}
+.small {
+    width: 100%;
+    height: 70px;
+    font-size: 30px;
+}
+.skip {
+    width: 200px;
+    height: 70px;
+    font-size: 30px;
+    float: right;
+}
+.arrow {
+    width: 250px;
+    height: 70px;
+    font-size: 30px;
+}
+.red {background-color: #df2c14; color: white;}
+.orange {background-color: #f58216; color: black;}
+.yellow {background-color: yellow; color: black;}
+.green {background-color: green; color: white;}
+.blue {background-color: blue; color: white;}
+.purple {background-color: purple; color: white;}
+.white {background-color: white; color: black;}
+.black {background-color: black; color: white;}
+.grey {background-color: gray; color: white; border: 0;}
+
+.big:hover { background-color: #3e8e41; }
+.textbox {
+    width: 95%;
+    height: 300px;
+    margin: 10px;
+    padding: 10px;
+}
+
+@media only screen and (min-width: 931px) {
+	.mobile-header { display: none; }
+	.mobile-link { display: none; }
+	main {
+		margin: 30px auto;
+		padding: 50px 10px 10px 10px;
+	}
+	.bee-home { flex-direction: row; }
+    .big { font-size: 30px; height: 100px;}
+}
+@media only screen and (max-width: 930px) {
+	#nav { display: none; }
+	main {
+		margin: 5px auto;
+		padding: 10px;
+	}
+	.screenshots img {
+		width: 100%;
+		height: auto;
+	}
+	.w_e-badge { height: 100px; }
+	.bee-home { flex-direction: column; }
+    .big { font-size: 50px; height: 160px;}
+}
