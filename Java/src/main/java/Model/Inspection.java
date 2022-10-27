@@ -1,6 +1,9 @@
 package Model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +47,12 @@ public class Inspection {
         this.weather = weather;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDateTime getDateTime() { return this.dateTime; }
+
+    public String getDateTimeFormatted() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
+        String formattedDateTime = this.dateTime.format(formatter);
+        return formattedDateTime;
     }
 
     public void setDateTime(LocalDateTime dateTime) {

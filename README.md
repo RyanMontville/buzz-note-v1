@@ -13,3 +13,6 @@ My parents are bee keepers as a hobby. They wanted to start recording the state 
 ## V 0.2.1
 -I have started working on creating the Dao. the current code uploaded does not connect to the local database I set up, still trying to get this code to work.
 
+## V 0.2.2
+-I have successfully connected to the the datbase with my Dao code. I was missing a postgresql dependency. Some of the dao methods work, but almost every option in the CLI app crashes at some point because of a springframework exception. Currently working on fixing these bugs.
+

@@ -16,7 +16,6 @@
     max-width: -moz-fit-content;
     max-width: fit-content;
     margin: 0 auto;
-    overflow-x: auto;
     white-space: nowrap;
 
 }
@@ -25,6 +24,11 @@
     padding: 10px;
     background-color: #04AA6D;
     color: white;
+}
+#inspection-table tbody {
+    overflow: auto;
+    width: 100%;
+    margin: 0 auto;
 }
 .box_num {
     text-align: center;

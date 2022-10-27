@@ -34,7 +34,7 @@ public class JdbcFrameDao implements FrameDao {
         List<Frame> frames = new ArrayList<>();
         String sql = "SELECT box_number, frame_name, comb_pattern, honey, nectar, brood, queen_spotted, cells " +
                 "FROM public.frame " +
-                "WHERE inspection_id=?;";
+                "WHERE inspection_id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, inspectionId);
         while (results.next()){
             frames.add(mapRowToFrame(results));
@@ -46,7 +46,7 @@ public class JdbcFrameDao implements FrameDao {
     public Frame createFrame(Frame frame) {
         String sql = "INSERT INTO public.frame(inspection_id, box_number, frame_name, comb_pattern, honey, nectar, brood, " +
                 "queen_spotted, cells) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETUNRING frame_id;";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING frame_id;";
         Integer newId = jdbcTemplate.queryForObject(sql, Integer.class,frame.getInspectionId(),frame.getBoxNumber(),
                 frame.getFrameName(),frame.getCombPattern(),frame.getHoney(),frame.getNectar(),frame.getBrood(),
                 frame.isQueenSpotted(), frame.getCells());

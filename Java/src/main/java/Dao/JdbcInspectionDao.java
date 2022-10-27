@@ -5,6 +5,9 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class JdbcInspectionDao implements InspectionDao {
 
 
@@ -15,12 +18,23 @@ public class JdbcInspectionDao implements InspectionDao {
     }
 
     @Override
+    public List<Inspection> list() {
+        List<Inspection> inspections = new ArrayList<>();
+        String sql = "SELECT inspection_id, weather, bee_temperament, bee_population, drone_population, laying_pattern, hive_beetles, other_pests, date_time, notes " +
+                "FROM public.inspection;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while (results.next()){
+            inspections.add(mapRowToInspection(results));
+        }
+        return inspections;
+    }
+
+    @Override
     public Inspection getInspection(int inspectionId) {
         Inspection inspection = null;
         String sql = "SELECT inspection_id, weather, bee_temperament, bee_population, drone_population, " +
-                "laying_pattern, hive_beetles, other_pests, date_time, notes FROM public.inspection" +
-                "WHERE inspection_id=?;";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, inspectionId);
+                "laying_pattern, hive_beetles, other_pests, date_time, notes FROM public.inspection WHERE inspection_id=?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql,inspectionId);
         if(results.next()){
             inspection = mapRowToInspection(results);
         }
@@ -42,7 +56,7 @@ public class JdbcInspectionDao implements InspectionDao {
     public void updateInspection(Inspection inspection) {
         //TODO: update this method if weather is auto added
         String sql = "UPDATE public.inspection" +
-                     "SET weather=?, bee_temperament=?, bee_population=?, drone_population=?, laying_pattern=?, hive_beetles=?, other_pests=?, notes=?" +
+                     "SET weather=?, bee_temperament=?, bee_population=?, drone_population=?, laying_pattern=?, hive_beetles=?, other_pests=?" +
                      "WHERE inspection_id=?;";
         jdbcTemplate.update(sql,inspection.getWeather(),inspection.getBeeTemperament(),inspection.getBeePopulation(),inspection.getDronePopulation(),
                             inspection.getLayingPattern(),inspection.getHiveBeetles(),inspection.getOtherPests(),inspection.getInspectionId());

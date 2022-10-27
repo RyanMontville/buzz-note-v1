@@ -29,7 +29,8 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../ryan-montville-student-code/module-2/14_Server_Side_APIs_Part_2/exercise" />
+    <property name="settings.editor.selected.configurable" value="build.tools" />
   </component>
   <component name="RunManager">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -55,5 +56,21 @@
       <updated>1666721400080</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/App.java</url>
+          <line>26</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="prop.getProperty(&quot;db.url&quot;)" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
