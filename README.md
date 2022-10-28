@@ -16,3 +16,8 @@ My parents are bee keepers as a hobby. They wanted to start recording the state 
 ## V 0.2.2
 -I have successfully connected to the the datbase with my Dao code. I was missing a postgresql dependency. Some of the dao methods work, but almost every option in the CLI app crashes at some point because of a springframework exception. Currently working on fixing these bugs.
 
+## V 0.3
+-All dao methods currently inplemented run properly. The CLI version of the app is now functional.
+<br>-The CLI lets the user start a new inspeciton and add it to a local databse, add notes to any of the inspections and update the database, or view all of the past inspections stored in the database.
+<br>-I think my next step is to connect CLI to the database on my website instead of a local database. 
+

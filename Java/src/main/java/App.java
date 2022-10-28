@@ -62,35 +62,12 @@ public class App {
             if(selection==1) {
                 //start new inspection
                 startNewInspection();
-                //TODO: add frame to frame table
-                //TODO: add inspection to inspection table
             } else if (selection==2) {
-                //add notes to most recent inspection
-                //or maybe add notes to any inspection?
-                Frame testFrame = frameDao.getFrame(8);
-                System.out.println(testFrame.getFrameName());
+                //add notes
+                addNotes();
             } else if (selection==3) {
                 //view previous inspections
-                //testing, add list of inspections here
-                List<Inspection> inspections = inspectionDao.list();
-                String queenSpottedFrame = "";
-                for (Inspection current : inspections) {
-                    System.out.println(current.getInspectionId() + " - Weather: " + current.getWeather() + " | Date and Time: " + current.getDateTimeFormatted() +
-                            " | Bee temperament: " + current.getBeeTemperament() + " | Bee population: " + current.getBeePopulation() + " | Drone population: " +
-                            current.getDronePopulation() + "\nLaying pattern: " + current.getLayingPattern() + " | Hive beetles: " + current.getHiveBeetles() +
-                            " | Other pests: " + current.getOtherPests());
-                    System.out.println(current.getInspectionId());
-                    List<Frame> frames = frameDao.getFrameByInspection(current.getInspectionId());
-                    System.out.println("Frames list created");
-                    for (Frame currentFrame : frames) {
-                        System.out.println("Box number: " + currentFrame.getBoxNumber() + " | Frame: " + currentFrame.getFrameName() + " | Comb pattern: " +
-                                currentFrame.getCombPattern() + " | Honey: " + currentFrame.getHoney() + " | Nectar: " + currentFrame.getNectar() +
-                                " | Brood: " + currentFrame.getBrood() + " | Queen spotted: " + currentFrame.isQueenSpotted() + " | Cells: " + currentFrame.getCells());
-                        if (currentFrame.isQueenSpotted()) {
-                            queenSpottedFrame = queenSpottedFrame + currentFrame.getFrameName();
-                        }
-                    }
-                }
+                viewPreviousInspections();
             } else if (selection==4) {
                 //exit
                 System.out.println("\nGoodbye");
@@ -109,8 +86,8 @@ public class App {
     }
 
     private void displayMenu() {
-        System.out.println("1. Start new Inspection");
-        System.out.println("2. Add notes to most recent inspection");
+        System.out.println("\n1. Start new Inspection");
+        System.out.println("2. Add notes to an inspection");
         System.out.println("3. View previous inspections");
         System.out.println("4. Exit");
     }
@@ -140,6 +117,11 @@ public class App {
         return userInput.nextLine();
     }
 
+    private char promptForChar(String prompt) {
+        System.out.println(prompt);
+        return userInput.nextLine().charAt(0);
+    }
+
     private void displayError(String message) {
         System.out.println();
         System.out.println("***" + message + "***");
@@ -149,6 +131,40 @@ public class App {
     private void startNewInspection() {
         Inspection newInspection = new Inspection();
         newInspection.setDateTime(LocalDateTime.now());
+        for (int i=3;i>0;i--){
+            String skipPrompt = "Skip box " + i + " (Y/N):";
+            char skip = promptForChar(skipPrompt);
+            if (skip=='Y' || skip=='y'){continue;}
+            Box newBox = new Box(i);
+            for(int j=0;j<6;j++){
+                Frame newFrame = new Frame();
+                newFrame.setBoxNumber(i);
+                String frameName = "";
+                if(j%2==0){
+                    frameName = frameName + ((j/2)+1) + "A";
+                } else {
+                    frameName = frameName + ((j/2)+1) + "B";
+                }
+                newFrame.setFrameName(frameName);
+                System.out.println(i + " - " + frameName);
+                newFrame.setCombPattern(promptForString("Comb pattern: "));
+                newFrame.setHoney(promptForString("Honey: "));
+                newFrame.setNectar(promptForString("Nectar: "));
+                newFrame.setBrood(promptForString("Brood: "));
+                newFrame.setCells(promptForString("Cells: "));
+                String queen = promptForString("Queen Spotted (Y/N): ");
+                if(queen.toLowerCase().charAt(0)=='y'){
+                    newFrame.setQueenSpotted(true);
+                } else {
+                    newFrame.setQueenSpotted(false);
+                }
+                //TODO: add frame to frame table
+                newBox.addFrameToBox(newFrame);
+                System.out.println("added frame " + newFrame.getFrameName() + ". Box now has " + newBox.getFrames().size() + " frames.");
+            }
+            newInspection.addBox(newBox);
+            System.out.println("Added box " + i + " to inspection. There are now " + newInspection.getBoxes().size() + " boxes in the inspection");
+        }
         newInspection.setWeather(promptForString("Current weather (temp condition): "));
         newInspection.setBeeTemperament(promptForString("Bee temperament: "));
         newInspection.setBeePopulation(promptForString("Bee population: "));
@@ -156,68 +172,86 @@ public class App {
         newInspection.setLayingPattern(promptForString("Laying pattern: "));
         newInspection.setHiveBeetles(promptForString("Hive beetles: "));
         newInspection.setOtherPests(promptForString("Other pests: "));
-        //TODO: add inspections to database, return inspection id
-        //TODO: create a int for inspection id
-        newInspection = inspectionDao.createInspection(newInspection);
-        int inspectionsId = newInspection.getInspectionId();
-        //
-        System.out.println("Box 1 - Frame 10B");
-        //TODO: create loop for boxes, create int boxNum
-        int boxNum = 3;
-        //TODO: end of loop code boxNum--;
-        Box newBox = new Box(boxNum);
-        for(int i=1;i<11;i++){
-            Frame newFrame = new Frame();
-            //Add frame to table here, then update the frame through the web interface?
-            newFrame.setInspectionId(inspectionsId);
-            newFrame.setBoxNumber(1);
-            String frameName = "";
-            if(i%2==0){
-                frameName = frameName + i + "A";
-            } else {
-                frameName = frameName + i + "B";
+        Inspection returnedInspection = inspectionDao.createInspection(newInspection);
+        int inspectionsId = returnedInspection.getInspectionId();
+        System.out.println("Inspection " + inspectionsId + " has been added to the table");
+        for (Box box : newInspection.getBoxes()) {
+            for (Frame frame : box.getFrames()){
+                frame.setInspectionId(inspectionsId);
+                addFrame(frame);
+                System.out.println("Added frame to table");
             }
-            newFrame.setFrameName(frameName);
-            System.out.println(frameName);
-            newFrame.setCombPattern(promptForString("Comb pattern: "));
-            newFrame.setHoney(promptForString("Honey: "));
-            newFrame.setNectar(promptForString("Nectar: "));
-            newFrame.setBrood(promptForString("Brood: "));
-            newFrame.setCells(promptForString("Cells: "));
-            String queen = promptForString("Queen Spotted (Y/N): ");
-            if(queen.toLowerCase().charAt(0)=='Y'){
-                newFrame.setQueenSpotted(true);
-            } else {
-                newFrame.setQueenSpotted(false);
+        }
+    }
+
+    public void viewPreviousInspections() {
+        List<Inspection> inspections = inspectionDao.list();
+        for (Inspection current : inspections) {
+            String notes = checkIfNotesIsNull(current.getNotes(),"",1);
+            System.out.println("\n" + current.getInspectionId() + " - Weather: " + current.getWeather() + " | Date and Time: " + current.getDateTimeFormatted() +
+                    " | Bee temperament: " + current.getBeeTemperament() + " | Bee population: " + current.getBeePopulation() + " | Drone population: " +
+                    current.getDronePopulation() + "\nLaying pattern: " + current.getLayingPattern() + " | Hive beetles: " + current.getHiveBeetles() +
+                    " | Other pests: " + current.getOtherPests() + "\nNotes: " + notes);
+            for (int i=3;i>0;i--){
+                displayFramesInBox(current.getInspectionId(),i);
             }
-            //TODO: add frame to frame table
-            addFrame(newFrame);
         }
 
-        //newBox.addFrameToBox(newFrame); Are these needed?
-        //newInspection.addBox(newBox); Are these needed?
-        /**
-         *
+    }
 
-        newInspection.setWeather(promptForString("Current weather (temp condition): "));
-        newInspection.setBeeTemperament(promptForString("Bee temperament: "));
-        newInspection.setBeePopulation(promptForString("Bee population: "));
-        newInspection.setDronePopulation(promptForString("Drone population: "));
-        newInspection.setLayingPattern(promptForString("Laying pattern: "));
-        newInspection.setHiveBeetles(promptForString("Hive beetles: "));
-        newInspection.setOtherPests(promptForString("Other pests: "));
-        //updateInspection(newInspection);
-         */
-        //TODO: update inpsection to add all of this instead of create new inspection
-
+    public void displayFramesInBox(int inspectionId,int boxNum) {
+        List<Frame> frames = frameDao.getFrameByInspectionAndBox(inspectionId,boxNum);
+        System.out.println("Box " + boxNum + " has " + frames.size() + " frames.");
+        if(frames.size()>0){
+            String queenSpottedFrame = "";
+            for (Frame currentFrame : frames) {
+                System.out.println("Box number: " + currentFrame.getBoxNumber() + " | Frame: " + currentFrame.getFrameName() + " | Comb pattern: " +
+                        currentFrame.getCombPattern() + " | Honey: " + currentFrame.getHoney() + " | Nectar: " + currentFrame.getNectar() +
+                        " | Brood: " + currentFrame.getBrood() + " | Queen spotted: " + currentFrame.isQueenSpotted() + " | Cells: " + currentFrame.getCells());
+                if (currentFrame.isQueenSpotted()) {
+                    queenSpottedFrame = queenSpottedFrame + currentFrame.getFrameName();
+                }
+            }
+            System.out.println("The queen was spotted in frame " + queenSpottedFrame + " in box " + boxNum);
+        }
     }
 
     private void addFrame(Frame frame) {
         Frame returnedFrame = frameDao.createFrame(frame);
     }
 
-    private void updateInspection(Inspection inspection) {
-        inspectionDao.updateInspection(inspection);
+    private String checkIfNotesIsNull(String existingNotes, String notesToAdd,int returnStringType) {
+        //1-return "no notes" or existing     2-return empty or existing  3-return existing+new or new notes only
+        String returnString;
+        if (existingNotes==null) {
+            if(returnStringType==1){
+                returnString = "No Notes";
+            } else if(returnStringType==2){
+                returnString = "";
+            } else {
+                returnString = notesToAdd;
+            }
+        } else {
+            if (returnStringType==1 || returnStringType==2) {
+                returnString = existingNotes;
+            } else {
+                returnString = existingNotes + " " + notesToAdd;
+            }
+        }
+        return returnString;
+    }
+
+    private void addNotes() {
+        List<Inspection> inspections = inspectionDao.list();
+        for (Inspection inspection : inspections) {
+            String currentNotes = checkIfNotesIsNull(inspection.getNotes(),"",1);
+            System.out.println("Inspection #" + inspection.getInspectionId() + ": " + inspection.getDateTimeFormatted() + " - " + currentNotes);
+        }
+        int inspectionToAddNotes = promptForInt("Enter inspection # to add notes to: ");
+        String returnedNotes = checkIfNotesIsNull(inspectionDao.getNotesByInspectionId(inspectionToAddNotes),"",2);
+        System.out.println("Inspection #" + inspectionToAddNotes + " has these notes: " + returnedNotes);
+        String notesToAdd = promptForString("Notes to add to the existing notes: ");
+        inspectionDao.updateNotes(checkIfNotesIsNull(inspectionDao.getNotesByInspectionId(inspectionToAddNotes),notesToAdd,3),inspectionToAddNotes);
     }
 
 }

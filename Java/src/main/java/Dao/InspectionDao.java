@@ -10,10 +10,10 @@ public interface InspectionDao {
 
     Inspection getInspection(int inspectionId);
 
+    String getNotesByInspectionId(int inspectionId);
+
     Inspection createInspection(Inspection inspection);
 
-    void updateInspection(Inspection inspection);
-
-    void updateNotes(Inspection inspection);
+    void updateNotes(String notes, int inspectionId);
 
 }

@@ -8,7 +8,9 @@ public interface FrameDao {
 
     Frame getFrame(int frameId);
 
-    List<Frame> getFrameByInspection(int inspectionId);
+    List<Frame> getFrameByInspectionAndBox(int inspectionId, int boxNum);
 
     Frame createFrame(Frame frame);
+
+
 }

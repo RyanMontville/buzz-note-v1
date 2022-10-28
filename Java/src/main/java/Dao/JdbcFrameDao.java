@@ -30,12 +30,12 @@ public class JdbcFrameDao implements FrameDao {
     }
 
     @Override
-    public List<Frame> getFrameByInspection(int inspectionId) {
+    public List<Frame> getFrameByInspectionAndBox(int inspectionId, int boxNum) {
         List<Frame> frames = new ArrayList<>();
-        String sql = "SELECT box_number, frame_name, comb_pattern, honey, nectar, brood, queen_spotted, cells " +
+        String sql = "SELECT frame_id, inspection_id, box_number, frame_name, comb_pattern, honey, nectar, brood, queen_spotted, cells " +
                 "FROM public.frame " +
-                "WHERE inspection_id = ?";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, inspectionId);
+                "WHERE inspection_id=? AND box_number=?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql,inspectionId,boxNum);
         while (results.next()){
             frames.add(mapRowToFrame(results));
         }
