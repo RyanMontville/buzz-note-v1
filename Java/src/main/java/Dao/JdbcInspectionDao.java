@@ -1,5 +1,6 @@
 package Dao;
 
+import Model.Box;
 import Model.Inspection;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,8 +13,10 @@ public class JdbcInspectionDao implements InspectionDao {
 
 
     private final JdbcTemplate jdbcTemplate;
+    private final FrameDao frameDao;
 
     public JdbcInspectionDao(DataSource dataSource) {
+        frameDao = new JdbcFrameDao(dataSource);
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
@@ -53,14 +56,14 @@ public class JdbcInspectionDao implements InspectionDao {
     }
 
     @Override
-    public Inspection createInspection(Inspection inspection) {
+    public int createInspection(Inspection inspection) {
         String sql = "INSERT INTO public.inspection(weather, bee_temperament, bee_population, drone_population, laying_pattern, " +
                 "hive_beetles, other_pests, date_time)" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING inspection_id;";
         Integer newId = jdbcTemplate.queryForObject(sql, Integer.class,inspection.getWeather(),inspection.getBeeTemperament(),
                 inspection.getBeePopulation(),inspection.getDronePopulation(),inspection.getLayingPattern(),
                 inspection.getHiveBeetles(),inspection.getOtherPests(),inspection.getDateTime());
-        return getInspection(newId);
+        return newId;
     }
 
     @Override
@@ -83,6 +86,11 @@ public class JdbcInspectionDao implements InspectionDao {
         inspection.setHiveBeetles(rowSet.getString("hive_beetles"));
         inspection.setOtherPests(rowSet.getString("other_pests"));
         inspection.setNotes(rowSet.getString("notes"));
+        for (int i=3;i>0;i--) {
+            Box newBox = new Box(i);
+            newBox.setFrames(frameDao.getFrameByInspectionAndBox(inspection.getInspectionId(), newBox.getBoxNumber()));
+            inspection.addBox(newBox);
+        }
         return inspection;
     }
 }

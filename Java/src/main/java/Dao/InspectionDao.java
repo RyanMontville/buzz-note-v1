@@ -12,7 +12,7 @@ public interface InspectionDao {
 
     String getNotesByInspectionId(int inspectionId);
 
-    Inspection createInspection(Inspection inspection);
+    int createInspection(Inspection inspection);
 
     void updateNotes(String notes, int inspectionId);
 

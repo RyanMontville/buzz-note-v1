@@ -12,9 +12,7 @@ import javax.imageio.IIOException;
 import javax.sql.DataSource;
 import java.io.InputStream;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Properties;
 import java.util.Scanner;
 
 public class App {
@@ -118,7 +116,7 @@ public class App {
     }
 
     private char promptForChar(String prompt) {
-        System.out.println(prompt);
+        System.out.print(prompt);
         return userInput.nextLine().charAt(0);
     }
 
@@ -172,8 +170,7 @@ public class App {
         newInspection.setLayingPattern(promptForString("Laying pattern: "));
         newInspection.setHiveBeetles(promptForString("Hive beetles: "));
         newInspection.setOtherPests(promptForString("Other pests: "));
-        Inspection returnedInspection = inspectionDao.createInspection(newInspection);
-        int inspectionsId = returnedInspection.getInspectionId();
+        int inspectionsId = inspectionDao.createInspection(newInspection);
         System.out.println("Inspection " + inspectionsId + " has been added to the table");
         for (Box box : newInspection.getBoxes()) {
             for (Frame frame : box.getFrames()){
@@ -186,33 +183,61 @@ public class App {
 
     public void viewPreviousInspections() {
         List<Inspection> inspections = inspectionDao.list();
-        for (Inspection current : inspections) {
-            String notes = checkIfNotesIsNull(current.getNotes(),"",1);
-            System.out.println("\n" + current.getInspectionId() + " - Weather: " + current.getWeather() + " | Date and Time: " + current.getDateTimeFormatted() +
-                    " | Bee temperament: " + current.getBeeTemperament() + " | Bee population: " + current.getBeePopulation() + " | Drone population: " +
-                    current.getDronePopulation() + "\nLaying pattern: " + current.getLayingPattern() + " | Hive beetles: " + current.getHiveBeetles() +
-                    " | Other pests: " + current.getOtherPests() + "\nNotes: " + notes);
-            for (int i=3;i>0;i--){
-                displayFramesInBox(current.getInspectionId(),i);
+        boolean keepGoing = true;
+        int inspectionToView = inspections.size()-1;
+        while (keepGoing) {
+            Inspection currentInspection = inspections.get(inspectionToView);
+            displayInspectionFromList(currentInspection);
+            Character response;
+            if (inspectionToView!=inspections.size()-1 && inspectionToView!=0){
+                response = Character.toLowerCase(promptForChar("\nWould you like to view (P)revious inspection, (N)ext inspection, or go (B)ack to main menu: "));
+            } else if (inspectionToView==0){
+                response = promptForChar("\nWould you like to view (N)ext inspection or go (B)ack to main menu: ");
+            } else {
+                response = promptForChar("\nWould you like to view (P)revious inspection or go (B)ack to main menu: ");
+            }
+            switch(response) {
+                case 'p':
+                    inspectionToView--;
+                    break;
+                case 'n':
+                    inspectionToView++;
+                    break;
+                case 'b':
+                    keepGoing = false;
+                    break;
+                default:
+                    System.out.println("Enter P, N, or B");
             }
         }
-
     }
 
-    public void displayFramesInBox(int inspectionId,int boxNum) {
-        List<Frame> frames = frameDao.getFrameByInspectionAndBox(inspectionId,boxNum);
-        System.out.println("Box " + boxNum + " has " + frames.size() + " frames.");
-        if(frames.size()>0){
-            String queenSpottedFrame = "";
-            for (Frame currentFrame : frames) {
-                System.out.println("Box number: " + currentFrame.getBoxNumber() + " | Frame: " + currentFrame.getFrameName() + " | Comb pattern: " +
-                        currentFrame.getCombPattern() + " | Honey: " + currentFrame.getHoney() + " | Nectar: " + currentFrame.getNectar() +
-                        " | Brood: " + currentFrame.getBrood() + " | Queen spotted: " + currentFrame.isQueenSpotted() + " | Cells: " + currentFrame.getCells());
-                if (currentFrame.isQueenSpotted()) {
-                    queenSpottedFrame = queenSpottedFrame + currentFrame.getFrameName();
+    public void displayInspectionFromList(Inspection current) {
+        String notes = checkIfNotesIsNull(current.getNotes(),"",1);
+        System.out.println("\n" + current.getInspectionId() + " - Weather: " + current.getWeather() + "\t| Date and Time: " + current.getDateTimeFormatted() +
+                "\t| Bee temperament: " + current.getBeeTemperament() + "\t| Bee population: " + current.getBeePopulation() + "\t| Drone population: " +
+                current.getDronePopulation() + "\nLaying pattern: " + current.getLayingPattern() + "\t| Hive beetles: " + current.getHiveBeetles() +
+                " |\tOther pests: " + current.getOtherPests() + "\nNotes: " + notes);
+        displayFramesInBox(current.getBoxes());
+    }
+
+    public void displayFramesInBox(List<Box> boxes) {
+        for(Box box : boxes) {
+            System.out.println("Box" + box.getBoxNumber() + " has " + box.getFrames().size() + " frames.");
+            if(box.getFrames().size()>0){
+                String queenSpottedFrame = "";
+                for (Frame currentFrame : box.getFrames()) {
+                    System.out.println("Box number: " + currentFrame.getBoxNumber() + " | Frame: " + currentFrame.getFrameName() + "\t| Comb pattern: " +
+                            currentFrame.getCombPattern() + "\t| Honey: " + currentFrame.getHoney() + "\t| Nectar: " + currentFrame.getNectar() +
+                            "\t| Brood: " + currentFrame.getBrood() + "\t| Queen spotted: " + currentFrame.isQueenSpotted() + "\t| Cells: " + currentFrame.getCells());
+                    if (currentFrame.isQueenSpotted()) {
+                        queenSpottedFrame = queenSpottedFrame + currentFrame.getFrameName();
+                    }
                 }
+                System.out.println("The queen was spotted in frame " + queenSpottedFrame + " in box " + box.getBoxNumber());
+                Frame average = averageInBox(box.getFrames());
+                System.out.println("Average - Honey: " + average.getHoney() + "\tNectar: " + average.getNectar() + "\tComb Pattern: " + average.getCombPattern());
             }
-            System.out.println("The queen was spotted in frame " + queenSpottedFrame + " in box " + boxNum);
         }
     }
 
@@ -252,6 +277,60 @@ public class App {
         System.out.println("Inspection #" + inspectionToAddNotes + " has these notes: " + returnedNotes);
         String notesToAdd = promptForString("Notes to add to the existing notes: ");
         inspectionDao.updateNotes(checkIfNotesIsNull(inspectionDao.getNotesByInspectionId(inspectionToAddNotes),notesToAdd,3),inspectionToAddNotes);
+    }
+    //TODO: Does this work? Is it Needed?
+    private Frame averageInBox(List<Frame> frames) {
+        Frame average = new Frame();
+        int honeyAvg = 0;
+        int nectarAvg = 0;
+        int brood = 0;
+        int cells = 0;
+        int combAvg = 0;
+        int numFrames = frames.size();
+        for (Frame frame : frames) {
+            String honey = frame.getHoney().toLowerCase();
+            switch (honey) {
+                case "full": honeyAvg += 4; break;
+                case "2/3": honeyAvg += 3; break;
+                case "1/3": honeyAvg += 2; break;
+                case "none": honeyAvg += 1; break;
+                default: honeyAvg += 0;
+            }
+            String nectar = frame.getNectar().toLowerCase();
+            switch (nectar) {
+                case "full": nectarAvg += 4; break;
+                case "2/3": nectarAvg += 3; break;
+                case "1/3": nectarAvg += 2; break;
+                case "none": nectarAvg += 1; break;
+                default: nectarAvg += 0;
+            }
+            String comb = frame.getCombPattern().toLowerCase();
+            switch (comb) {
+                case "good": combAvg += 2; break;
+                case "burr": combAvg += 1; break;
+                default: combAvg += 0;
+            }
+        }
+        honeyAvg = (int) Math.round(honeyAvg / numFrames);
+        nectarAvg = (int) Math.round(nectarAvg / numFrames);
+        combAvg = (int) Math.round(combAvg / numFrames);
+        switch (honeyAvg) {
+            case 4: average.setHoney("Full"); break;
+            case 3: average.setHoney("2/3"); break;
+            case 2: average.setHoney("1/3"); break;
+            default: average.setHoney("None");
+        }
+        switch (nectarAvg) {
+            case 4: average.setNectar("Full"); break;
+            case 3: average.setNectar("2/3"); break;
+            case 2: average.setNectar("1/3"); break;
+            default: average.setNectar("None");
+        }
+        switch (combAvg) {
+            case 2: average.setCombPattern("Good"); break;
+            default: average.setCombPattern("Burr");
+        }
+        return average;
     }
 
 }
