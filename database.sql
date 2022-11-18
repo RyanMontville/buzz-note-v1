@@ -5,8 +5,10 @@ DROP TABLE IF EXISTS inspection;
 CREATE TABLE inspection
 (
 	inspection_id serial,
-	date_time timestamp without time zone,
-	weather varchar(50),
+	inspection_date varchar(50),
+	start_time varchar(50),
+	weather_temp int,
+	weather_condition varchar(50),
 	bee_temperament varchar(20),
 	bee_population varchar(20),
 	drone_population varchar(20),

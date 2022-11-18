@@ -1,10 +1,6 @@
 package com.montesown.BeeTracker.dao;
 
-import com.montesown.BeeTracker.model.Box;
 import com.montesown.BeeTracker.model.Inspection;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -22,9 +18,21 @@ public class JdbcInspectionDao implements InspectionDao {
     @Override
     public List<Inspection> list() {
         List<Inspection> inspections = new ArrayList<>();
-        String sql = "SELECT inspection_id, weather, bee_temperament, bee_population, drone_population, laying_pattern, hive_beetles, other_pests, date_time, notes " +
-                "FROM public.inspection ORDER BY inspection_id;";
+        String sql = "SELECT inspection_id, inspection_date, start_time, weather_temp, weather_condition, bee_temperament, bee_population, drone_population, " +
+                "laying_pattern, hive_beetles, other_pests, notes FROM public.inspection ORDER BY inspection_id;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while (results.next()){
+            inspections.add(mapRowToInspection(results));
+        }
+        return inspections;
+    }
+
+    @Override
+    public List<Inspection> serchByTemp(int low, int high) {
+        List<Inspection> inspections = new ArrayList<>();
+        String sql = "SELECT inspection_id, inspection_date, start_time, weather_temp, weather_condition, bee_temperament, bee_population, drone_population, laying_pattern, " +
+                "hive_beetles, other_pests, notes FROM public.inspection where weather_temp BETWEEN ? AND ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql,low,high);
         while (results.next()){
             inspections.add(mapRowToInspection(results));
         }
@@ -34,8 +42,8 @@ public class JdbcInspectionDao implements InspectionDao {
     @Override
     public Inspection getInspection(int inspectionId) {
         Inspection inspection = null;
-        String sql = "SELECT inspection_id, weather, bee_temperament, bee_population, drone_population, " +
-                "laying_pattern, hive_beetles, other_pests, date_time, notes FROM public.inspection WHERE inspection_id=?;";
+        String sql = "SELECT inspection_id, inspection_date, start_time, weather_temp, weather_condition, bee_temperament, bee_population, drone_population, " +
+                "laying_pattern, hive_beetles, other_pests, notes FROM public.inspection WHERE inspection_id=?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql,inspectionId);
         if(results.next()){
             inspection = mapRowToInspection(results);
@@ -46,7 +54,7 @@ public class JdbcInspectionDao implements InspectionDao {
     @Override
     public String getNotesByInspectionId(int inspectionId){
         String notes = "";
-        String sql = "SELECT  notes FROM public.inspection WHERE inspection_id=?;";
+        String sql = "SELECT notes FROM public.inspection WHERE inspection_id=?;";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql,inspectionId);
         if(result.next()){
             notes = result.getString("notes");
@@ -56,12 +64,11 @@ public class JdbcInspectionDao implements InspectionDao {
 
     @Override
     public int createInspection(Inspection inspection) {
-        String sql = "INSERT INTO public.inspection(weather, bee_temperament, bee_population, drone_population, laying_pattern, " +
-                "hive_beetles, other_pests, date_time)" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING inspection_id;";
-        Integer newId = jdbcTemplate.queryForObject(sql, Integer.class,inspection.getWeather(),inspection.getBeeTemperament(),
+        String sql = "INSERT INTO public.inspection(inspection_date, start_time, weather_temp, weather_condition, bee_temperament, bee_population, drone_population, laying_pattern, hive_beetles, other_pests) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING inspection_id;";
+        Integer newId = jdbcTemplate.queryForObject(sql, Integer.class,inspection.getInspectionDate(),inspection.getStartTime(),inspection.getWeatherTemp(),inspection.getWeatherCondition(),inspection.getBeeTemperament(),
                 inspection.getBeePopulation(),inspection.getDronePopulation(),inspection.getLayingPattern(),
-                inspection.getHiveBeetles(),inspection.getOtherPests(),inspection.getDateTime());
+                inspection.getHiveBeetles(),inspection.getOtherPests());
         return newId;
     }
 
@@ -71,13 +78,23 @@ public class JdbcInspectionDao implements InspectionDao {
         jdbcTemplate.update(sql,notes,inspectionId);
     }
 
+    @Override
+    public void updateInspection(Inspection inspection) {
+        String sql = "UPDATE public.inspection SET bee_temperament=?, bee_population=?, drone_population=?, laying_pattern=?, hive_beetles=?, other_pests=? " +
+                "WHERE inspection_id=?;";
+        jdbcTemplate.update(sql,inspection.getBeeTemperament(),inspection.getBeePopulation(),inspection.getDronePopulation(),inspection.getLayingPattern(),
+                inspection.getHiveBeetles(),inspection.getOtherPests(),inspection.getInspectionId());
+    }
+
     //TODO: add get inspection by <...> to filter results
 
     private Inspection mapRowToInspection(SqlRowSet rowSet){
         Inspection inspection = new Inspection();
         inspection.setInspectionId(rowSet.getInt("inspection_id"));
-        inspection.setWeather(rowSet.getString("weather"));
-        inspection.setDateTime(rowSet.getTimestamp("date_time").toLocalDateTime());
+        inspection.setWeatherTemp(rowSet.getInt("weather_temp"));
+        inspection.setWeatherCondition(rowSet.getString("weather_condition"));
+        inspection.setInspectionDate(rowSet.getString("inspection_date"));
+        inspection.setStartTime(rowSet.getString("start_time"));
         inspection.setBeeTemperament(rowSet.getString("bee_temperament"));
         inspection.setBeePopulation(rowSet.getString("bee_population"));
         inspection.setDronePopulation(rowSet.getString("drone_population"));

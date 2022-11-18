@@ -4,6 +4,12 @@ import com.montesown.model.Frame;
 import com.montesown.model.Inspection;
 import com.montesown.services.InspectionService;
 
+import java.security.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class App {
@@ -23,44 +29,58 @@ public class App {
         while (running) {
             displayMenu();
             int selection = promptForInt("Select an option: ");
-            if(selection==1) {
-                //start new inspection
-                startNewInspection();
-            } else if (selection==2) {
-                //add notes
-                //testNotes();
-                addNotes();
-            } else if (selection==3) {
-                //view previous inspections
-                viewPreviousInspections();
-            } else if (selection==4) {
-                //view a list of frames from a box from an inspection
-                viewFrames();
-            } else if (selection==5) {
-                //exit
-                System.out.println("\nGoodbye");
-                running = false;
-            } else {
-                displayError(" Invalid selection ");
+            switch (selection) {
+                case 1: startNewInspection(); break; //start new inspection
+                case 2: addNotes(); break; //add notes
+                case 3: viewPreviousInspections(); break; //view previous inspections
+                case 4: viewFrames(4,1); break; //view a list of frames from a box from an inspection
+                case 5: System.out.println("\nGoodbye"); running = false; break; //exit
+                default: displayError(" Invalid selection ");
             }
         }
 
     }
 
-    private void viewFrames() {
-        int inspectionId = promptForInt("Inspection ID: ");
-        int boxNum = promptForInt("Box number: ");
+    private void viewFrames(int inspectionId, int boxNum) {
         Frame[] frames = inspectionService.getFramesByIdAndNum(inspectionId,boxNum);
-        for (Frame frame : frames) {
-            System.out.println(frame.getFrameName());
+        String queen= "The queen was spotted in frame ";
+        if(frames.length>0) {
+            System.out.println("Box " + boxNum);
+            for (Frame frame : frames) {
+                System.out.print(frame.getFrameName());
+                System.out.print(" - Comb Patterm: " + frame.getCombPattern());
+                System.out.print("\t\tHoney: " + frame.getHoney());
+                System.out.print("\t\tNectar: " + frame.getNectar());
+                System.out.print("\t\tBrood: " + frame.getBrood());
+                System.out.print("\t\tCells: " + frame.getCells() + "\n");
+                if (frame.isQueenSpotted()) {
+                    queen += frame.getFrameName();
+                }
+            }
+            System.out.println(queen);
+        } else {
+            System.out.println("Box " + boxNum + " had no frames recorded.");
         }
+
     }
 
     private void viewPreviousInspections() {
         Inspection[] inspections = inspectionService.listInspections();
         if (inspections.length!=0) {
             for (Inspection inspection : inspections) {
-                System.out.println("good");
+                System.out.println("\nInspection #" + inspection.getInspectionId());
+                System.out.println("Weather: " + inspection.getWeatherTemp() + "F " + inspection.getWeatherCondition());
+                System.out.println("time: " + inspection.getStartTime() + " Date: " + inspection.getInspectionDate());
+                System.out.println("Bee Temperament: " + inspection.getBeeTemperament());
+                System.out.println("Bee Population: " + inspection.getBeePopulation());
+                System.out.println("Drone Population: " + inspection.getDronePopulation());
+                System.out.println("Laying Pattern: " + inspection.getLayingPattern());
+                System.out.println("Hive Beetles: " + inspection.getHiveBeetles());
+                System.out.println("Other Pest: " + inspection.getOtherPests());
+                System.out.println("Notes: " + inspection.getNotes());
+                viewFrames(inspection.getInspectionId(),3);
+                viewFrames(inspection.getInspectionId(),2);
+                viewFrames(inspection.getInspectionId(),1);
             }
         } else {
             System.out.println("No inspections found.");
@@ -68,16 +88,134 @@ public class App {
     }
 
     private void startNewInspection() {
+        Inspection newInspection = new Inspection();
+        newInspection.setWeatherTemp(promptForInt("Weather temp: "));
+        newInspection.setWeatherCondition(promptForString("Weather Condition: "));
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        String strDate = formatter.format(date);
+        newInspection.setInspectionDate(strDate);
+        formatter = new SimpleDateFormat("hh:mm:ss");
+        String strTime = formatter.format(date);
+        newInspection.setStartTime(strTime);
+        int newId = inspectionService.newInspection(newInspection);
+        newInspection.setInspectionId(newId);
+        System.out.println("the inspection id is " + newId);
+        for(int i=3;i>0;i--) {
+            int frameNum=1;
+            char skip = promptForChar("Skip (Y/N): ");
+            if (skip=='Y' || skip=='y') {
+                continue;
+            }
+            System.out.println("Box " + i);
+            int combGoodCount = 0;
+            int combBurrCount = 0;
+            double honeyTotal = 0;
+            double nectarTotal = 0;
+            String queenFrame="";
+            for(int j=1;j<4;j++){
+                Frame newFrame = new Frame();
+                newFrame.setInspectionId(newId);
+                newFrame.setBoxNumber(i);
+                if(j%2==0){
+                    newFrame.setFrameName(frameNum + "B");
+                    frameNum++;
+                } else {
+                    newFrame.setFrameName(frameNum + "A");
+                }
+                System.out.println(frameNum);
+                char combPattern = promptForChar("Comb Pattern(g/b): ");
+                switch (combPattern){
+                    case 'g':
+                        newFrame.setCombPattern("Good");
+                        combGoodCount++;
+                        break;
+                    default:
+                        newFrame.setCombPattern("Burr");
+                        combBurrCount++;
+                }
+                char honey = promptForChar("Honey(f/2/1/n): ");
+                switch (honey) {
+                    case 'f':
+                        newFrame.setHoney("Full");
+                        honeyTotal += 1;
+                        break;
+                    case '2':
+                        newFrame.setHoney("2/3");
+                        honeyTotal += 0.66;
+                        break;
+                    case '1':
+                        newFrame.setHoney("1/3");
+                        honeyTotal += .33;
+                        break;
+                    default:
+                        newFrame.setHoney("None");
+                }
+                char nectar = promptForChar("Nectar(f/2/1/n): ");
+                switch (nectar) {
+                    case 'f':
+                        newFrame.setNectar("Full");
+                        nectarTotal += 1;
+                        break;
+                    case '2':
+                        newFrame.setNectar("2/3");
+                        nectarTotal += 0.66;
+                        break;
+                    case '1':
+                        newFrame.setNectar("1/3");
+                        nectarTotal += .33;
+                        break;
+                    default:
+                        newFrame.setNectar("None");
+                }
+
+                newFrame.setBrood(promptForString("Brood: "));
+                newFrame.setCells(promptForString("Cells: "));
+                char queen = promptForChar("Queen Spotted (Y/N): ");
+                if(queen=='Y' || queen=='y') {
+                    newFrame.setQueenSpotted(true);
+                    queenFrame = newFrame.getFrameName();
+                } else {
+                    newFrame.setQueenSpotted(false);
+                }
+                boolean success = inspectionService.newFrame(newFrame);
+                System.out.println(success);
+            }
+        //TODO  Look into making averages work, think about how to store them
+            System.out.println("Comb Pattern " + (combGoodCount/3) + "% Good, " + (combBurrCount/3) + "% Burr");
+            System.out.println("Total honey: " + honeyTotal);
+            System.out.println("Total nectar: " + nectarTotal);
+            System.out.println("The queen was spotted in frame " + queenFrame);
+        }
+        newInspection.setBeeTemperament(promptForString("Bee Temperament: "));
+        newInspection.setBeePopulation(promptForString("Bee Population: "));
+        newInspection.setDronePopulation(promptForString("Drone Population: "));
+        newInspection.setLayingPattern(promptForString("Layiing Pattern: "));
+        newInspection.setHiveBeetles(promptForString("Hive Beetles: "));
+        newInspection.setOtherPests(promptForString("Other Pests: "));
+        boolean wasInspectionUpdated = inspectionService.addRestOfInspection(newInspection);
+
+
     }
 
     private void addNotes() {
         int inspectionId = promptForInt("Inspection ID: ");
         Inspection newInspection = new Inspection();
         newInspection.setInspectionId(inspectionId);
-        newInspection.setNotes(inspectionService.getNotesByInspectionId(inspectionId));
-        System.out.println("Current notes: " + newInspection.getNotes());
-        String notesToAdd = promptForString("Add notes: ");
-        String combinedNotes = newInspection.getNotes() + notesToAdd;
+        String currentNotes = inspectionService.getNotesByInspectionId(inspectionId);
+        String combinedNotes;
+    //TODO if 0, don't add current notes
+        if(currentNotes.equals("0")) {
+            currentNotes = "No notes";
+            System.out.println("Current notes: " + currentNotes);
+            String notesToAdd = promptForString("Add notes: ");
+            combinedNotes = notesToAdd;
+        } else {
+            System.out.println("Current notes: " + currentNotes);
+            String notesToAdd = promptForString("Add notes: ");
+            combinedNotes = currentNotes + notesToAdd;
+        }
+        newInspection.setNotes(combinedNotes);
         boolean success = inspectionService.addNotes(newInspection);
         System.out.println(success);
 
@@ -93,7 +231,7 @@ public class App {
         System.out.println("\n1. Start new Inspection");
         System.out.println("2. Add notes to an inspection");
         System.out.println("3. View previous inspections");
-        System.out.println("4. View a list of frames from a box from an inspection");
+        System.out.println("4. View frames for inspection 4 box 1");
         System.out.println("5. Exit");
     }
 

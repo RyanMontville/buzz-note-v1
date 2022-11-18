@@ -1,15 +1,16 @@
 package com.montesown.model;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 
 public class Inspection {
     //private List<Box> boxes;
     private int inspectionId;
-    private String weather;
-    private LocalDateTime dateTime;
+    private int weatherTemp;
+    private String weatherCondition;
+    private String inspectionDate;
+    private String  startTime;
     private String beeTemperament;
     private String beePopulation;
     private String dronePopulation;
@@ -18,37 +19,38 @@ public class Inspection {
     private String otherPests;
     private String notes;
 
-    public Inspection() {
-        //this.boxes = new ArrayList<>();
+    public Inspection(int weatherTemp, String weatherCondition, String inspectionDate, String startTime) {
+        this.weatherTemp = weatherTemp;
+        this.weatherCondition = weatherCondition;
+        this.inspectionDate = inspectionDate;
+        this.startTime = startTime;
     }
+
+    public Inspection() { };
 
     public int getInspectionId() { return inspectionId; }
 
     public void setInspectionId(int inspectionId) { this.inspectionId = inspectionId; }
 
-    //public List<Box> getBoxes() {return boxes;}
+    public void setWeatherTemp(int weatherTemp) { this.weatherTemp = weatherTemp; }
 
-    //public void setBoxes(List<Box> boxes) { this.boxes = boxes;}
+    public int getWeatherTemp() { return weatherTemp; }
 
-    public String getWeather() {
-        return weather;
+    public String getWeatherCondition() {
+        return weatherCondition;
     }
 
-    public void setWeather(String weather) {
-        this.weather = weather;
+    public void setWeatherCondition(String weatherCondition) {
+        this.weatherCondition = weatherCondition;
     }
 
-    public LocalDateTime getDateTime() { return this.dateTime; }
+    public String getInspectionDate() { return inspectionDate; }
 
-    public String getDateTimeFormatted() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
-        String formattedDateTime = this.dateTime.format(formatter);
-        return formattedDateTime;
-    }
+    public void setInspectionDate(String  inspectionDate) { this.inspectionDate = inspectionDate; }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
+    public String  getStartTime() { return startTime; }
+
+    public void setStartTime(String  startTime) { this.startTime = startTime; }
 
     public String getBeeTemperament() {
         return beeTemperament;
@@ -106,5 +108,4 @@ public class Inspection {
         this.notes = notes;
     }
 
-    //public void addBox (Box box) {boxes.add(box);}
 }

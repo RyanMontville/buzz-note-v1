@@ -5,6 +5,7 @@ import com.montesown.model.Inspection;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
@@ -24,6 +25,8 @@ public class InspectionService {
             System.out.println(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
             System.out.println(e.getMessage());
+        } catch (HttpMessageConversionException ex) {
+            System.out.println(ex.getMessage());
         }
         return inspections;
     }
@@ -47,7 +50,7 @@ public class InspectionService {
 
         boolean success = false;
         try {
-            restTemplate.put(BASE_URL + "inspections" + inspection.getInspectionId() + "/notes", entity);
+            restTemplate.put(BASE_URL + "inspections/" + inspection.getInspectionId() + "/notes", entity);
             success = true;
         } catch (RestClientResponseException e) {
             System.out.print(e.getRawStatusCode() + " : " + e.getStatusText());
@@ -68,5 +71,56 @@ public class InspectionService {
         }
         return frames;
     }
+
+    public int newInspection(Inspection newInspection) {
+        try {
+            Integer newId;
+            HttpEntity<Inspection> entity = new HttpEntity<>(newInspection);
+            newId = restTemplate.postForObject(BASE_URL + "inspections", entity, Integer.class);
+            return  newId;
+        } catch (RestClientResponseException e) {
+            System.out.print(e.getRawStatusCode() + " : " + e.getStatusText());
+            return 0;
+        } catch (ResourceAccessException e) {
+            System.out.print(e.getMessage());
+            return 0;
+        }
+    }
+
+    public boolean newFrame(Frame newFrame) {
+        boolean success = false;
+        try {
+            HttpEntity<Frame> entity = new HttpEntity<>(newFrame);
+            Frame returnedFrame = null;
+            returnedFrame = restTemplate.postForObject(BASE_URL + "frames", entity, Frame.class);
+            if (returnedFrame!=null) {
+                success = true;
+            }
+        }catch (RestClientResponseException e) {
+            System.out.print(e.getRawStatusCode() + " : " + e.getStatusText());
+        } catch (ResourceAccessException e) {
+            System.out.print(e.getMessage());
+        }
+        return success;
+    }
+
+    public boolean addRestOfInspection(Inspection inspection) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Inspection> entity = new HttpEntity<>(inspection,headers);
+
+        boolean success = false;
+        try {
+            restTemplate.put(BASE_URL + "inspections", entity);
+            success = true;
+        } catch (RestClientResponseException e) {
+            System.out.print(e.getRawStatusCode() + " : " + e.getStatusText());
+        } catch (ResourceAccessException e) {
+            System.out.print(e.getMessage());
+        }
+        return success;
+    }
+
+
 
 }
