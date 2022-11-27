@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/beeTracker.css" />
+    <script src="https://kit.fontawesome.com/52202eaccb.js" crossorigin="anonymous"></script>
+    <title>Past Inspections</title>
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Homepage</a></li>
+            <li><a href="frame.html">Start New (frame)</a></li>
+            <li><a href="inspection.html">End of Inspection</a></li>
+            <li><a href="results.html">View Past Inspections</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section id="inspectionNavigation" class="button-group">
+            <button id="previous" class="arrow button green"><i class="fa fa-arrow-left"></i> Previous</button>
+            <span id="dateTime" class="small date-time white"></span>
+            <button id="next" class="arrow button green">Next <i class="fa fa-arrow-right"></i></button>
+        </section>
+        <p id="rotate-phone-message"><i class="fa  fa-circle-exclamation"></i> Note: this page is viewed best in
+            landscape or on a desktop.</p>
+        <section id="inspectionInfo">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Weather</th>
+                        <th>Bee Temperament</th>
+                        <th>Bee Population</th>
+                        <th>Drone Population</th>
+                        <th>Laying Pattern</th>
+                        <th>Hive Beetles</th>
+                        <th>Other Pests</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="infoHeader"></tr>
+                </tbody>
+            </table>
+        </section>
+        <section id="frames">
+            <table id="inspection-table">
+                <thead>
+                    <tr>
+                        <th>Frame</th>
+                        <th>Honey</th>
+                        <th>Nectar</th>
+                        <th>Brood</th>
+                        <th>Cells</th>
+                        <th>Comb Pattern</th>
+                    </tr>
+                </thead>
+                <tbody id="framesGoHere">
+                    <tr class="" id="boxThree">
+                        <th class="box_num" colspan="6" id="threeText"></th>
+                    </tr>
+                    <tr class="" id="boxTwo">
+                        <th class="box_num" colspan="6" id="twoText"></th>
+                    </tr>
+                    <tr class="" id="boxOne">
+                        <th class="box_num" colspan="6" id="oneText"></th>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section id="notes">
+            <h3>Notes:</h3>
+            <p id="displayNotes"></p>
+            <textarea name="notes" class="textbox display-none" id="notesTextbox"></textarea>
+            <!--<input type="button" class="skip button green" id="addNotes" value="Add notes">-->
+            <button id="addNotes" class="skip button green">Add Notes</button>
+        </section>
+    </main>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

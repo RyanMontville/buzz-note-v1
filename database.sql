@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS inspection;
 CREATE TABLE inspection
 (
 	inspection_id serial,
-	inspection_date varchar(50),
+	inspection_date varchar(20),
 	start_time varchar(50),
 	weather_temp int,
 	weather_condition varchar(50),
@@ -16,6 +16,9 @@ CREATE TABLE inspection
 	hive_beetles varchar(20),
 	other_pests varchar(20),
 	notes text,
+	box_three varchar(50),
+	box_two varchar(50),
+	box_one varchar(50),
 	CONSTRAINT pk_inspection PRIMARY KEY (inspection_id)
 );
 

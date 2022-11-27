@@ -1,15 +1,12 @@
 package com.montesown.BeeTracker.model;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 public class Inspection {
-    //private List<Box> boxes;
+
     private int inspectionId;
     private int weatherTemp;
     private String weatherCondition;
-    private String inspectionDate;
     private String  startTime;
+    private String inspectionDate;
     private String beeTemperament;
     private String beePopulation;
     private String dronePopulation;
@@ -17,13 +14,9 @@ public class Inspection {
     private String hiveBeetles;
     private String otherPests;
     private String notes;
-
-    public Inspection(int weatherTemp, String weatherCondition, String inspectionDate, String startTime) {
-        this.weatherTemp = weatherTemp;
-        this.weatherCondition = weatherCondition;
-        this.inspectionDate = inspectionDate;
-        this.startTime = startTime;
-    }
+    private String boxThree;
+    private String boxTwo;
+    private String boxOne;
 
     public Inspection() { };
 
@@ -43,13 +36,13 @@ public class Inspection {
         this.weatherCondition = weatherCondition;
     }
 
+    public String getStartTime() { return startTime; }
+
+    public void setStartTime(String startTime) { this.startTime = startTime; }
+
     public String getInspectionDate() { return inspectionDate; }
 
-    public void setInspectionDate(String  inspectionDate) { this.inspectionDate = inspectionDate; }
-
-    public String  getStartTime() { return startTime; }
-
-    public void setStartTime(String  startTime) { this.startTime = startTime; }
+    public void setInspectionDate(String inspectionDate) { this.inspectionDate = inspectionDate; }
 
     public String getBeeTemperament() {
         return beeTemperament;
@@ -107,4 +100,15 @@ public class Inspection {
         this.notes = notes;
     }
 
+    public String getBoxThree() { return boxThree; }
+
+    public void setBoxThree(String boxThree) { this.boxThree = boxThree; }
+
+    public String getBoxTwo() { return boxTwo; }
+
+    public void setBoxTwo(String boxTwo) { this.boxTwo = boxTwo; }
+
+    public String getBoxOne() { return boxOne; }
+
+    public void setBoxOne(String boxOne) { this.boxOne = boxOne; }
 }

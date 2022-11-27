@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New inspection</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/beeTracker.css" />
+</head>
+
+<body>
+    <form>
+        <section id="frame-header">
+            <div>
+                <h2>Box 3</h2>
+                <h3>Frame 1A</h3>
+            </div>
+            <input type="button" value="Skip Box" class="skip button purple">
+        </section>
+        <h3>honey</h3>
+        <section id="honey" class="button-group">
+            <input type="radio" id="honey-full" name="honey" value="1">
+              <label for="honey-full" class="small button green half">Full</label>
+            <input type="radio" id="honey-two" name="honey" value="0.66">
+              <label for="honey-two" class="small button yellow half">2/3</label>
+            <input type="radio" id="honey-one" name="honey" value="0.33">
+              <label for="honey-one" class="small button orange half">1/3</label>
+            <input type="radio" id="honey-none" name="honey" value="0">
+              <label for="honey-none" class="small button black half">None</label>
+        </section>
+        <h3>nectar</h3>
+        <section id="nectar" class="button-group">
+            <input type="radio" id="nectar-full" name="nectar" value="1">
+              <label for="nectar-full" class="small button green half">Full</label>
+            <input type="radio" id="nectar-two" name="nectar" value="0.66">
+              <label for="nectar-two" class="small button yellow half">2/3</label>
+            <input type="radio" id="nectar-one" name="nectar" value="0.33">
+              <label for="nectar-one" class="small button orange half">1/3</label>
+            <input type="radio" id="nectar-none" name="nectar" value="0">
+              <label for="nectar-none" class="small button black half">None</label>
+        </section>
+        <h3>Brood (Select Multiple)</h3>
+        <section id="brood" class="button-group">
+            <input type="checkbox" id="brood-eggs" name="brood-eggs" value="Eggs">
+              <label for="brood-eggs" class="small button white border half">Eggs</label>
+            <input type="checkbox" id="brood-larvae" name="brood-larvae" value="Larvae">
+              <label for="brood-larvae" class="small button white border half">Larvae</label>
+            <input type="checkbox" id="brood-pupae" name="brood-pupae" value="Pupae">
+              <label for="brood-pupae" class="small button white border half">Pupae</label>
+            <input type="checkbox" id="brood-none" name="brood-none" value="None">
+              <label for="brood-none" class="small button white border half">None</label>
+        </section>
+        <h3>Queen Spotted</h3>
+        <section id="queen" class="button-group">
+            <input type="radio" id="queen-yes" name="queen" value="true">
+              <label for="queen-yes" class="small button green half">Yes</label>
+            <input type="radio" id="queen-no" name="queen" value="false">
+              <label for="queen-no" class="small button black half">No</label>
+        </section>
+        <h3>Cells (Select Multiple</h3>
+        <section id="cells" class="button-group">
+            <input type="checkbox" id="cells-queen" name="cells-queen" value="Queen">
+              <label for="cells-queen" class="small button white border half">Queen</label>
+            <input type="checkbox" id="cells-super" name="cells-super" value="Super">
+              <label for="cells-super" class="small button white border half">Super</label>
+            <input type="checkbox" id="cells-none" name="cells-none" value="None">
+              <label for="cells-none" class="small button white border half">None</label>
+        </section>
+        <h3>Comb Pattern</h3>
+        <section id="comb" class="button-group">
+            <input type="radio" id="comb-good" name="comb" value="Good">
+              <label for="comb-good" class="small button green half">Good</label>
+            <input type="radio" id="comb-burr" name="comb" value="Burr">
+              <label for="comb-burr" class="small button yellow half">Burr</label>
+        </section>
+        <section id="next">
+            <input type="button" id="btnNext" value="Next" class="small button blue">
+            <!--<a href="end-of-inspection.html" class="small button blue">Next</a>-->
+        </section>
+    </form>
+</body>
+
+</html>

@@ -32,3 +32,6 @@ My parents are bee keepers as a hobby. They wanted to start recording the state 
 -I believe I have created all of the API endpoints that I will need for the app. The current version is still all local, but I have a working API that can interact with a database and provide all of the functions the final app will have in a CLI
 -Next steps are to look into using the DOM and event handling to create the pages, and attempt to move the app to my website's server.
 
+## V 0.3.2
+-The app now calls the current weather temperature and weather condition for my parents house from the Accuweather API. 
+

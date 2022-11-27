@@ -1,0 +1,21 @@
+-Change queen var to String - then its either yes or no. In the event handling, when queen spotted is yes, add that frame name to the average
+-Have the app add a row to the end of the box of frames with a frame name average that has the average for the box, since they are all strings, it could be stored
+    in the same table, push the average obj/row after frame 10B
+-try to change date back into DATE instead of string in the database, when the DAO maps to inspection object, have it store the DATE var in a temp var,
+    convert it to a string, then set it to inspection.setDate as a string so JSON doesn't blow up
+-add event listener to call the api to re-get the inspection object or maybe just re-get the notes when the added notes are submitted
+-change the DAO to overwrite notes when updating notes if the current notes are included in the textbox.
+-add three more columns to the inspection object/table = boolean hasFramesThree, hasFramesTwo, hasFramesOne
+    -or maybe have it stored as strings like "Box 3 - queen spotted in frame 1B", then set that as box th row
+    -if no frames set the string to 0, then have the function showHideBoxes have an if statement
+        if(var==0) {
+            //classlist.add display-none
+        } else {
+            //set box th text to the string
+        }
+-fix mobile css for homepage and results page
+-fix mobile buttons
+
+-move time and date setter to the controller add weather, probably need a weather service class
+
+-why does create new inspection get a 500 and return 0?

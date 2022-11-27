@@ -1,7 +1,9 @@
 package com.montesown.BeeTracker.controllers;
 
+import com.montesown.BeeTracker.WeatherService;
 import com.montesown.BeeTracker.dao.FrameDao;
 import com.montesown.BeeTracker.dao.InspectionDao;
+import com.montesown.BeeTracker.model.Forcast;
 import com.montesown.BeeTracker.model.Frame;
 import com.montesown.BeeTracker.model.Inspection;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -18,6 +24,7 @@ public class InspectionController {
 
     private InspectionDao inspectionDao;
     private FrameDao frameDao;
+    private WeatherService weatherService = new WeatherService();
 
     public InspectionController(InspectionDao inspectionDao,FrameDao frameDao) {
         this.inspectionDao = inspectionDao;
@@ -56,8 +63,15 @@ public class InspectionController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/inspections", method = RequestMethod.POST)
-    public int newInspection(@RequestBody Inspection inspection) {
-        return inspectionDao.createInspection(inspection);
+    public int newInspection(@RequestBody Inspection inspection) throws Exception {
+
+        //TODO add time date and weather to inspection here
+        inspection.setWeatherTemp(85);
+        inspection.setWeatherCondition("Sunny");
+
+        //TODO then push it to DAO, return int newId
+
+        return inspectionDao.createInspection();
     }
 
     @RequestMapping(path = "/inspections/{inspectionId}/notes", method = RequestMethod.PUT)
@@ -72,12 +86,17 @@ public class InspectionController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/frames",method = RequestMethod.POST)
-    public Frame newFrame(@RequestBody Frame frame) {
-        return frameDao.createFrame(frame);
-    }
+    public Frame newFrame(@RequestBody Frame frame) { return frameDao.createFrame(frame); }
 
     @RequestMapping(path = "/inspections", method = RequestMethod.PUT)
     public void addRestOfInspection(@RequestBody Inspection inspection) {
         inspectionDao.updateInspection(inspection);
+    }
+
+    @RequestMapping(path = "/getWeather",method = RequestMethod.GET)
+    public String getWeather() throws Exception {
+        Forcast forcast = weatherService.getCurrentWeather();
+        String weather = "The current weather is " + forcast.getTemp() + "F and " + forcast.getCondition();
+        return weather;
     }
 }

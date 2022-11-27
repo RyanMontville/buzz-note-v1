@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New inspection</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/beeTracker.css" />
+</head>
+
+<body>
+    <form>
+        <section id="end-header">
+            <h2>End of Inspection</h2>
+        </section>
+        <section id="temp-weather">
+            <label for="temperature">Weather Temperature:</label>
+            <input type="text" id="temperature" name="temperature">
+            <label for="condition">Weather Condition:</label>
+            <input type="text" id="condition" name="condition">
+        </section>
+        <h3>Bee Temperament</h3>
+        <section id="beeTemperament" class="button-group">
+            <input type="radio" id="temperament-calm" name="beeTemperament" value="Calm">
+              <label for="temperament-calm" class="small button green half">Calm</label>
+            <input type="radio" id="temperament-nervous" name="beeTemperament" value="Nervous">
+              <label for="temperament-nervous" class="small button yellow half">Nervous</label>
+            <input type="radio" id="temperament-angry" name="beeTemperament" value="Angry">
+              <label for="temperament-angry" class="small button orange half">Angry</label>
+            <input type="radio" id="temperament-crazy" name="beeTemperament" value="Crazy">
+              <label for="temperament-crazy" class="small button red half">Crazy</label>
+        </section>
+        <h3>Bee Population</h3>
+        <section id="beePopulation" class="button-group">
+            <input type="radio" id="beePopulation-low" name="beePopulation" value="Low">
+              <label for="beePopulation-low" class="small button yellow half">Low</label>
+            <input type="radio" id="beePopulation-normal" name="beePopulation" value="Normal">
+              <label for="beePopulation-normal" class="small button green half">Normal</label>
+            <input type="radio" id="beePopulation-crowded" name="beePopulation" value="Crowded">
+              <label for="beePopulation-crowded" class="small button yellow half">Crowded</label>
+        </section>
+        <h3>Drone Population</h3>
+        <section id="dronePopulation" class="button-group">
+            <input type="radio" id="dronePopulation-low" name="dronePopulation" value="Low">
+              <label for="dronePopulation-low" class="small button yellow half">Low</label>
+            <input type="radio" id="dronePopulation-normal" name="dronePopulation" value="Normal">
+              <label for="dronePopulation-normal" class="small button green half">Normal</label>
+            <input type="radio" id="dronePopulation-crowded" name="dronePopulation" value="Crowded">
+              <label for="dronePopulation-crowded" class="small button yellow half">Crowded</label>
+        </section>
+        <h3>Laying Pattern</h3>
+        <section id="layingPattern" class="button-group">
+            <input type="radio" id="layingPattern-good" name="layingPattern" value="Good">
+              <label for="layingPattern-good" class="small button green half">Good</label>
+            <input type="radio" id="layingPattern-spotty" name="layingPattern" value="Spotty">
+              <label for="layingPattern-spotty" class="small button yellow half">Spotty</label>
+        </section>
+        <h3>Hive Beetles</h3>
+        <section id="hiveBeetles" class="button-group">
+            <input type="radio" id="hiveBeetles-none" name="hiveBeetles" value="None">
+              <label for="hiveBeetles-none" class="small button green half">None</label>
+            <input type="radio" id="hiveBeetles-few" name="hiveBeetles" value="Few">
+              <label for="hiveBeetles-few" class="small button yellow half">Few</label>
+            <input type="radio" id="hiveBeetles-lots" name="hiveBeetles" value="Lots">
+              <label for="hiveBeetles-lots" class="small button red half">Lots</label>
+        </section>
+        <h3>Other Pests</h3>
+        <section id="otherPests" class="button-group">
+            <input type="radio" id="otherPests-none" name="otherPests" value="None">
+              <label for="otherPests-none" class="small button green half">None</label>
+            <input type="radio" id="otherPests-few" name="otherPests" value="Few">
+              <label for="otherPests-few" class="small button yellow half">Few</label>
+            <input type="radio" id="otherPests-lots" name="otherPests" value="Lots">
+              <label for="otherPests-lots" class="small button red half">Lots</label>
+        </section>
+        <section id="finish">
+            <input type="button" id="btnFinish" value="Finish Inspection" class="small button blue">
+            <!--<a href="index.php" class="small button blue">Finish Inspection</a> -->
+        </section>
+    </form>
+</body>
+
+</html>

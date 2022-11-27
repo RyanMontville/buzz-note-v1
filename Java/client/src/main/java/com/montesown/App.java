@@ -35,6 +35,7 @@ public class App {
                 case 3: viewPreviousInspections(); break; //view previous inspections
                 case 4: viewFrames(4,1); break; //view a list of frames from a box from an inspection
                 case 5: System.out.println("\nGoodbye"); running = false; break; //exit
+                case 6:
                 default: displayError(" Invalid selection ");
             }
         }
@@ -77,9 +78,16 @@ public class App {
                 System.out.println("Laying Pattern: " + inspection.getLayingPattern());
                 System.out.println("Hive Beetles: " + inspection.getHiveBeetles());
                 System.out.println("Other Pest: " + inspection.getOtherPests());
-                System.out.println("Notes: " + inspection.getNotes());
+                /**if(inspection.getNotes().equals("0")){
+                    System.out.println("no notes");
+                } else {
+                    System.out.println("Notes: " + inspection.getNotes());
+                }**/
+                System.out.println(inspection.getBoxThree());
                 viewFrames(inspection.getInspectionId(),3);
+                System.out.println(inspection.getBoxTwo());
                 viewFrames(inspection.getInspectionId(),2);
+                System.out.println(inspection.getBoxOne());
                 viewFrames(inspection.getInspectionId(),1);
             }
         } else {
@@ -89,16 +97,10 @@ public class App {
 
     private void startNewInspection() {
         Inspection newInspection = new Inspection();
-        newInspection.setWeatherTemp(promptForInt("Weather temp: "));
-        newInspection.setWeatherCondition(promptForString("Weather Condition: "));
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        String strDate = formatter.format(date);
-        newInspection.setInspectionDate(strDate);
-        formatter = new SimpleDateFormat("hh:mm:ss");
-        String strTime = formatter.format(date);
-        newInspection.setStartTime(strTime);
         int newId = inspectionService.newInspection(newInspection);
+        String boxThree = "0";
+        String boxTwo = "0";
+        String boxOne = "0";
         newInspection.setInspectionId(newId);
         System.out.println("the inspection id is " + newId);
         for(int i=3;i>0;i--) {
@@ -186,6 +188,15 @@ public class App {
             System.out.println("Total honey: " + honeyTotal);
             System.out.println("Total nectar: " + nectarTotal);
             System.out.println("The queen was spotted in frame " + queenFrame);
+            if(i==3){
+                boxThree = "Box 3 -  " + queenFrame;
+            }
+            if(i==2){
+                boxTwo = "Box 2 - " + queenFrame;
+            }
+            if(i==1){
+                boxOne = "Box 1 - " + queenFrame;
+            }
         }
         newInspection.setBeeTemperament(promptForString("Bee Temperament: "));
         newInspection.setBeePopulation(promptForString("Bee Population: "));
@@ -193,6 +204,9 @@ public class App {
         newInspection.setLayingPattern(promptForString("Layiing Pattern: "));
         newInspection.setHiveBeetles(promptForString("Hive Beetles: "));
         newInspection.setOtherPests(promptForString("Other Pests: "));
+        newInspection.setBoxThree(boxThree);
+        newInspection.setBoxTwo(boxTwo);
+        newInspection.setBoxOne(boxOne);
         boolean wasInspectionUpdated = inspectionService.addRestOfInspection(newInspection);
 
 
