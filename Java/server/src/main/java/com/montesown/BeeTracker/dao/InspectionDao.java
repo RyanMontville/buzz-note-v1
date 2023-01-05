@@ -8,8 +8,6 @@ public interface InspectionDao {
 
     List<Inspection> list();
 
-    List<Inspection> serchByTemp(int low,int high);
-
     Inspection getInspection(int inspectionId);
 
     String getNotesByInspectionId(int inspectionId);
@@ -20,6 +18,9 @@ public interface InspectionDao {
 
     void updateInspection(Inspection inspection);
 
+    List<Inspection> serchByTemp(int low,int high);
+
+    //List<Inspection> searchByDate(String startDate, String endDate);
 
 
 }

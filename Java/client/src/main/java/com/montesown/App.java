@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class App {
 
-    public static final String API_BASE_URL = "http://localhost:8080/";
+    public static final String API_BASE_URL = "http://localhost:9000/";
     private final InspectionService inspectionService = new InspectionService(API_BASE_URL);
     private final Scanner userInput = new Scanner(System.in);
 

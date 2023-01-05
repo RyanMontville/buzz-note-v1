@@ -3,6 +3,7 @@ package com.montesown.BeeTracker.dao;
 import com.montesown.BeeTracker.WeatherService;
 import com.montesown.BeeTracker.model.Forcast;
 import com.montesown.BeeTracker.model.Inspection;
+import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -27,18 +28,6 @@ public class JdbcInspectionDao implements InspectionDao {
         String sql = "SELECT inspection_id, inspection_date, start_time, weather_temp, weather_condition, bee_temperament, bee_population, drone_population, " +
                 "laying_pattern, hive_beetles, other_pests, notes, box_three, box_two, box_one FROM public.inspection ORDER BY inspection_id;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-        while (results.next()){
-            inspections.add(mapRowToInspection(results));
-        }
-        return inspections;
-    }
-
-    @Override
-    public List<Inspection> serchByTemp(int low, int high) {
-        List<Inspection> inspections = new ArrayList<>();
-        String sql = "SELECT inspection_id, inspection_date, start_time, weather_temp, weather_condition, bee_temperament, bee_population, drone_population, laying_pattern, " +
-                "hive_beetles, other_pests, notes, box_three, box_two, box_one FROM public.inspection where weather_temp BETWEEN ? AND ?;";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql,low,high);
         while (results.next()){
             inspections.add(mapRowToInspection(results));
         }
@@ -95,6 +84,23 @@ public class JdbcInspectionDao implements InspectionDao {
         jdbcTemplate.update(sql,inspection.getBeeTemperament(),inspection.getBeePopulation(),inspection.getDronePopulation(),inspection.getLayingPattern(),
                 inspection.getHiveBeetles(),inspection.getOtherPests(),inspection.getBoxThree(),inspection.getBoxTwo(),inspection.getBoxOne(),inspection.getInspectionId());
     }
+
+    @Override
+    public List<Inspection> serchByTemp(int low, int high) {
+        List<Inspection> inspections = new ArrayList<>();
+        String sql = "SELECT inspection_id, inspection_date, start_time, weather_temp, weather_condition, bee_temperament, bee_population, drone_population, laying_pattern, " +
+                "hive_beetles, other_pests, notes, box_three, box_two, box_one FROM public.inspection where weather_temp BETWEEN ? AND ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql,low,high);
+        while (results.next()){
+            inspections.add(mapRowToInspection(results));
+        }
+        return inspections;
+    }
+
+    /**@Override
+    public List<Inspection> searchByDate(String startDate, String endDate) {
+
+    }**/
 
     //TODO: add get inspection by <...> to filter results
 

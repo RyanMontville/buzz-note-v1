@@ -3,6 +3,7 @@ package com.montesown.BeeTracker.controllers;
 import com.montesown.BeeTracker.WeatherService;
 import com.montesown.BeeTracker.dao.FrameDao;
 import com.montesown.BeeTracker.dao.InspectionDao;
+import com.montesown.BeeTracker.model.Box;
 import com.montesown.BeeTracker.model.Forcast;
 import com.montesown.BeeTracker.model.Frame;
 import com.montesown.BeeTracker.model.Inspection;
@@ -20,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class InspectionController {
 
     private InspectionDao inspectionDao;
@@ -32,14 +34,7 @@ public class InspectionController {
     }
 
     @RequestMapping(path = "/inspections",method = RequestMethod.GET)
-    public List<Inspection> list(@RequestParam(defaultValue = "0") int low,@RequestParam(defaultValue = "0") int high) {
-        //TODO write all if statements, create DAO methods, rebuild database to separate temp and condition, change timestamp to date/time
-        if(low!=0 && high!=0) {
-            return inspectionDao.serchByTemp(low,high);
-        } else {
-            return inspectionDao.list();
-        }
-    }
+    public List<Inspection> list() { return inspectionDao.list(); }
 
     @RequestMapping(path = "/inspections/{inspectionId}", method = RequestMethod.GET)
     public Inspection getInspection(@PathVariable int inspectionId) {
@@ -64,13 +59,6 @@ public class InspectionController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/inspections", method = RequestMethod.POST)
     public int newInspection(@RequestBody Inspection inspection) throws Exception {
-
-        //TODO add time date and weather to inspection here
-        inspection.setWeatherTemp(85);
-        inspection.setWeatherCondition("Sunny");
-
-        //TODO then push it to DAO, return int newId
-
         return inspectionDao.createInspection();
     }
 
@@ -99,4 +87,5 @@ public class InspectionController {
         String weather = "The current weather is " + forcast.getTemp() + "F and " + forcast.getCondition();
         return weather;
     }
+
 }
