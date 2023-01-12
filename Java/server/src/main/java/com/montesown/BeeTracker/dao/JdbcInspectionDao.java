@@ -26,7 +26,7 @@ public class JdbcInspectionDao implements InspectionDao {
     public List<Inspection> list() {
         List<Inspection> inspections = new ArrayList<>();
         String sql = "SELECT inspection_id, inspection_date, start_time, weather_temp, weather_condition, bee_temperament, bee_population, drone_population, " +
-                "laying_pattern, hive_beetles, other_pests, notes, box_three, box_two, box_one FROM public.inspection ORDER BY inspection_id;";
+                "laying_pattern, hive_beetles, other_pests, notes, box_three, box_two, box_one FROM public.inspection ORDER BY inspection_id DESC;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while (results.next()){
             inspections.add(mapRowToInspection(results));

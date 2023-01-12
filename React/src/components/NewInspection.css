@@ -1,0 +1,23 @@
+form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#frame-header {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+.button-group-row input:checked + label {
+    opacity: 1;
+}
+#brood input:checked + label,
+#cells input:checked + label {
+    background-color: rgba(0, 163, 0,1);
+    color: white;
+    opacity: 1;
+}
+.button-group-row input {
+    display: none;
+}

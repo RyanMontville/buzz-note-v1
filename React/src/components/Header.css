@@ -1,0 +1,26 @@
+header h1 {
+    margin: 20px;
+    font-size: 50px;
+}
+nav {
+    display: flex;
+    justify-content: space-around;
+    background-color: var(--navColor);
+    border: 1px solid black;
+    padding: 5px;
+    margin: 10px;
+    font-size: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: black;
+}
+nav a:hover {
+    text-decoration: underline;
+}
+
+nav i {
+    cursor: pointer;
+    font-size: 25px;
+}

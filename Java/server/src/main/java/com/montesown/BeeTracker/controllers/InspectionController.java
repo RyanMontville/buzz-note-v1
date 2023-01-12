@@ -3,7 +3,7 @@ package com.montesown.BeeTracker.controllers;
 import com.montesown.BeeTracker.WeatherService;
 import com.montesown.BeeTracker.dao.FrameDao;
 import com.montesown.BeeTracker.dao.InspectionDao;
-import com.montesown.BeeTracker.model.Box;
+import com.montesown.BeeTracker.model.BoxSet;
 import com.montesown.BeeTracker.model.Forcast;
 import com.montesown.BeeTracker.model.Frame;
 import com.montesown.BeeTracker.model.Inspection;
@@ -14,10 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -35,6 +31,9 @@ public class InspectionController {
 
     @RequestMapping(path = "/inspections",method = RequestMethod.GET)
     public List<Inspection> list() { return inspectionDao.list(); }
+
+    @RequestMapping(path = "/numberOfInspections", method = RequestMethod.GET)
+    public int numberOfInspections() { return inspectionDao.list().size(); }
 
     @RequestMapping(path = "/inspections/{inspectionId}", method = RequestMethod.GET)
     public Inspection getInspection(@PathVariable int inspectionId) {
@@ -70,6 +69,15 @@ public class InspectionController {
     @RequestMapping(path = "/inspections/{inspectionId}/frames/{boxNum}", method = RequestMethod.GET)
     public List<Frame> getFramesByInspectionId(@PathVariable int inspectionId, @PathVariable int boxNum) {
         return frameDao.getFrameByInspectionAndBox(inspectionId,boxNum);
+    }
+
+    @RequestMapping(path = "/inspection/{inspectionId}/frames", method = RequestMethod.GET)
+    public BoxSet getFramesByInspectionId(@PathVariable int inspectionId) {
+        List<Frame> BoxThree = frameDao.getFrameByInspectionAndBox(inspectionId,3);
+        List<Frame> BoxTwo = frameDao.getFrameByInspectionAndBox(inspectionId,2);
+        List<Frame> BoxOne = frameDao.getFrameByInspectionAndBox(inspectionId,1);
+        BoxSet results = new BoxSet(BoxThree,BoxTwo,BoxOne);
+        return results;
     }
 
     @ResponseStatus(HttpStatus.CREATED)

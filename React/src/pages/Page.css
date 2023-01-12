@@ -1,0 +1,80 @@
+main {
+    max-width: 900px;
+    margin: 5px auto;
+    padding: 10px;
+    background-color: var(--pagBackgroundColor);
+    border: 1px solid black;
+    position: relative;
+}
+
+main p {
+    margin: 10px 0;
+}
+
+.inspection-navigation {
+    display: flex;
+    align-items: center;
+}
+.inspection-date {
+    text-align: center;
+    flex-grow: 1;
+    font-size: 30px;
+}
+
+.textbox {
+    display: block;
+    width: 100%;
+    height: 300px;
+    padding: 10px;
+    margin: 10px 0;
+    font-family: 'Roboto Slab', serif;
+    font-size: 15px;
+    resize: none;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+table {
+    border-collapse: collapse;
+    display: block;
+    max-width: -moz-fit-content;
+    max-width: fit-content;
+    margin: 10px auto;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+table thead th { 
+    position: sticky; top: 0;
+    padding: 10px;
+    background-color: var(--mainColor);
+    color: white;
+}
+table tbody {
+    overflow: auto;
+    width: 100%;
+    margin: 0 auto;
+}
+.box-num {
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 8px 0;
+    background-color: gray;
+    color: white;
+}
+table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+#inspection-table td:first-child {
+    font-weight: bold;
+    width: 35px;
+    text-align: center;
+}
+#inspection-table tr:nth-child(even){background-color: #f2f2f2;}
+#inspection-table tr:hover {background-color: #ddd;}
