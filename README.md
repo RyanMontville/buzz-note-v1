@@ -35,3 +35,12 @@ My parents are bee keepers as a hobby. They wanted to start recording the state 
 ## V 0.3.2
 -The app now calls the current weather temperature and weather condition for my parents house from the Accuweather API. 
 
+## V 0.5
+I have created a React.js app working towards the finished project.
+
+## v 1.0 
+The React app is now fully functional. 
+-You are now able to start a new inspection, record all the frames, then record the overall observations. 
+-You can view past inspections, add/updates notes
+-You can search past inspections
+-Things to work out: the weather api I was using has reached its max limit, so I need to find a different api or have the user manually input the weather. Updating the notes adds quotation marks around the string and if you update it, it then treats the quotes as escape characters and it get worse every update.
