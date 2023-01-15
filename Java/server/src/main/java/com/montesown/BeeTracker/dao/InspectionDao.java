@@ -14,7 +14,7 @@ public interface InspectionDao {
 
     int createInspection() throws Exception;
 
-    void updateNotes(String notes, int inspectionId);
+    String updateNotes(String notes, int inspectionId);
 
     void updateInspection(Inspection inspection);
 

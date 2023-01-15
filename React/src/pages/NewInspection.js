@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import Frames from '../components/Frames';
 import Inspection from '../components/Inspection';
+import { startNewInspection } from '../Services/InspectionService';
 function NewInspection(props) {
-  const inspectionId = 1;
+  const [inspectionId, setInspectionId] = useState(0);
+  const [hasInspectionStarted, setHasInspectionStarted] = useState(false);
   const [framesFinished, setFramesFinished] = useState(false);
   const [boxes, setBoxes] = useState({
     boxOne: "Box 1",
@@ -10,15 +12,23 @@ function NewInspection(props) {
     boxThree: "Box 3"
   });
 
+  function handleStartButton() {
+    startNewInspection()
+    .then(data => setInspectionId(data));
+    setHasInspectionStarted(true);
+  }
+
 
   return <div>
-    {!framesFinished &&
+    {!hasInspectionStarted &&
+      <form><br></br><button onClick={handleStartButton} class="large full button green">Start the Inspection</button></form>
+    }
+    {!framesFinished && hasInspectionStarted &&
       <Frames id={inspectionId} setFramesFinished={setFramesFinished} setBoxes={setBoxes}/>
     }
-    {framesFinished && 
+    {framesFinished && hasInspectionStarted &&
       <Inspection id={inspectionId} boxes={boxes} />
     }
-    <p>b3 is set to {boxes.boxThree}</p>
   </div>;
 };
 

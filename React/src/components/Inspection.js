@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import "./NewInspection.css"
+import { fillRestOfInspection } from '../Services/InspectionService';
 
 function Inspection(props) {
     const inspectionId = props.id;
@@ -8,7 +9,7 @@ function Inspection(props) {
     const [beePopulation, setBeePopulation] = useState("");
     const [dronePopulation, setDronePopulation] = useState("");
     const [laying, setLaying] = useState("");
-    const [beetles, setBettles] = useState("");
+    const [beetles, setBeetles] = useState("");
     const [pests, setPests] = useState("");
 
     let navigate = useNavigate();
@@ -16,7 +17,7 @@ function Inspection(props) {
         const inspection = {
             inspectionId: inspectionId,
             weatherTemp: 0,
-            weatherCondition: "",
+            weatherCondition: "Rain",
             startTime: "",
             inspectionDate: "",
             beeTemperament: temperament,
@@ -30,6 +31,7 @@ function Inspection(props) {
             boxTwo: props.boxes.boxTwo,
             boxOne: props.boxes.boxOne
         }
+        fillRestOfInspection(inspection);
         navigate("/");
     }
 
@@ -38,61 +40,43 @@ function Inspection(props) {
             <h2>End of Inspection</h2>
         </section>
         <h3>Bee Temperament</h3>
-        <section id="beeTemperament" class="button-group-row" onChange={e => setTemperament(e.target.value)}>
-            <input type="radio" id="temperament-calm" name="beeTemperament" value="Calm" />
-            <label for="temperament-calm" class="full button green half">Calm</label>
-            <input type="radio" id="temperament-nervous" name="beeTemperament" value="Nervous" />
-            <label for="temperament-nervous" class="full button yellow half">Nervous</label>
-            <input type="radio" id="temperament-angry" name="beeTemperament" value="Angry" />
-            <label for="temperament-angry" class="full button orange half">Angry</label>
-            <input type="radio" id="temperament-crazy" name="beeTemperament" value="Crazy" />
-            <label for="temperament-crazy" class="full button red half">Crazy</label>
+        <section id="beeTemperament" className="button-group-row">
+            <RadioButton label="Calm" value={temperament === 'calm'} name="temperament" color="green" id="tc" onChange={e => setTemperament('calm')} />
+            <RadioButton label="Nervous" value={temperament === 'nervous'} name="temperament" color="yellow" id="tn" onChange={e => setTemperament('nervous')} />
+            <RadioButton label="Angry" value={temperament === 'angry'} name="temperament" color="orange" id="ta" onChange={e => setTemperament('angry')} />
+            <RadioButton label="Crazy" value={temperament === 'crazy'} name="temperament" color="red" id="tz" onChange={e => setTemperament('crazy')} />
         </section>
         <h3>Bee Population</h3>
-        <section id="beePopulation" class="button-group-row" onChange={e => setBeePopulation(e.target.value)}>
-            <input type="radio" id="beePopulation-low" name="beePopulation" value="Low" />
-            <label for="beePopulation-low" class="full button yellow half">Low</label>
-            <input type="radio" id="beePopulation-normal" name="beePopulation" value="Normal" />
-            <label for="beePopulation-normal" class="full button green half">Normal</label>
-            <input type="radio" id="beePopulation-crowded" name="beePopulation" value="Crowded" />
-            <label for="beePopulation-crowded" class="full button yellow half">Crowded</label>
+        <section id="beePopulation" className="button-group-row">
+            <RadioButton label="Low" value={beePopulation === 'low'} name="beePopulation" color="yellow" id="bpl" onChange={e => setBeePopulation('low')} />
+            <RadioButton label="Normal" value={beePopulation === 'normal'} name="beePopulation" color="green" id="bpn" onChange={e => setBeePopulation('normal')} />
+            <RadioButton label="Crowded" value={beePopulation === 'crowded'} name="beePopulation" color="yellow" id="bpc" onChange={e => setBeePopulation('crowded')} />
         </section>
         <h3>Drone Population</h3>
-        <section id="dronePopulation" class="button-group-row" onChange={e => setDronePopulation(e.target.value)}>
-            <input type="radio" id="dronePopulation-low" name="dronePopulation" value="Low" />
-            <label for="dronePopulation-low" class="full button yellow half">Low</label>
-            <input type="radio" id="dronePopulation-normal" name="dronePopulation" value="Normal" />
-            <label for="dronePopulation-normal" class="full button green half">Normal</label>
-            <input type="radio" id="dronePopulation-crowded" name="dronePopulation" value="Crowded" />
-            <label for="dronePopulation-crowded" class="full button yellow half">Crowded</label>
+        <section id="dronePopulation" className="button-group-row">
+            <RadioButton label="Low" value={dronePopulation === 'low'} name="dronePopulation" color="yellow" id="dpl" onChange={e => setDronePopulation('low')} />
+            <RadioButton label="Normal" value={dronePopulation === 'normal'} name="dronePopulation" color="green" id="dpn" onChange={e => setDronePopulation('normal')} />
+            <RadioButton label="Crowded" value={dronePopulation === 'crowded'} name="dronePopulation" color="yellow" id="dpc" onChange={e => setDronePopulation('crowded')} />
         </section>
         <h3>Laying Pattern</h3>
-        <section id="layingPattern" class="button-group-row" onChange={e => setLaying(e.target.value)}>
-            <input type="radio" id="layingPattern-good" name="layingPattern" value="Good" />
-            <label for="layingPattern-good" class="full button green half">Good</label>
-            <input type="radio" id="layingPattern-spotty" name="layingPattern" value="Spotty" />
-            <label for="layingPattern-spotty" class="full button yellow half">Spotty</label>
+        <section id="layingPattern" className="button-group-row">
+            <RadioButton label="Good" value={laying === 'good'} name="laying" color="green" id="lpg" onChange={e => setLaying('good')} />
+            <RadioButton label="Spotty" value={laying === 'spotty'} name="laying" color="yellow" id="lps" onChange={e => setLaying('spotty')} />
         </section>
         <h3>Hive Beetles</h3>
-        <section id="hiveBeetles" class="button-group-row" onChange={e => setBettles(e.target.value)}>
-            <input type="radio" id="hiveBeetles-none" name="hiveBeetles" value="None" />
-            <label for="hiveBeetles-none" class="full button green half">None</label>
-            <input type="radio" id="hiveBeetles-few" name="hiveBeetles" value="Few" />
-            <label for="hiveBeetles-few" class="full button yellow half">Few</label>
-            <input type="radio" id="hiveBeetles-lots" name="hiveBeetles" value="Lots" />
-            <label for="hiveBeetles-lots" class="full button red half">Lots</label>
+        <section id="hiveBeetles" className="button-group-row">
+            <RadioButton label="None" value={beetles === 'none'} name="beetles" color="green" id="hbn" onChange={e => setBeetles('none')} />
+            <RadioButton label="Few" value={beetles === 'few'} name="beetles" color="yellow" id="hbf" onChange={e => setBeetles('few')} />
+            <RadioButton label="Lots" value={beetles === 'lots'} name="beetles" color="red" id="hbl" onChange={e => setBeetles('lots')} />
         </section>
         <h3>Other Pests</h3>
-        <section id="otherPests" class="button-group-row" onChange={e => setPests(e.target.value)}>
-            <input type="radio" id="otherPests-none" name="otherPests" value="None" />
-            <label for="otherPests-none" class="full button green half">None</label>
-            <input type="radio" id="otherPests-few" name="otherPests" value="Few" />
-            <label for="otherPests-few" class="full button yellow half">Few</label>
-            <input type="radio" id="otherPests-lots" name="otherPests" value="Lots" />
-            <label for="otherPests-lots" class="full button red half">Lots</label>
+        <section id="otherPests" className="button-group-row">
+            <RadioButton label="None" value={pests === 'none'} name="pests" color="green" id="opn" onChange={e => setPests('none')} />
+            <RadioButton label="Few" value={pests === 'few'} name="pests" color="yellow" id="opf" onChange={e => setPests('few')} />
+            <RadioButton label="Lots" value={pests === 'lots'} name="pests" color="red" id="opl" onChange={e => setPests('lots')} />
         </section>
         <p>Temperament: {temperament} bee: {beePopulation} drone: {dronePopulation}
-        laying: {laying} hive: {beetles} other: {pests}</p>
+            laying: {laying} hive: {beetles} other: {pests}</p>
         <button className="button" onClick={finish}>Finish Inspection</button>
         <p>inspection #{props.id}</p>
         <p>B3 - {props.boxes.boxThree}</p>
@@ -101,4 +85,15 @@ function Inspection(props) {
         <p>{props.boxes.boxThree}</p>
     </form>
 };
+
+const RadioButton = ({ label, id, value, name, color, onChange }) => {
+    return (
+        <>
+            <input type="radio" checked={value} name={name} id={id} onChange={onChange} />
+            <label for={id} className={`full button ${color} half`}>{label}</label>
+        </>
+
+    );
+};
+
 export default Inspection;

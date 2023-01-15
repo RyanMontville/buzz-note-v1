@@ -1,18 +1,43 @@
 import React, { useState } from 'react';
-import { broods } from "./broods";
 import "./NewInspection.css"
+import { addNewFrame } from '../Services/InspectionService';
 
 function Frames(props) {
+    /*********************************** STATES ************************************************/
     const inspectionId = props.id;
     const [box, setBox] = useState(3);
-    const [frameNum, setFrameNum] = useState({
+    const FRAME_INITIAL_STATE = {
         number: 1,
         side: "A",
-    });
+    }
+    const [frameNum, setFrameNum] = useState(FRAME_INITIAL_STATE);
     const [honey, setHoney] = useState("");
     const [nectar, setNectar] = useState("");
-    const [brood, setBrood] = useState("");
-    const [broodChecked, setBroodChecked] = useState(new Array(broods.length).fill(false));
+    const broodsArray = [
+        {name: "Eggs",value: 0},
+        {name: "Larvae",value: 1},
+        {name: "Pupae", value: 2},
+        {name: "None", value: 3}
+    ];
+    const BROOD_INITIAL_STATE = new Array(broodsArray.length).fill(false);
+    const [broodChecked, setBroodChecked] = useState(BROOD_INITIAL_STATE);
+    const [broods, setBroods] = useState("");
+    const cellsArray = [
+        {name: "Queen",value: 0},
+        {name: "Super",value: 1},
+        {name: "None", value: 2}
+    ];
+    const CELLS_INITIAL_STATE = new Array(cellsArray.length).fill(false);
+    const [cellChecked, setCellChecked] = useState(CELLS_INITIAL_STATE);
+    const [cells, setCells] = useState("");
+    const [queen, setQueen] = useState(false);
+    const [comb, setComb] = useState("");
+
+    const [box3, setBox3] = useState("Box 3");
+    const [box2, setBox2] = useState("Box 2");
+    const [box1, setBox1] = useState("Box 1");
+
+    /*************************** Checkbox functions *******************************************/
     const broodHandleChange = (position) => {
         const updateBroodChecked = broodChecked.map((item, index) =>
             index === position ? !item : item
@@ -23,49 +48,45 @@ function Frames(props) {
         const brood = updateBroodChecked.reduce(
             (str, currentState, index) => {
                 if (currentState === true) {
-                    return str + " " + broods[index].name;
+                    return str + " " + broodsArray[index].name;
                 }
                 return str;
-            },
-            ""
+            },""
         );
-        setBrood(brood);
+        setBroods(brood);
     }
-    const [cells, setCells] = useState("");
-    const [queen, setQueen] = useState(false);
-    const [comb, setComb] = useState("");
-    const [box3, setBox3] = useState("");
-    const [box2, setBox2] = useState("");
-    const [box1, setBox1] = useState("");
-    const [frame, setFrame] = useState({
-        inspectionId: inspectionId,
-        boxNumber: box,
-        frameName: frameNum.number + frameNum.side,
-        combPattern: "",
-        honey: "",
-        nectar: "",
-        brood: "",
-        cells: "",
-        queenSpotted: ""
-    });
+
+    const cellHandleChange = (position) => {
+        const updateCellChecked = cellChecked.map((item, index) => 
+            index === position ? !item : item
+        );
+
+        setCellChecked(updateCellChecked);
+
+        const cell = updateCellChecked.reduce(
+            (str, currentState, index) => {
+                if (currentState === true) {
+                    return str + " " + cellsArray[index].name;
+                }
+                return str;
+            },""
+        );
+        setCells(cell);
+    }
+
+    /*************************** Next/Skip functions *******************************************/
 
     function nextBox() {
         setBox(box - 1);
-        setFrameNum({
-            number: 1,
-            side: "A"
-        });
-        setFrame({
-            inspectionId: inspectionId,
-            boxNumber: box,
-            frameName: frameNum.number + frameNum.side,
-            combPattern: "",
-            honey: "",
-            nectar: "",
-            brood: "",
-            cells: "",
-            queenSpotted: ""
-        })
+        setFrameNum(FRAME_INITIAL_STATE);
+        setHoney("");
+        setNectar("");
+        setBroods("");
+        setBroodChecked(BROOD_INITIAL_STATE);
+        setCellChecked(CELLS_INITIAL_STATE);
+        setCells("");
+        setQueen(false);
+        setComb("");
     }
     function nextFrame() {
         if (frameNum.side === "A") {
@@ -84,26 +105,39 @@ function Frames(props) {
     function handleSubmit(e) {
         e.preventDefault();
         //send through api
-        if(queen==="true"){
-            if(box===3){
+        if (queen === true) {
+            if (box === 3) {
                 setBox3("Box 3 - " + frameNum.number + frameNum.side);
             }
-            if(box===2){
+            if (box === 2) {
                 setBox2("Box 2 - " + frameNum.number + frameNum.side);
             }
-            if(box===1){
-                setBox1("Box 1 - "+ frameNum.number + frameNum.side);
+            if (box === 1) {
+                setBox1("Box 1 - " + frameNum.number + frameNum.side);
             }
         }
+        let frame = {
+            inspectionId: inspectionId,
+            boxNumber: box,
+            frameName: frameNum.number+frameNum.side,
+            combPattern: comb,
+            honey: honey,
+            nectar: nectar,
+            brood: broods,
+            cells: cells,
+            queenSpotted: queen
+        }
+        addNewFrame(frame);
         e.target.reset();
         nextFrame();
         setHoney("");
         setNectar("");
-        setBrood("");
+        setBroods("");
+        setBroodChecked(BROOD_INITIAL_STATE);
+        setCellChecked(CELLS_INITIAL_STATE);
         setCells("");
         setQueen(false);
         setComb("");
-        brood.reset();
     }
 
     function finishFrames() {
@@ -124,35 +158,27 @@ function Frames(props) {
             {box > 1 &&
                 <button type="button" className="button" onClick={nextBox}>Skip Box</button>
             }
-            {box===1 &&
+            {box === 1 &&
                 <button type="button" className="button" onClick={finishFrames}>Skip Box</button>
             }
         </section>
         <h3>Honey</h3>
-        <section id="honey" className="button-group-row" onChange={e => setHoney(e.target.value)}>
-            <input type="radio" id="honey-full" name="honey" value="1" />
-            <label for="honey-full" className="full button green half">Full</label>
-            <input type="radio" id="honey-two" name="honey" value="0.66" />
-            <label for="honey-two" className="full button yellow half">2/3</label>
-            <input type="radio" id="honey-one" name="honey" value="0.33" />
-            <label for="honey-one" className="full button orange half">1/3</label>
-            <input type="radio" id="honey-none" name="honey" value="0" />
-            <label for="honey-none" className="full button black half">None</label>
+        <section id="honey" className="button-group-row">
+            <RadioButton label="Full" value={honey === 1} name="honey" color="green" id="h1" onChange={e => setHoney(1)} />
+            <RadioButton label="2/3" value={honey === 0.66} name="honey" color="yellow" id="h6" onChange={e => setHoney(0.66)} />
+            <RadioButton label="1/3" value={honey === 0.33} name="honey" color="orange" id="h3" onChange={e => setHoney(0.33)} />
+            <RadioButton label="none" value={honey === 0} name="honey" color="black" id="h0" onChange={e => setHoney(0)} />
         </section>
         <h3>nectar</h3>
-        <section id="nectar" class="button-group-row" onChange={e => setNectar(e.target.value)}>
-            <input type="radio" id="nectar-full" name="nectar" value="1" />
-            <label for="nectar-full" class="full button green half">Full</label>
-            <input type="radio" id="nectar-two" name="nectar" value="0.66" />
-            <label for="nectar-two" class="full button yellow half">2/3</label>
-            <input type="radio" id="nectar-one" name="nectar" value="0.33" />
-            <label for="nectar-one" class="full button orange half">1/3</label>
-            <input type="radio" id="nectar-none" name="nectar" value="0" />
-            <label for="nectar-none" class="full button black half">None</label>
+        <section id="nectar" className="button-group-row">
+            <RadioButton label="Full" value={nectar === 1} name="nectar" color="green" id="n1" onChange={e => setNectar(1)} />
+            <RadioButton label="2/3" value={nectar === 0.66} name="nectar" color="yellow" id="n6" onChange={e => setNectar(0.66)} />
+            <RadioButton label="1/3" value={nectar === 0.33} name="nectar" color="orange" id="n3" onChange={e => setNectar(0.33)} />
+            <RadioButton label="none" value={nectar === 0} name="nectar" color="black" id="n0" onChange={e => setNectar(0)} />
         </section>
         <h3>Brood (Select Multiple)</h3>
-        <section id="brood" class="button-group-row">
-            {broods.map(({ name }, index) => {
+        <section id="brood" className="button-group-row">
+            {broodsArray.map(({ name }, index) => {
                 return (
                     <span key={index}>
                         <input
@@ -169,27 +195,32 @@ function Frames(props) {
             })}
         </section>
         <h3>Queen Spotted</h3>
-        <section id="queen" class="button-group-row">
-            <input type="radio" id="queen-yes" name="queen" value="true" />
-            <label for="queen-yes" class="full button green half">Yes</label>
-            <input type="radio" id="queen-no" name="queen" value="false" />
-            <label for="queen-no" class="full button black half">No</label>
+        <section id="queen" className="button-group-row">
+        <RadioButton label="Yes" value={queen === true} name="queen" color="green" id="qTrue" onChange={e => setQueen(true)} />
+        <RadioButton label="No" value={queen === false} name="queen" color="black" id="qFalse" onChange={e => setQueen(false)} />
         </section>
         <h3>Cells (Select Multiple)</h3>
-        <section id="cells" class="button-group-row">
-            <input type="checkbox" id="cells-queen" name="cells-queen" value="Queen" />
-            <label for="cells-queen" class="full button white border half">Queen</label>
-            <input type="checkbox" id="cells-super" name="cells-super" value="Super" />
-            <label for="cells-super" class="full button white border half">Super</label>
-            <input type="checkbox" id="cells-none" name="cells-none" value="None" />
-            <label for="cells-none" class="full button white border half">None</label>
+        <section id="cells" className="button-group-row">
+        {cellsArray.map(({ name }, index) => {
+                return (
+                    <span key={index}>
+                        <input
+                            type="checkbox"
+                            id={`cell-${index}`}
+                            name={name}
+                            value={name}
+                            checked={cellChecked[index]}
+                            onChange={() => cellHandleChange(index)}
+                        />
+                        <label for={`cell-${index}`} className="full button white border half">{name}</label>
+                    </span>
+                )
+            })}
         </section>
         <h3>Comb Pattern</h3>
-        <section id="comb" class="button-group-row">
-            <input type="radio" id="comb-good" name="comb" value="Good" />
-            <label for="comb-good" class="full button green half">Good</label>
-            <input type="radio" id="comb-burr" name="comb" value="Burr" />
-            <label for="comb-burr" class="full button yellow half">Burr</label>
+        <section id="comb" className="button-group-row">
+        <RadioButton label="Good" value={comb === 'good'} name="comb" color="green" id="cg" onChange={e => setComb('good')} />
+        <RadioButton label="Burr" value={comb === 'burr'} name="comb" color="yellow" id="cb" onChange={e => setComb('burr')} />
         </section>
 
         {frameNum.number === 10 && frameNum.side === "B" &&
@@ -209,10 +240,23 @@ function Frames(props) {
         {frameNum.number < 10 &&
             <button type="submit" className="button">Next Frame</button>
         }
-        <p>{inspectionId}</p>
-        <p>frame: {frameNum.number}{frameNum.side}</p>
-        <p>honey: {honey} nectar: {nectar} brood: {brood}</p>
+        <p>Inspection #{inspectionId}</p>
+        <p>honey: {honey} nectar: {nectar} brood: {broods}</p>
+        <p>Box 3 says {box3}</p>
+        <p>Box 2 says {box2}</p>
+        <p>Box 1 says {box1}</p>
+        <p>Queen says {queen}</p>
     </form>;
+};
+
+const RadioButton = ({ label, id, value, name, color, onChange }) => {
+    return (
+        <>
+            <input type="radio" checked={value} name={name} id={id} onChange={onChange} />
+            <label for={id} className={`full button ${color} half`}>{label}</label>
+        </>
+
+    );
 };
 
 export default Frames;

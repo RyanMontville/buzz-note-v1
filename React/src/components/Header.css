@@ -7,17 +7,20 @@ nav {
     justify-content: space-around;
     background-color: var(--navColor);
     border: 1px solid black;
-    padding: 5px;
     margin: 10px;
     font-size: 20px;
 }
 
 nav a {
     text-decoration: none;
-    color: black;
+    color: var(--secondaryColor);
+    padding: 5px;
+    flex-grow: 1;
+    text-align: center;
 }
 nav a:hover {
-    text-decoration: underline;
+    background-color: var(--mainColor);
+    color: white;
 }
 
 nav i {

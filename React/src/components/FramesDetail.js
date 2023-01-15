@@ -1,12 +1,26 @@
 import { useEffect, useState } from 'react';
 import "../pages/Page.css";
+import loadingBee from "../loading.gif";
+import { Table } from 'react-bootstrap';
+import { getFramesForId } from '../Services/InspectionService';
+
 function FramesDetail(props) {
     const inspection = props.inspection;
     const [frames, setFrames] = useState({});
     const [isLoaded, setIsLoaded] = useState(false);
 
+    function displayNumberAsWord(number) {
+        switch(number) {
+            case '1': return <td>Full</td>
+            case '0.66': return <td>2/3</td>
+            case '0.33': return <td>1/3</td>
+            case '0': return <td>none</td>
+            default: return <td>Not Recorded</td>
+        }
+    } 
+
     useEffect(() => {
-        fetch(`http://localhost:9000/inspection/${inspection.inspectionId}/frames`).then(res => res.json())
+        getFramesForId(inspection.inspectionId)
             .then((result) => {
                 setIsLoaded(true);
                 setFrames(result);
@@ -16,7 +30,7 @@ function FramesDetail(props) {
     return <div>
         {isLoaded
             ?
-            <table id="inspection-table">
+            <Table hover bordered responsive>
             <thead>
                 <tr>
                     <th>Frame</th>
@@ -30,53 +44,53 @@ function FramesDetail(props) {
             <tbody>
                 <tr>
                     {frames.boxThree.length !== 0 &&
-                        <th className='box-num' colspan="7">{inspection.boxThree}</th>
+                        <th className='box-num table-primary' colSpan="7">{inspection.boxThree}</th>
                     }
                 </tr>
                 {frames.boxThree.map(frame => (
                     <tr>
                         <td>{frame.frameName}</td>
                         <td>{frame.combPattern}</td>
-                        <td>{frame.honey}</td>
-                        <td>{frame.nectar}</td>
+                        {displayNumberAsWord(frame.honey)}
+                        {displayNumberAsWord(frame.nectar)}
                         <td>{frame.brood}</td>
                         <td>{frame.cells}</td>
                     </tr>
                 ))}
                 <tr>
                     {frames.boxTwo.length !== 0 &&
-                        <th className='box-num' colspan="7">{inspection.boxTwo}</th>
+                        <th className='box-num table-primary' colSpan="7">{inspection.boxTwo}</th>
                     }
                 </tr>
                 {frames.boxTwo.map(frame => (
                     <tr>
                         <td>{frame.frameName}</td>
                         <td>{frame.combPattern}</td>
-                        <td>{frame.honey}</td>
-                        <td>{frame.nectar}</td>
+                        {displayNumberAsWord(frame.honey)}
+                        {displayNumberAsWord(frame.nectar)}
                         <td>{frame.brood}</td>
                         <td>{frame.cells}</td>
                     </tr>
                 ))}
                 <tr>
                     {frames.boxOne.length !== 0 &&
-                        <th className='box-num' colspan="7">{inspection.boxOne}</th>
+                        <th className='box-num table-primary' colSpan="7">{inspection.boxOne}</th>
                     }
                 </tr>
                 {frames.boxOne.map(frame => (
-                    <tr>
+                    <tr key={frame.frameName}>
                         <td>{frame.frameName}</td>
                         <td>{frame.combPattern}</td>
-                        <td>{frame.honey}</td>
-                        <td>{frame.nectar}</td>
+                        {displayNumberAsWord(frame.honey)}
+                        {displayNumberAsWord(frame.nectar)}
                         <td>{frame.brood}</td>
                         <td>{frame.cells}</td>
                     </tr>
                 ))}
             </tbody>
-        </table>
+        </Table>
             :
-                <h2>Loading...</h2>
+            <img src={loadingBee} alt="loading" className='loading' />
         }
         
     </div>;

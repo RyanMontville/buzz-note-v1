@@ -29,6 +29,7 @@ public class InspectionController {
         this.frameDao = frameDao;
     }
 
+    /************************************************* GETS ***********************************************************/
     @RequestMapping(path = "/inspections",method = RequestMethod.GET)
     public List<Inspection> list() { return inspectionDao.list(); }
 
@@ -55,17 +56,6 @@ public class InspectionController {
         }
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(path = "/inspections", method = RequestMethod.POST)
-    public int newInspection(@RequestBody Inspection inspection) throws Exception {
-        return inspectionDao.createInspection();
-    }
-
-    @RequestMapping(path = "/inspections/{inspectionId}/notes", method = RequestMethod.PUT)
-    public void updateNotes(@RequestBody Inspection inspection, @PathVariable int inspectionId) {
-        inspectionDao.updateNotes(inspection.getNotes(), inspectionId);
-    }
-
     @RequestMapping(path = "/inspections/{inspectionId}/frames/{boxNum}", method = RequestMethod.GET)
     public List<Frame> getFramesByInspectionId(@PathVariable int inspectionId, @PathVariable int boxNum) {
         return frameDao.getFrameByInspectionAndBox(inspectionId,boxNum);
@@ -80,20 +70,33 @@ public class InspectionController {
         return results;
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(path = "/frames",method = RequestMethod.POST)
-    public Frame newFrame(@RequestBody Frame frame) { return frameDao.createFrame(frame); }
-
-    @RequestMapping(path = "/inspections", method = RequestMethod.PUT)
-    public void addRestOfInspection(@RequestBody Inspection inspection) {
-        inspectionDao.updateInspection(inspection);
-    }
-
     @RequestMapping(path = "/getWeather",method = RequestMethod.GET)
     public String getWeather() throws Exception {
         Forcast forcast = weatherService.getCurrentWeather();
         String weather = "The current weather is " + forcast.getTemp() + "F and " + forcast.getCondition();
         return weather;
+    }
+
+    /************************************************ POSTS ***********************************************************/
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(path = "/inspections", method = RequestMethod.POST)
+    public int newInspection(@RequestBody Inspection inspection) throws Exception {
+        return inspectionDao.createInspection();
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(path = "/frames",method = RequestMethod.POST)
+    public Frame newFrame(@RequestBody Frame frame) { return frameDao.createFrame(frame); }
+
+    /************************************************* PUTS ***********************************************************/
+    @RequestMapping(path = "/inspections/{inspectionId}/notes", method = RequestMethod.PUT)
+    public String updateNotes(@RequestBody String newNotes, @PathVariable int inspectionId) {
+        return inspectionDao.updateNotes(newNotes, inspectionId);
+    }
+
+    @RequestMapping(path = "/inspections", method = RequestMethod.PUT)
+    public void addRestOfInspection(@RequestBody Inspection inspection) {
+        inspectionDao.updateInspection(inspection);
     }
 
 }

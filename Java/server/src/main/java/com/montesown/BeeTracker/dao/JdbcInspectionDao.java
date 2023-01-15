@@ -64,18 +64,19 @@ public class JdbcInspectionDao implements InspectionDao {
         Date date = new Date();
         formatter = new SimpleDateFormat("hh:mm:ss");
         String strTime = formatter.format(date);
-        Forcast forcast = weatherService.getCurrentWeather();
-        int temperature = forcast.getTemp();
-        String condition = forcast.getCondition();
+        //Forcast forcast = weatherService.getCurrentWeather();
+        int temperature = 32;
+        String condition = "snow";
         String sql = "INSERT INTO public.inspection(inspection_date, start_time, weather_temp, weather_condition)VALUES (?,?,?,?)  RETURNING inspection_id;";
         Integer newId = jdbcTemplate.queryForObject(sql, Integer.class,strDate,strTime,temperature,condition);
         return newId;
     }
 
     @Override
-    public void updateNotes(String notes, int inspectionId) {
+    public String updateNotes(String notes, int inspectionId) {
         String sql = "UPDATE public.inspection SET  notes=? WHERE inspection_id=?;";
         jdbcTemplate.update(sql,notes,inspectionId);
+        return getNotesByInspectionId(inspectionId);
     }
 
     @Override

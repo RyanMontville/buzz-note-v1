@@ -1,20 +1,34 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import "./Header.css"
+import { Nav, Navbar, Container, Offcanvas } from "react-bootstrap";
 
-const Header = (props) => {
+function Header(props) {
+
+  const title = "Monte's Own";
 
   return <div>
-    <header>
-        <h1>Bee Tracker</h1>
-        <nav>
-            <Link to="/">Home</Link>
-            <Link to="/newInspection">New Inspection</Link>
-            <Link to="/pastInspections">View Past Inspections</Link>
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <a href="https://github.com/RyanMontville/Bee-Inspection" target="_blank" rel="noreferrer"><i class="fa-brands fa-github"></i></a>
-        </nav>
-    </header>
+    <Navbar key="md" bg="warning" expand="md" className="m-4 rounded-4justify-content-around" variant="light">
+      <Container>
+        <Navbar.Brand href="/">Bee Tracker</Navbar.Brand>
+        <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-md`} />
+        <Navbar.Offcanvas
+          id={`offcanvasNavbar-expand-md`}
+          aria-labelledby={`offcanvasNavbarLabel-expand-md`}
+          placement="end"
+        >
+          <Offcanvas.Header closeButton>
+          </Offcanvas.Header>
+          <Offcanvas.Body>
+            <Nav className="justify-content-around flex-grow-1 pe-3">
+              <Nav.Link href="/newInspection">New Inspection</Nav.Link>
+              <Nav.Link href="/pastInspections">View Past Inspections</Nav.Link>
+              <Nav.Link href="/search"><i className="fa-solid fa-magnifying-glass"></i></Nav.Link>
+              <Nav.Link href="https://github.com/RyanMontville/Bee-Inspection" target="_blank" rel="noreferrer"><i className="fa-brands fa-github"></i></Nav.Link>
+            </Nav>
+          </Offcanvas.Body>
+        </Navbar.Offcanvas>
+      </Container>
+    </Navbar>
   </div>;
 };
 

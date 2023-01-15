@@ -18,6 +18,9 @@ form {
     color: white;
     opacity: 1;
 }
+#cells span, #brood span {
+    width: 100%;
+}
 .button-group-row input {
     display: none;
 }

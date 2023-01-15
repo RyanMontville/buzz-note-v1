@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
+
 import Header from '../components/Header';
 import InspectionDetail from '../components/InspectionDetail';
 import Notes from '../components/Notes';
 import FramesDetail from '../components/FramesDetail';
 import "./Page.css";
+import loadingBee from "../loading.gif";
+import { getListOfInspections } from '../Services/InspectionService';
+
 function PastInspections(props) {
     const [numberOfInspections, setNumberOfInspections] = useState(0);
     const [inspectionList, setInspectionList] = useState([]);
@@ -11,7 +15,7 @@ function PastInspections(props) {
 
 
     useEffect(() => {
-        fetch('http://localhost:9000/inspections').then(res => res.json())
+        getListOfInspections()
             .then((result) => {
                 setIsLoaded(true);
                 setInspectionList(result);
@@ -42,16 +46,17 @@ function PastInspections(props) {
                 ?
                 <div>
                     <section className="inspection-navigation">
-                        <button className={`button ${currentId === numberOfInspections ? "disabled" : ""}`} onClick={plusOne}><i class="fa-solid fa-arrow-left"></i> Previous</button>
-                        <span class="inspection-date">{currentInspection.inspectionDate} - {currentInspection.startTime}</span>
-                        <button className={`button ${currentId === 0 ? "disabled" : ""}`} onClick={minusOne}>Next <i class="fa-solid fa-arrow-right"></i></button>
+                        <button className={`button ${currentId === numberOfInspections ? "disabled" : ""}`} onClick={plusOne}><i className="fa-solid fa-arrow-left"></i> Previous</button>
+                        <span className="inspection-date">{currentInspection.inspectionDate} - {currentInspection.startTime}</span>
+                        <button className={`button ${currentId === 0 ? "disabled" : ""}`} onClick={minusOne}>Next <i className="fa-solid fa-arrow-right"></i></button>
                     </section>
                     <InspectionDetail inspection={currentInspection} />
                     <FramesDetail inspection={currentInspection} />
-                    <Notes notes={currentInspection.notes} id={currentId} />
+                    <Notes notes={currentInspection.notes} id={currentInspection.inspectionId} />
+                    
                 </div>
                 :
-                <h3>Loading...</h3>
+                <img src={loadingBee} alt="loading" className='loading' />
             }
 
         </main>
