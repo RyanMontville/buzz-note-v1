@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import "./Page.css";
-//import SearchInput from '../components/SearchInput';
 import SearchResults from '../components/SearchResults';
+import { getListOfInspections } from '../Services/InspectionService';
+
 function Search(props) {
     const [inspectionList, setInspectionList] = useState([]);
     const [notesSearchTerm, setNotesSearchTerm] = useState("");
     const [weatherSearchTerm, setWeatherSearchTerm] = useState("");
 
     useEffect(() => {
-        fetch('http://localhost:9000/inspections').then(res => res.json())
+        getListOfInspections()
             .then((result) => {
                 setInspectionList(result);
             })

@@ -30,7 +30,7 @@ function FramesDetail(props) {
     return <div>
         {isLoaded
             ?
-            <Table hover bordered responsive>
+            <Table hover bordered responsive striped >
             <thead>
                 <tr>
                     <th>Frame</th>

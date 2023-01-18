@@ -75,14 +75,7 @@ function Inspection(props) {
             <RadioButton label="Few" value={pests === 'few'} name="pests" color="yellow" id="opf" onChange={e => setPests('few')} />
             <RadioButton label="Lots" value={pests === 'lots'} name="pests" color="red" id="opl" onChange={e => setPests('lots')} />
         </section>
-        <p>Temperament: {temperament} bee: {beePopulation} drone: {dronePopulation}
-            laying: {laying} hive: {beetles} other: {pests}</p>
         <button className="button" onClick={finish}>Finish Inspection</button>
-        <p>inspection #{props.id}</p>
-        <p>B3 - {props.boxes.boxThree}</p>
-        <p>{props.boxes.boxTwo}</p>
-        <p>{props.boxes.boxOne}</p>
-        <p>{props.boxes.boxThree}</p>
     </form>
 };
 

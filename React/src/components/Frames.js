@@ -240,12 +240,6 @@ function Frames(props) {
         {frameNum.number < 10 &&
             <button type="submit" className="button">Next Frame</button>
         }
-        <p>Inspection #{inspectionId}</p>
-        <p>honey: {honey} nectar: {nectar} brood: {broods}</p>
-        <p>Box 3 says {box3}</p>
-        <p>Box 2 says {box2}</p>
-        <p>Box 1 says {box1}</p>
-        <p>Queen says {queen}</p>
     </form>;
 };
 

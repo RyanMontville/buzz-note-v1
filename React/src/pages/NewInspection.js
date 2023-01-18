@@ -20,7 +20,6 @@ function NewInspection(props) {
     {framesFinished &&
       <Inspection id={id} boxes={boxes} />
     }
-    <p>The id passed through the router is {id}</p>
   </div>;
 };
 
