@@ -1,10 +1,17 @@
 import React from 'react';
-import { Link } from "react-router-dom";
 import { Nav, Navbar, Container, Offcanvas } from "react-bootstrap";
+import { useNavigate } from 'react-router-dom';
+import { startNewInspection } from '../Services/InspectionService';
 
 function Header(props) {
-
-  const title = "Monte's Own";
+  let navigate = useNavigate();
+  function handleStartClick() {
+    startNewInspection()
+      .then(data => {
+        navigate(`newInspection/${data}`);
+      });
+  }
+  //const title = "Monte's Own";
 
   return <div>
     <Navbar key="md" bg="warning" expand="md" className="m-4 rounded-4justify-content-around" variant="light">
@@ -20,7 +27,7 @@ function Header(props) {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className="justify-content-around flex-grow-1 pe-3">
-              <Nav.Link href="/newInspection">New Inspection</Nav.Link>
+              <Nav.Link onClick={handleStartClick}>New Inspection</Nav.Link>
               <Nav.Link href="/pastInspections">View Past Inspections</Nav.Link>
               <Nav.Link href="/search"><i className="fa-solid fa-magnifying-glass"></i></Nav.Link>
               <Nav.Link href="https://github.com/RyanMontville/Bee-Inspection" target="_blank" rel="noreferrer"><i className="fa-brands fa-github"></i></Nav.Link>

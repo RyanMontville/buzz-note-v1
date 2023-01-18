@@ -7,7 +7,6 @@ function Notes(props) {
     const [newNotes, setNewNotes] = useState("");
     const [toggle, setToggle] = useState(false);
     const [updateAlert, setUpdateAlert] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("Warning: Submit button not working!");
 
     useEffect(() => {
         setNewNotes(props.notes);

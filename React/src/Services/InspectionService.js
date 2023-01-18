@@ -31,7 +31,7 @@ export function updateNotes(id, notes) {
   return fetch(`http://localhost:9000/inspections/${id}/notes`,{
     method: 'PUT',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify( notes )
+    body: notes
   }).then(data => data.json())
 }
 

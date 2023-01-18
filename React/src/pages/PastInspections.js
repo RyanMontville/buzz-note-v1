@@ -37,7 +37,6 @@ function PastInspections(props) {
             setCurrentId(currentId - 1);
         }
     }
-    //let jsonstr = JSON.stringify(currentInspection);
 
     return <div>
         <Header />
@@ -47,7 +46,7 @@ function PastInspections(props) {
                 <div>
                     <section className="inspection-navigation">
                         <button className={`button ${currentId === numberOfInspections ? "disabled" : ""}`} onClick={plusOne}><i className="fa-solid fa-arrow-left"></i> Previous</button>
-                        <span className="inspection-date">{currentInspection.inspectionDate} - {currentInspection.startTime}</span>
+                        <span className="inspection-date"> {currentInspection.inspectionDate} - {currentInspection.startTime}</span>
                         <button className={`button ${currentId === 0 ? "disabled" : ""}`} onClick={minusOne}>Next <i className="fa-solid fa-arrow-right"></i></button>
                     </section>
                     <InspectionDetail inspection={currentInspection} />

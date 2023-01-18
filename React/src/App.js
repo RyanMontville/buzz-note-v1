@@ -14,7 +14,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="newInspection" element={<NewInspection />} />
+          <Route path="newInspection/:id" element={<NewInspection />} />
           <Route path="pastInspections" element={<PastInspections />} />
           <Route path="search" element={<Search />} />
         </Routes>
