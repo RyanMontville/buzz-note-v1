@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import "./NewInspection.css"
 import { fillRestOfInspection } from '../Services/InspectionService';
+import { Alert } from 'react-bootstrap';
 
 function Inspection(props) {
     const inspectionId = props.id;
+    const [errorMessage, setErrorMessage] = useState("");
     const [temperament, setTemperament] = useState("");
     const [beePopulation, setBeePopulation] = useState("");
     const [dronePopulation, setDronePopulation] = useState("");
@@ -13,29 +15,56 @@ function Inspection(props) {
     const [pests, setPests] = useState("");
 
     let navigate = useNavigate();
-    function finish() {
-        const inspection = {
-            inspectionId: inspectionId,
-            weatherTemp: 0,
-            weatherCondition: "Rain",
-            startTime: "",
-            inspectionDate: "",
-            beeTemperament: temperament,
-            beePopulation: beePopulation,
-            dronePopulation: dronePopulation,
-            layingPattern: laying,
-            hiveBeetles: beetles,
-            otherPests: pests,
-            notes: "",
-            boxThree: props.boxes.boxThree,
-            boxTwo: props.boxes.boxTwo,
-            boxOne: props.boxes.boxOne
+    function handleSubmit(e) {
+        e.preventDefault();
+        setErrorMessage("");
+        if(temperament!=="" && beePopulation!=="" && dronePopulation!=="" && laying!=="" && beetles!=="" && pests!=="") {
+            const inspection = {
+                inspectionId: inspectionId,
+                weatherTemp: 0,
+                weatherCondition: "Rain",
+                startTime: "",
+                inspectionDate: "",
+                beeTemperament: temperament,
+                beePopulation: beePopulation,
+                dronePopulation: dronePopulation,
+                layingPattern: laying,
+                hiveBeetles: beetles,
+                otherPests: pests,
+                notes: "",
+                boxThree: props.boxes.boxThree,
+                boxTwo: props.boxes.boxTwo,
+                boxOne: props.boxes.boxOne
+            }
+            fillRestOfInspection(inspection);
+            navigate("/");
+        } else {
+            let notFilledIn = [];
+            if(temperament===""){
+                notFilledIn.push("Bee Temperament");
+            }
+            if(beePopulation===""){
+                notFilledIn.push("Bee Population");
+            }
+            if(dronePopulation===""){
+                notFilledIn.push("Drone Population");
+            }
+            if(laying===""){
+                notFilledIn.push("Laying Pattern");
+            }
+            if(beetles===""){
+                notFilledIn.push("Hive Beetles")
+            }
+            if(pests===""){
+                notFilledIn.push("Other Pests");
+            }
+            let str = notFilledIn.toString();
+            setErrorMessage("Please select a value for the following: " + str);
         }
-        fillRestOfInspection(inspection);
-        navigate("/");
+        
     }
 
-    return <form>
+    return <form onSubmit={handleSubmit}>
         <section id="end-header">
             <h2>End of Inspection</h2>
         </section>
@@ -75,7 +104,10 @@ function Inspection(props) {
             <RadioButton label="Few" value={pests === 'few'} name="pests" color="yellow" id="opf" onChange={e => setPests('few')} />
             <RadioButton label="Lots" value={pests === 'lots'} name="pests" color="red" id="opl" onChange={e => setPests('lots')} />
         </section>
-        <button className="button" onClick={finish}>Finish Inspection</button>
+        {errorMessage.length>0 &&
+            <Alert key="danger" variant="danger">{errorMessage}</Alert>
+        }
+        <button type="submit" className="button">Finish Inspection</button>
     </form>
 };
 

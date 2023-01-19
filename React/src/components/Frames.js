@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import "./NewInspection.css"
 import { addNewFrame } from '../Services/InspectionService';
+import { Alert } from 'react-bootstrap';
 
 function Frames(props) {
     /*********************************** STATES ************************************************/
@@ -11,6 +12,7 @@ function Frames(props) {
         side: "A",
     }
     const [frameNum, setFrameNum] = useState(FRAME_INITIAL_STATE);
+    const [errorMessage, setErrorMessage] = useState("");
     const [honey, setHoney] = useState("");
     const [nectar, setNectar] = useState("");
     const broodsArray = [
@@ -104,40 +106,57 @@ function Frames(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        //send through api
-        if (queen === true) {
-            if (box === 3) {
-                setBox3("Box 3 - " + frameNum.number + frameNum.side);
+        setErrorMessage(""); 
+        if(honey !== "" && nectar !== "" && comb !== ""){
+            if (queen === true) {
+                if (box === 3) {
+                    setBox3("Box 3 - " + frameNum.number + frameNum.side);
+                }
+                if (box === 2) {
+                    setBox2("Box 2 - " + frameNum.number + frameNum.side);
+                }
+                if (box === 1) {
+                    setBox1("Box 1 - " + frameNum.number + frameNum.side);
+                }
             }
-            if (box === 2) {
-                setBox2("Box 2 - " + frameNum.number + frameNum.side);
+            let frame = {
+                inspectionId: inspectionId,
+                boxNumber: box,
+                frameName: frameNum.number+frameNum.side,
+                combPattern: comb,
+                honey: honey,
+                nectar: nectar,
+                brood: broods,
+                cells: cells,
+                queenSpotted: queen
             }
-            if (box === 1) {
-                setBox1("Box 1 - " + frameNum.number + frameNum.side);
+            addNewFrame(frame);
+            e.target.reset();
+            nextFrame();
+            setHoney("");
+            setNectar("");
+            setBroods("");
+            setBroodChecked(BROOD_INITIAL_STATE);
+            setCellChecked(CELLS_INITIAL_STATE);
+            setCells("");
+            setQueen(false);
+            setComb("");
+        } else {
+            let notFilledIn = [];
+            if(honey===""){
+                notFilledIn.push("Honey");
             }
+            if(nectar===""){
+                notFilledIn.push("Nectar");
+            }
+            if(comb===""){
+                notFilledIn.push("Comb Pattern")
+            }
+            let str = notFilledIn.toString();
+            setErrorMessage("Please select a value for the following: " + str);
         }
-        let frame = {
-            inspectionId: inspectionId,
-            boxNumber: box,
-            frameName: frameNum.number+frameNum.side,
-            combPattern: comb,
-            honey: honey,
-            nectar: nectar,
-            brood: broods,
-            cells: cells,
-            queenSpotted: queen
-        }
-        addNewFrame(frame);
-        e.target.reset();
-        nextFrame();
-        setHoney("");
-        setNectar("");
-        setBroods("");
-        setBroodChecked(BROOD_INITIAL_STATE);
-        setCellChecked(CELLS_INITIAL_STATE);
-        setCells("");
-        setQueen(false);
-        setComb("");
+        
+        
     }
 
     function finishFrames() {
@@ -222,6 +241,9 @@ function Frames(props) {
         <RadioButton label="Good" value={comb === 'good'} name="comb" color="green" id="cg" onChange={e => setComb('good')} />
         <RadioButton label="Burr" value={comb === 'burr'} name="comb" color="yellow" id="cb" onChange={e => setComb('burr')} />
         </section>
+        {errorMessage.length>0 &&
+            <Alert key="danger" variant="danger">{errorMessage}</Alert>
+        }
 
         {frameNum.number === 10 && frameNum.side === "B" &&
             <div>

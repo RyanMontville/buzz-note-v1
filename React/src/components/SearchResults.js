@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Accordion, Alert, Badge } from 'react-bootstrap';
+import { Accordion, Alert, Badge } from 'react-bootstrap';
 import "../pages/Page.css";
 import InspectionDetail from '../components/InspectionDetail';
 import Notes from '../components/Notes';

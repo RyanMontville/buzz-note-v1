@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-
 import Header from '../components/Header';
 import InspectionDetail from '../components/InspectionDetail';
 import Notes from '../components/Notes';

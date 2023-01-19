@@ -16,7 +16,11 @@ function Search(props) {
             })
     });
 
-    const searchNotes = inspectionList.filter(inspection => {
+    const hasNotes = inspectionList.filter(inspection => {
+        return inspection.notes !== null;
+    })
+
+    const searchNotes = hasNotes.filter(inspection => {
         return inspection.notes.toLowerCase().includes(notesSearchTerm.toLowerCase());
     });
 
