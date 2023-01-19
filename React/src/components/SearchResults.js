@@ -4,7 +4,8 @@ import "../pages/Page.css";
 import InspectionDetail from '../components/InspectionDetail';
 import Notes from '../components/Notes';
 import FramesDetail from '../components/FramesDetail';
-function SearchResults(props) {
+
+export function SearchResultsSingle(props) {
 
     return <div>
         {props.searchTerm.length > 0 &&
@@ -30,4 +31,28 @@ function SearchResults(props) {
     </div>;
 };
 
-export default SearchResults;
+export function SearchResultsMinMax(props) {
+
+    return <div>
+        {props.min!=="" && props.max!=="" &&
+            <div>
+                <Alert key="success" variant="success">Search Results with {props.term} between {props.min} and {props.max}</Alert>
+                {props.inspections.length === 0 &&
+                    <p>No Results</p>
+                }
+                <Accordion>
+                    {props.inspections.map(inspection => (
+                        <Accordion.Item eventKey={inspection.inspectionId}>
+                            <Accordion.Header><h3><Badge bg="secondary">#{inspection.inspectionId}</Badge> {inspection.inspectionDate} {inspection.startTime}</h3></Accordion.Header>
+                            <Accordion.Body>
+                                <InspectionDetail inspection={inspection} />
+                                <FramesDetail inspection={inspection} />
+                                <Notes notes={inspection.notes} id={inspection.inspection} />
+                            </Accordion.Body>
+                        </Accordion.Item>
+                    ))}
+                </Accordion>
+            </div>
+        }
+    </div>;
+};
