@@ -13,6 +13,20 @@ function Search(props) {
         maxTemp: ""
     })
 
+    const weatherConditions = [
+        {label: '', value: ''},
+        {label: 'Clear Sky', value: 'Clear Sky'},
+        {label: 'Partly Cloudy', value: 'Partly Cloudy'},
+        {label: 'Overcast', value: 'Overcast'},
+        {label: 'Fog', value: 'Fog'},
+        {label: 'Drizzle', value: 'Drizzle'},
+        {label: 'Rain', value: 'Rain'},
+        {label: 'Freezing Rain', value: 'Freezing Rain'},
+        {label: 'Snow', value: 'Snow'},
+        {label: 'Thunderstorm', value: 'Thunderstorm'},
+        {label: 'Other', value: 'Unknown'}
+    ]
+
     function setTemps(number, position) {
         if (position === "min") {
             setTempSearch({
@@ -78,14 +92,11 @@ function Search(props) {
             />
             <hr />
             <h3>Search Weather</h3>
-            <label for="weatherSearch">Condition: </label>
-            <input
-                type="text"
-                id="weatherSearch"
-                onChange={e => setWeatherSearchTerm(e.target.value)}
+            <Select
+                label="Condition: "
+                options={weatherConditions}
                 value={weatherSearchTerm}
-                placeholder="search"
-                className='searchBox'
+                onChange={e => setWeatherSearchTerm(e.target.value)}
             />
             <br />
             <br />
@@ -107,5 +118,16 @@ function Search(props) {
         </main>
     </div>;
 };
+
+function Select({ label, value, options, onChange }) {
+    return <label>
+        {label}
+        <select value={value} onChange={onChange}>
+            {options.map((option) => (
+                <option value={option.value}>{option.label}</option>
+            ))}
+        </select>
+    </label>
+}
 
 export default Search;

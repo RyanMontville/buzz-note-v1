@@ -4,7 +4,7 @@ import com.montesown.BeeTracker.WeatherService;
 import com.montesown.BeeTracker.dao.FrameDao;
 import com.montesown.BeeTracker.dao.InspectionDao;
 import com.montesown.BeeTracker.model.BoxSet;
-import com.montesown.BeeTracker.model.Forcast;
+import com.montesown.BeeTracker.model.Forecast;
 import com.montesown.BeeTracker.model.Frame;
 import com.montesown.BeeTracker.model.Inspection;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,8 +72,8 @@ public class InspectionController {
 
     @RequestMapping(path = "/getWeather",method = RequestMethod.GET)
     public String getWeather() throws Exception {
-        Forcast forcast = weatherService.getCurrentWeather();
-        String weather = "The current weather is " + forcast.getTemp() + "F and " + forcast.getCondition();
+        Forecast forecast = weatherService.getCurrentWeather();
+        String weather = "The current weather is " + forecast.getTemp() + "F and " + forecast.getCondition();
         return weather;
     }
 

@@ -1,15 +1,13 @@
 package com.montesown.BeeTracker.dao;
 
 import com.montesown.BeeTracker.WeatherService;
-import com.montesown.BeeTracker.model.Forcast;
+import com.montesown.BeeTracker.model.Forecast;
 import com.montesown.BeeTracker.model.Inspection;
-import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -64,9 +62,9 @@ public class JdbcInspectionDao implements InspectionDao {
         Date date = new Date();
         formatter = new SimpleDateFormat("hh:mm:ss");
         String strTime = formatter.format(date);
-        //Forcast forcast = weatherService.getCurrentWeather();
-        int temperature = 32;
-        String condition = "snow";
+        Forecast forecast = weatherService.getCurrentWeather();
+        double temperature = forecast.getTemp();
+        String condition = forecast.getCondition();
         String sql = "INSERT INTO public.inspection(inspection_date, start_time, weather_temp, weather_condition)VALUES (?,?,?,?)  RETURNING inspection_id;";
         Integer newId = jdbcTemplate.queryForObject(sql, Integer.class,strDate,strTime,temperature,condition);
         return newId;

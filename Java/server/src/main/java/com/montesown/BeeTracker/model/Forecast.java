@@ -1,21 +1,21 @@
 package com.montesown.BeeTracker.model;
 
-public class Forcast {
-    private int temp;
+public class Forecast {
+    private double temp;
     private String condition;
     private int icon;
 
-    public Forcast(int temp, String condition, int icon) {
+    public Forecast(double temp, String condition, int icon) {
         this.temp = temp;
         this.condition = condition;
         this.icon = icon;
     }
 
-    public int getTemp() {
+    public double getTemp() {
         return temp;
     }
 
-    public void setTemp(int temp) {
+    public void setTemp(double temp) {
         this.temp = temp;
     }
 
