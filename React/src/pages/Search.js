@@ -1,19 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Header from '../components/Header';
 import "./Page.css";
 import { SearchResultsSingle, SearchResultsMinMax } from '../components/SearchResults';
-import { getListOfInspections } from '../Services/InspectionService';
+import { getInspectionsBetweenDates } from '../Services/InspectionService';
 import { weatherConditions } from '../components/Arrays';
+import {  Alert } from 'react-bootstrap';
 
 function Search(props) {
+
+    function getBetweenDates() {
+        getInspectionsBetweenDates(dateSearch.startDate, dateSearch.endDate)
+            .then((result) => {
+                setInspectionList(result);
+            });
+            setDatesSet(true);
+    }
+
     const [inspectionList, setInspectionList] = useState([]);
+    const [datesSet, setDatesSet] = useState(false);
     const [notesSearchTerm, setNotesSearchTerm] = useState("");
     const [weatherSearchTerm, setWeatherSearchTerm] = useState("");
     const [tempSearch, setTempSearch] = useState({
         minTemp: "",
         maxTemp: ""
     });
-    const [datSearch, setDateSearch] = useState({
+    const [dateSearch, setDateSearch] = useState({
         startDate: "",
         endDate: ""
     })
@@ -33,38 +44,42 @@ function Search(props) {
     }
 
     function setDates(date, position) {
-        if(position === "start") {
+        if (position === "start") {
             setDateSearch({
                 startDate: date,
-                endDate: datSearch.endDate
+                endDate: dateSearch.endDate
             })
         } else {
             setDateSearch({
-                startDate: datSearch.startDate,
+                startDate: dateSearch.startDate,
                 endDate: date
             })
         }
     }
 
-    function clearAll() {
+    function clearDateRange() {
+        setDateSearch({
+            startDate: "",
+            endDate: ""
+        });
+        setInspectionList([]);
+        setDatesSet(false);
         setNotesSearchTerm("");
         setWeatherSearchTerm("");
         setTempSearch({
             minTemp: "",
             maxTemp: ""
         });
-        setDateSearch({
-            startDate: "",
-            endDate: ""
-        });
     }
 
-    useEffect(() => {
-        getListOfInspections()
-            .then((result) => {
-                setInspectionList(result);
-            })
-    });
+    function clearSearchTerms() {
+        setNotesSearchTerm("");
+        setWeatherSearchTerm("");
+        setTempSearch({
+            minTemp: "",
+            maxTemp: ""
+        });
+    }
 
     const hasNotes = inspectionList.filter(inspection => {
         return inspection.notes !== null;
@@ -86,10 +101,34 @@ function Search(props) {
         }
     })
 
+
     return <div>
         <Header />
         <main>
-            <button className='button red right' onClick={clearAll}>Clear all inputs</button>
+            <button className='button red right' onClick={clearDateRange}>Clear Date Range</button>
+            <h2>Step 1: Select date range, then hit GO</h2>
+            <label for="startDate">Dates between </label>
+            <input
+                type="date"
+                id="startDate"
+                value={dateSearch.startDate}
+                onChange={e => setDates(e.target.value, "start")}
+            />
+            <label for="endDate"> and </label>
+            <input
+                type="date"
+                id="endDate"
+                value={dateSearch.endDate}
+                onChange={e => setDates(e.target.value, "end")}
+            />
+            <button onClick={getBetweenDates} className='button green'>Go</button>
+            {dateSearch.startDate!=="" && dateSearch.endDate!=="" && datesSet &&
+                <Alert key="success" variant="success">{inspectionList.length} inspections with dates between {dateSearch.startDate} and {dateSearch.endDate}</Alert>
+            }
+            
+            <hr />
+            <button className='button red right' onClick={clearSearchTerms}>Clear Search Inputs</button>
+            <h2>Step 2: Choose what to search for</h2>
             <label for="notesSearch"><h3>Search notes: </h3></label>
             <input
                 type="text"
@@ -99,7 +138,7 @@ function Search(props) {
                 placeholder="search"
                 className='searchBox'
             />
-            <hr />
+            <br />
             <h3>Search Weather</h3>
             <Select
                 label="Condition: "
@@ -126,26 +165,10 @@ function Search(props) {
                 onChange={e => setTemps(e.target.value, "max")}
             />
             <hr />
-            <h3>Search by date</h3>
-            <p>(W.I.P.)</p>
-            <label for="startDate">between </label>
-            <input
-                type="date"
-                id="startDate"
-                value={datSearch.startDate}
-                onChange={e => setDates(e.target.value, "start")}
-            />
-            <label for="endDate"> and </label>
-            <input
-                type="date"
-                id="endDate"
-                value={datSearch.endDate}
-                onChange={e => setDates(e.target.value, "end")}
-            />
-            <button><i className="fa-solid fa-magnifying-glass"></i></button>
-            <SearchResultsSingle searchTerm={notesSearchTerm} inspections={searchNotes} />
-            <SearchResultsSingle searchTerm={weatherSearchTerm} inspections={searchWeather} />
-            <SearchResultsMinMax min={tempSearch.minTemp} max={tempSearch.maxTemp} term="temperatures" inspections={searchTemperature} />
+            <h2>Step 3: Results</h2>
+            <SearchResultsSingle searchTerm={notesSearchTerm} inspections={searchNotes} datesSet={datesSet} />
+            <SearchResultsSingle searchTerm={weatherSearchTerm} inspections={searchWeather} datesSet={datesSet}/>
+            <SearchResultsMinMax min={tempSearch.minTemp} max={tempSearch.maxTemp} term="temperatures" inspections={searchTemperature} datesSet={datesSet} />
         </main>
     </div>;
 };

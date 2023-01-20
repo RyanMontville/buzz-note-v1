@@ -48,3 +48,6 @@ The React app is now fully functional.
 ## v 1.1
 -I have found a new weather api, Open Metro, so the weather can once again be properly recorded.
 <br>-I have also fixed the bug when adding/updating notes. I just pass the string instead of stringifying it.
+
+## v 1.2
+-I have completely redone the search page. Now you select a data range to search within, then the search term.

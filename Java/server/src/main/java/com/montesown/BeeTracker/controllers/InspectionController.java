@@ -33,6 +33,11 @@ public class InspectionController {
     @RequestMapping(path = "/inspections",method = RequestMethod.GET)
     public List<Inspection> list() { return inspectionDao.list(); }
 
+    @RequestMapping(path = "/inspections/{startDate}/{endDate}", method = RequestMethod.GET)
+    public List<Inspection> searchDates(@PathVariable String startDate, @PathVariable String endDate) {
+        return inspectionDao.searchByDate(startDate,endDate);
+    }
+
     @RequestMapping(path = "/numberOfInspections", method = RequestMethod.GET)
     public int numberOfInspections() { return inspectionDao.list().size(); }
 

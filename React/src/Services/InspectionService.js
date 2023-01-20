@@ -8,6 +8,9 @@ export function getFramesForId(id) {
   return fetch(`http://localhost:9000/inspection/${id}/frames`).then(res => res.json());
 }
 
+export function getInspectionsBetweenDates(startDate,endDate){
+  return fetch(`http://localhost:9000/inspections/${startDate}/${endDate}`).then(res => res.json());
+}
 /**************************************** Posts *****************************************/
 export function startNewInspection() {
   return fetch('http://localhost:9000/inspections',{

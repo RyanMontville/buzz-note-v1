@@ -85,23 +85,18 @@ public class JdbcInspectionDao implements InspectionDao {
     }
 
     @Override
-    public List<Inspection> serchByTemp(int low, int high) {
+    public List<Inspection> searchByDate(String startDate, String endDate) {
         List<Inspection> inspections = new ArrayList<>();
-        String sql = "SELECT inspection_id, inspection_date, start_time, weather_temp, weather_condition, bee_temperament, bee_population, drone_population, laying_pattern, " +
-                "hive_beetles, other_pests, notes, box_three, box_two, box_one FROM public.inspection where weather_temp BETWEEN ? AND ?;";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql,low,high);
+        String sql = "SELECT inspection_id, inspection_date, start_time, weather_temp, weather_condition, " +
+                "bee_temperament, bee_population, drone_population, laying_pattern, hive_beetles, other_pests, notes, box_three, box_two, box_one " +
+                "FROM public.inspection  " +
+                "WHERE inspection_date ::date > to_date(?,'YYYY-MM-DD') AND inspection_date ::date < to_date(?,'YYYY-MM-DD');";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql,startDate,endDate);
         while (results.next()){
             inspections.add(mapRowToInspection(results));
         }
         return inspections;
     }
-
-    /**@Override
-    public List<Inspection> searchByDate(String startDate, String endDate) {
-
-    }**/
-
-    //TODO: add get inspection by <...> to filter results
 
     private Inspection mapRowToInspection(SqlRowSet rowSet){
         Inspection inspection = new Inspection();

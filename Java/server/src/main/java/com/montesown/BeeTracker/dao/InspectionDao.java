@@ -18,9 +18,7 @@ public interface InspectionDao {
 
     void updateInspection(Inspection inspection);
 
-    List<Inspection> serchByTemp(int low,int high);
-
-    //List<Inspection> searchByDate(String startDate, String endDate);
+    List<Inspection> searchByDate(String startDate, String endDate);
 
 
 }

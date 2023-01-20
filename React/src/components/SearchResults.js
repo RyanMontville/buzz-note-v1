@@ -8,12 +8,15 @@ import FramesDetail from '../components/FramesDetail';
 export function SearchResultsSingle(props) {
 
     return <div>
-        {props.searchTerm.length > 0 &&
+        {props.searchTerm.length > 0 && !props.datesSet &&
+            <Alert key="danger" variant="danger">Complete Step 1 first!</Alert>
+        }
+        {props.searchTerm.length > 0 && props.datesSet && props.inspections.length === 0 &&
+            <Alert key="danger" variant="danger">No Results for "{props.searchTerm}"</Alert>
+        }
+        {props.searchTerm.length > 0 && props.datesSet && props.inspections.length > 0 &&
             <div>
-                <Alert key="success" variant="success">Search Results for "{props.searchTerm}"</Alert>
-                {props.inspections.length === 0 &&
-                    <p>No Results</p>
-                }
+                <Alert key="success" variant="success">{props.inspections.length} results for "{props.searchTerm}"</Alert>
                 <Accordion>
                     {props.inspections.map(inspection => (
                         <Accordion.Item eventKey={inspection.inspectionId}>
@@ -34,11 +37,13 @@ export function SearchResultsSingle(props) {
 export function SearchResultsMinMax(props) {
 
     return <div>
-        {props.min!=="" && props.max!=="" &&
+        {props.min !== "" && props.max !== "" && props.inspections.length === 0 &&
+            <Alert key="danger" variant="danger">No Results for {props.term} between {props.min} and {props.max}</Alert>
+        }
+        {props.min !== "" && props.max !== "" && props.inspections.length > 0 &&
             <div>
-                <Alert key="success" variant="success">Search Results with {props.term} between {props.min} and {props.max}</Alert>
-                {props.inspections.length === 0 &&
-                    <p>No Results</p>
+                {props.term !== "dates" &&
+                    <Alert key="success" variant="success">{props.inspections.length} results with {props.term} between {props.min} and {props.max}</Alert>
                 }
                 <Accordion>
                     {props.inspections.map(inspection => (
