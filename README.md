@@ -30,7 +30,7 @@ My parents are bee keepers as a hobby. They wanted to start recording the state 
 
 ## V 0.3.1
 -I believe I have created all of the API endpoints that I will need for the app. The current version is still all local, but I have a working API that can interact with a database and provide all of the functions the final app will have in a CLI
--Next steps are to look into using the DOM and event handling to create the pages, and attempt to move the app to my website's server.
+<br>-Next steps are to look into using the DOM and event handling to create the pages, and attempt to move the app to my website's server.
 
 ## V 0.3.2
 -The app now calls the current weather temperature and weather condition for my parents house from the Accuweather API. 
@@ -40,7 +40,11 @@ I have created a React.js app working towards the finished project.
 
 ## v 1.0 
 The React app is now fully functional. 
--You are now able to start a new inspection, record all the frames, then record the overall observations. 
--You can view past inspections, add/updates notes
--You can search past inspections
--Things to work out: the weather api I was using has reached its max limit, so I need to find a different api or have the user manually input the weather. Updating the notes adds quotation marks around the string and if you update it, it then treats the quotes as escape characters and it get worse every update.
+<br>-You are now able to start a new inspection, record all the frames, then record the overall observations. 
+<br>-You can view past inspections, add/updates notes
+<br>-You can search past inspections
+<br>-Things to work out: the weather api I was using has reached its max limit, so I need to find a different api or have the user manually input the weather. Updating the notes adds quotation marks around the string and if you update it, it then treats the quotes as escape characters and it get worse every update.
+
+## v 1.1
+-I have found a new weather api, Open Metro, so the weather can once again be properly recorded.
+<br>-I have also fixed the bug when adding/updating notes. I just pass the string instead of stringifying it.
