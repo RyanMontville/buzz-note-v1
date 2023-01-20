@@ -8,7 +8,7 @@ function Header(props) {
   function handleStartClick() {
     startNewInspection()
       .then(data => {
-        navigate(`newInspection/${data}`);
+        navigate(`/newInspection/${data}`);
       });
   }
   //const title = "Monte's Own";

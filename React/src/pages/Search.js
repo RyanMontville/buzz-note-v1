@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import "./Page.css";
 import { SearchResultsSingle, SearchResultsMinMax } from '../components/SearchResults';
 import { getListOfInspections } from '../Services/InspectionService';
+import { weatherConditions } from '../components/Arrays';
 
 function Search(props) {
     const [inspectionList, setInspectionList] = useState([]);
@@ -11,21 +12,11 @@ function Search(props) {
     const [tempSearch, setTempSearch] = useState({
         minTemp: "",
         maxTemp: ""
+    });
+    const [datSearch, setDateSearch] = useState({
+        startDate: "",
+        endDate: ""
     })
-
-    const weatherConditions = [
-        {label: '', value: ''},
-        {label: 'Clear Sky', value: 'Clear Sky'},
-        {label: 'Partly Cloudy', value: 'Partly Cloudy'},
-        {label: 'Overcast', value: 'Overcast'},
-        {label: 'Fog', value: 'Fog'},
-        {label: 'Drizzle', value: 'Drizzle'},
-        {label: 'Rain', value: 'Rain'},
-        {label: 'Freezing Rain', value: 'Freezing Rain'},
-        {label: 'Snow', value: 'Snow'},
-        {label: 'Thunderstorm', value: 'Thunderstorm'},
-        {label: 'Other', value: 'Unknown'}
-    ]
 
     function setTemps(number, position) {
         if (position === "min") {
@@ -41,13 +32,31 @@ function Search(props) {
         }
     }
 
+    function setDates(date, position) {
+        if(position === "start") {
+            setDateSearch({
+                startDate: date,
+                endDate: datSearch.endDate
+            })
+        } else {
+            setDateSearch({
+                startDate: datSearch.startDate,
+                endDate: date
+            })
+        }
+    }
+
     function clearAll() {
         setNotesSearchTerm("");
         setWeatherSearchTerm("");
         setTempSearch({
             minTemp: "",
             maxTemp: ""
-        })
+        });
+        setDateSearch({
+            startDate: "",
+            endDate: ""
+        });
     }
 
     useEffect(() => {
@@ -104,14 +113,36 @@ function Search(props) {
             <input
                 type="number"
                 id="minTemp"
+                value={tempSearch.minTemp}
+                placeholder="#"
                 onChange={e => setTemps(e.target.value, "min")}
             />
             <label for="maxTemp"> and </label>
             <input
                 type="number"
                 id="maxTemp"
+                value={tempSearch.maxTemp}
+                placeholder="#"
                 onChange={e => setTemps(e.target.value, "max")}
             />
+            <hr />
+            <h3>Search by date</h3>
+            <p>(W.I.P.)</p>
+            <label for="startDate">between </label>
+            <input
+                type="date"
+                id="startDate"
+                value={datSearch.startDate}
+                onChange={e => setDates(e.target.value, "start")}
+            />
+            <label for="endDate"> and </label>
+            <input
+                type="date"
+                id="endDate"
+                value={datSearch.endDate}
+                onChange={e => setDates(e.target.value, "end")}
+            />
+            <button><i className="fa-solid fa-magnifying-glass"></i></button>
             <SearchResultsSingle searchTerm={notesSearchTerm} inspections={searchNotes} />
             <SearchResultsSingle searchTerm={weatherSearchTerm} inspections={searchWeather} />
             <SearchResultsMinMax min={tempSearch.minTemp} max={tempSearch.maxTemp} term="temperatures" inspections={searchTemperature} />

@@ -61,11 +61,12 @@ nav, .navbar-brand {
     font-size: 30px;
 }
 
-input[type=number] {
-    width: 50px;
+input[type=number], input[type=date] {
     margin: 0 5px;
     padding: 2px;
 }
+
+input[type=number] {width: 50px;}
 
 .right {
     position: absolute;

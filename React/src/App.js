@@ -14,9 +14,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="newInspection/:id" element={<NewInspection />} />
-          <Route path="pastInspections" element={<PastInspections />} />
-          <Route path="search" element={<Search />} />
+          <Route path="/newInspection/:id" element={<NewInspection />} />
+          <Route path="/pastInspections" element={<PastInspections />} />
+          <Route path="/search" element={<Search />} />
         </Routes>
       </BrowserRouter>
     </div>

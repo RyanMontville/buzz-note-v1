@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import "./NewInspection.css"
 import { addNewFrame } from '../Services/InspectionService';
 import { Alert } from 'react-bootstrap';
+import { broodsArray, cellsArray } from './Arrays';
 
 function Frames(props) {
     /*********************************** STATES ************************************************/
@@ -15,20 +16,9 @@ function Frames(props) {
     const [errorMessage, setErrorMessage] = useState("");
     const [honey, setHoney] = useState("");
     const [nectar, setNectar] = useState("");
-    const broodsArray = [
-        {name: "Eggs",value: 0},
-        {name: "Larvae",value: 1},
-        {name: "Pupae", value: 2},
-        {name: "None", value: 3}
-    ];
     const BROOD_INITIAL_STATE = new Array(broodsArray.length).fill(false);
     const [broodChecked, setBroodChecked] = useState(BROOD_INITIAL_STATE);
     const [broods, setBroods] = useState("");
-    const cellsArray = [
-        {name: "Queen",value: 0},
-        {name: "Super",value: 1},
-        {name: "None", value: 2}
-    ];
     const CELLS_INITIAL_STATE = new Array(cellsArray.length).fill(false);
     const [cellChecked, setCellChecked] = useState(CELLS_INITIAL_STATE);
     const [cells, setCells] = useState("");
@@ -265,7 +255,7 @@ function Frames(props) {
     </form>;
 };
 
-const RadioButton = ({ label, id, value, name, color, onChange }) => {
+function RadioButton({ label, id, value, name, color, onChange }) {
     return (
         <>
             <input type="radio" checked={value} name={name} id={id} onChange={onChange} />
