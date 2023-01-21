@@ -1,12 +1,10 @@
 package com.montesown.BeeTracker.controllers;
 
 import com.montesown.BeeTracker.WeatherService;
+import com.montesown.BeeTracker.dao.AverageDao;
 import com.montesown.BeeTracker.dao.FrameDao;
 import com.montesown.BeeTracker.dao.InspectionDao;
-import com.montesown.BeeTracker.model.BoxSet;
-import com.montesown.BeeTracker.model.Forecast;
-import com.montesown.BeeTracker.model.Frame;
-import com.montesown.BeeTracker.model.Inspection;
+import com.montesown.BeeTracker.model.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,11 +21,13 @@ public class InspectionController {
 
     private InspectionDao inspectionDao;
     private FrameDao frameDao;
+    private AverageDao averageDao;
     private WeatherService weatherService = new WeatherService();
 
-    public InspectionController(InspectionDao inspectionDao,FrameDao frameDao) {
+    public InspectionController(InspectionDao inspectionDao,FrameDao frameDao, AverageDao averageDao) {
         this.inspectionDao = inspectionDao;
         this.frameDao = frameDao;
+        this.averageDao = averageDao;
     }
 
     /************************************************* GETS ***********************************************************/
@@ -71,8 +72,16 @@ public class InspectionController {
         List<Frame> BoxThree = frameDao.getFrameByInspectionAndBox(inspectionId,3);
         List<Frame> BoxTwo = frameDao.getFrameByInspectionAndBox(inspectionId,2);
         List<Frame> BoxOne = frameDao.getFrameByInspectionAndBox(inspectionId,1);
-        BoxSet results = new BoxSet(BoxThree,BoxTwo,BoxOne);
-        return results;
+        return new BoxSet(BoxThree,BoxTwo,BoxOne);
+    }
+
+    @RequestMapping(path = "/inspections/{inspectionId}/average", method = RequestMethod.GET)
+    public List<FrameAverage> getAveragesByInspectionId(@PathVariable int inspectionId) {
+        List<FrameAverage> averages = new ArrayList<>();
+        averages.add(averageDao.getFrameAverageByInspectionAndBox(inspectionId,3));
+        averages.add(averageDao.getFrameAverageByInspectionAndBox(inspectionId,2));
+        averages.add(averageDao.getFrameAverageByInspectionAndBox(inspectionId,1));
+        return averages;
     }
 
     @RequestMapping(path = "/getWeather",method = RequestMethod.GET)
@@ -92,6 +101,10 @@ public class InspectionController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/frames",method = RequestMethod.POST)
     public Frame newFrame(@RequestBody Frame frame) { return frameDao.createFrame(frame); }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(path = "/average",method = RequestMethod.POST)
+    public void postAverages(@RequestBody FrameAverage frameAverage) { averageDao.createAverage(frameAverage); }
 
     /************************************************* PUTS ***********************************************************/
     @RequestMapping(path = "/inspections/{inspectionId}/notes", method = RequestMethod.PUT)

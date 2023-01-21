@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "./NewInspection.css"
-import { addNewFrame } from '../Services/InspectionService';
+import { addNewFrame, addFrameAverage } from '../Services/InspectionService';
 import { Alert } from 'react-bootstrap';
 import { broodsArray, cellsArray } from './Arrays';
 
@@ -8,6 +8,7 @@ function Frames(props) {
     /*********************************** STATES ************************************************/
     const inspectionId = props.id;
     const [box, setBox] = useState(3);
+    /*********************************** Frame ************************************************/
     const FRAME_INITIAL_STATE = {
         number: 1,
         side: "A",
@@ -28,6 +29,26 @@ function Frames(props) {
     const [box3, setBox3] = useState("Box 3");
     const [box2, setBox2] = useState("Box 2");
     const [box1, setBox1] = useState("Box 1");
+
+    /********************************** Average ***********************************************/
+    const [honeyTotal, setHoneyTotal] = useState(0);
+    const [necatarTotal, setNectarTotal] = useState(0);
+    const [broodCount, setBroodCount] = useState({
+        eggs: 0,
+        larve: 0,
+        pupae: 0,
+        none: 0
+    })
+    const [cellsCount, setCellsCount] = useState({
+        queen: 0,
+        Supersedure: 0,
+        none: 0
+    })
+    const [combCount, setCombCount] = useState({
+        good: 0,
+        burr: 0
+    })
+    const [queenAvg, setQueenAvg] = useState('');
 
     /*************************** Checkbox functions *******************************************/
     const broodHandleChange = (position) => {
@@ -69,6 +90,16 @@ function Frames(props) {
     /*************************** Next/Skip functions *******************************************/
 
     function nextBox() {
+    /*************************************************************************************************/
+     * 
+     * 
+     * Insert code to do math on average counts
+     * create frame average
+     * post to database
+     * addFrameAverage();
+     * 
+     * 
+     /**********************************************************************************************/
         setBox(box - 1);
         setFrameNum(FRAME_INITIAL_STATE);
         setHoney("");
@@ -99,6 +130,7 @@ function Frames(props) {
         setErrorMessage(""); 
         if(honey !== "" && nectar !== "" && comb !== ""){
             if (queen === true) {
+                setQueenAvg(frameNum.number + frameNum.side);
                 if (box === 3) {
                     setBox3("Box 3 - " + frameNum.number + frameNum.side);
                 }
@@ -121,6 +153,16 @@ function Frames(props) {
                 queenSpotted: queen
             }
             addNewFrame(frame);
+        /**********************************************************************************************************/
+         * 
+         * 
+         * Insert adding to average counts here
+         * 
+         * 
+         * 
+         /* *******************************************************************************************************/
+        
+
             e.target.reset();
             nextFrame();
             setHoney("");

@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import InspectionDetail from '../components/InspectionDetail';
 import Notes from '../components/Notes';
 import FramesDetail from '../components/FramesDetail';
+import AverageDetails from '../components/AverageDetail';
 import "./Page.css";
 import loadingBee from "../loading.gif";
 import { getListOfInspections } from '../Services/InspectionService';
@@ -49,6 +50,7 @@ function PastInspections(props) {
                         <button className={`button ${currentId === 0 ? "disabled" : ""}`} onClick={minusOne}>Next <i className="fa-solid fa-arrow-right"></i></button>
                     </section>
                     <InspectionDetail inspection={currentInspection} />
+                    <AverageDetails inspection={currentInspection} />
                     <FramesDetail inspection={currentInspection} />
                     <Notes notes={currentInspection.notes} id={currentInspection.inspectionId} />
                     

@@ -4,6 +4,7 @@ import "../pages/Page.css";
 import InspectionDetail from '../components/InspectionDetail';
 import Notes from '../components/Notes';
 import FramesDetail from '../components/FramesDetail';
+import AverageDetails from './AverageDetail';
 
 export function SearchResults(props) {
 
@@ -18,6 +19,7 @@ export function SearchResults(props) {
                             <Accordion.Header><h3><Badge bg="secondary">#{inspection.inspectionId}</Badge> {inspection.inspectionDate} {inspection.startTime}</h3></Accordion.Header>
                             <Accordion.Body>
                                 <InspectionDetail inspection={inspection} />
+                                <AverageDetails inspection={inspection} />
                                 <FramesDetail inspection={inspection} />
                                 <Notes notes={inspection.notes} id={inspection.inspection} />
                             </Accordion.Body>

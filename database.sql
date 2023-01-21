@@ -1,5 +1,6 @@
 BEGIN TRANSACTION;
 DROP TABLE IF EXISTS frame;
+DROP TABLE IF EXISTS average;
 DROP TABLE IF EXISTS inspection;
 
 CREATE TABLE inspection
@@ -35,6 +36,21 @@ CREATE TABLE frame
 	queen_spotted boolean,
 	cells varchar(50),
 	CONSTRAINT pk_frame PRIMARY KEY (frame_id),
+	CONSTRAINT fk_inspection FOREIGN KEY (inspection_id) REFERENCES inspection (inspection_id)
+);
+
+CREATE TABLE average
+(
+	avg_id serial,
+	inspection_id int NOT null,
+	box_number int,
+	honey varchar(50),
+	nectar varchar(50),
+	brood varchar(50),
+	cells varchar(50),
+	comb_pattern varchar(50),
+	queen_spotted varchar(50),
+	CONSTRAINT pk_avg PRIMARY KEY (avg_id),
 	CONSTRAINT fk_inspection FOREIGN KEY (inspection_id) REFERENCES inspection (inspection_id)
 );
 
