@@ -68,7 +68,33 @@ input[type=number], input[type=date] {
 
 input[type=number] {width: 50px;}
 
+.include-notes input[type=radio] {display: none;}
+
+.include-notes input:checked + label {
+    opacity: 1;
+}
+
 .right {
     position: absolute;
     right: 5px;
+}
+
+.searchGroup {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+}
+
+.searchSelect {
+    font-size: 30px;
+    border-radius: 4px;
+}
+
+.gap-0-10 {
+    margin: 0 10px;
+}
+
+.gap-10-0 {
+    margin: 10px 0;
 }

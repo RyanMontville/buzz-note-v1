@@ -5,18 +5,13 @@ import InspectionDetail from '../components/InspectionDetail';
 import Notes from '../components/Notes';
 import FramesDetail from '../components/FramesDetail';
 
-export function SearchResultsSingle(props) {
+export function SearchResults(props) {
 
     return <div>
-        {props.searchTerm.length > 0 && !props.datesSet &&
-            <Alert key="danger" variant="danger">Complete Step 1 first!</Alert>
-        }
-        {props.searchTerm.length > 0 && props.datesSet && props.inspections.length === 0 &&
-            <Alert key="danger" variant="danger">No Results for "{props.searchTerm}"</Alert>
-        }
-        {props.searchTerm.length > 0 && props.datesSet && props.inspections.length > 0 &&
-            <div>
-                <Alert key="success" variant="success">{props.inspections.length} results for "{props.searchTerm}"</Alert>
+        {props.inspections.length === 0
+            ? <Alert key="danger" variant="danger">No Results</Alert>
+            : <>
+                <Alert key="success" variant="success">{props.inspections.length} results. {props.numWithNotes} have notes.</Alert>
                 <Accordion>
                     {props.inspections.map(inspection => (
                         <Accordion.Item eventKey={inspection.inspectionId}>
@@ -29,35 +24,7 @@ export function SearchResultsSingle(props) {
                         </Accordion.Item>
                     ))}
                 </Accordion>
-            </div>
-        }
-    </div>;
-};
-
-export function SearchResultsMinMax(props) {
-
-    return <div>
-        {props.min !== "" && props.max !== "" && props.inspections.length === 0 &&
-            <Alert key="danger" variant="danger">No Results for {props.term} between {props.min} and {props.max}</Alert>
-        }
-        {props.min !== "" && props.max !== "" && props.inspections.length > 0 &&
-            <div>
-                {props.term !== "dates" &&
-                    <Alert key="success" variant="success">{props.inspections.length} results with {props.term} between {props.min} and {props.max}</Alert>
-                }
-                <Accordion>
-                    {props.inspections.map(inspection => (
-                        <Accordion.Item eventKey={inspection.inspectionId}>
-                            <Accordion.Header><h3><Badge bg="secondary">#{inspection.inspectionId}</Badge> {inspection.inspectionDate} {inspection.startTime}</h3></Accordion.Header>
-                            <Accordion.Body>
-                                <InspectionDetail inspection={inspection} />
-                                <FramesDetail inspection={inspection} />
-                                <Notes notes={inspection.notes} id={inspection.inspection} />
-                            </Accordion.Body>
-                        </Accordion.Item>
-                    ))}
-                </Accordion>
-            </div>
+            </>
         }
     </div>;
 };

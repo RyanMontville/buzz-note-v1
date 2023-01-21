@@ -90,7 +90,7 @@ public class JdbcInspectionDao implements InspectionDao {
         String sql = "SELECT inspection_id, inspection_date, start_time, weather_temp, weather_condition, " +
                 "bee_temperament, bee_population, drone_population, laying_pattern, hive_beetles, other_pests, notes, box_three, box_two, box_one " +
                 "FROM public.inspection  " +
-                "WHERE inspection_date ::date > to_date(?,'YYYY-MM-DD') AND inspection_date ::date < to_date(?,'YYYY-MM-DD');";
+                "WHERE inspection_date ::date > to_date(?,'YYYY-MM-DD') AND inspection_date ::date < to_date(?,'YYYY-MM-DD') ORDER BY inspection_id ASC;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql,startDate,endDate);
         while (results.next()){
             inspections.add(mapRowToInspection(results));

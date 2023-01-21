@@ -12,6 +12,12 @@ const weatherConditions = [
     {label: 'Other', value: 'Unknown'}
 ]
 
+const searchOptions = [
+    {label: 'Show All', value: 'All'},
+    {label: 'Notes', value: 'Notes'},
+    {label: 'Weather', value: 'Weather'}
+]
+
 const broodsArray = [
     {name: "Eggs",value: 0},
     {name: "Larvae",value: 1},
@@ -26,5 +32,5 @@ const cellsArray = [
 ];
 
 export {
-    weatherConditions, broodsArray, cellsArray
+    weatherConditions, broodsArray, cellsArray, searchOptions
 }
