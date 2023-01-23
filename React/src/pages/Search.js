@@ -125,10 +125,10 @@ function Search(props) {
             />
             <button onClick={getBetweenDates} className='button green'>Go</button>
             {datesSet && inspectionList.length > 0 &&
-                <Alert key="success" variant="success">{inspectionList.length} inspections with dates between {dateSearch.startDate} and {dateSearch.endDate}</Alert>
+                <Alert key="success" variant="success">{inspectionList.length} inspection{inspectionList.length>1?'s':''} with dates between {dateSearch.startDate} and {dateSearch.endDate}</Alert>
             }
             {datesSet && inspectionList.length === 0 &&
-                <Alert key="danger" variant="danger">{inspectionList.length} inspections with dates between {dateSearch.startDate} and {dateSearch.endDate}</Alert>
+                <Alert key="danger" variant="danger">0 inspections with dates between {dateSearch.startDate} and {dateSearch.endDate}</Alert>
             }
             {datesSet && inspectionList.length > 0 &&
                 <>

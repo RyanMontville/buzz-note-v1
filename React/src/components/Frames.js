@@ -31,23 +31,26 @@ function Frames(props) {
     const [box1, setBox1] = useState("Box 1");
 
     /********************************** Average ***********************************************/
-    const [honeyTotal, setHoneyTotal] = useState(0);
-    const [nectarTotal, setNectarTotal] = useState(0);
-    const [broodCount, setBroodCount] = useState({
+    const BROOD_COUNT_INITIAL_STATE = {
         eggs: 0,
         larve: 0,
         pupae: 0,
         none: 0
-    })
-    const [cellsCount, setCellsCount] = useState({
+    }
+    const CELLS_COUNT_INITIAL_STATE = {
         queen: 0,
         Supersedure: 0,
         none: 0
-    })
-    const [combCount, setCombCount] = useState({
+    }
+    const COMBCOUNT_INITIAL_STATE = {
         good: 0,
         burr: 0
-    })
+    }
+    const [honeyTotal, setHoneyTotal] = useState(0);
+    const [nectarTotal, setNectarTotal] = useState(0);
+    const [broodCount, setBroodCount] = useState(BROOD_COUNT_INITIAL_STATE);
+    const [cellsCount, setCellsCount] = useState(CELLS_COUNT_INITIAL_STATE);
+    const [combCount, setCombCount] = useState(COMBCOUNT_INITIAL_STATE);
     const [queenAvg, setQueenAvg] = useState('');
     const [numberOfFrames, setNumberOfFrames] = useState(0);
 
@@ -91,26 +94,38 @@ function Frames(props) {
     /*************************** Next/Skip functions *******************************************/
 
     function nextBox() {
-        //calculate box averages and post to database
-        let queenStr = '';
-        if (queenAvg === '') {
-            queenStr = 'The queen was not spotted in box ' + box;
-        } else {
-            queenStr = 'The queen was spotted in frame ' + queenAvg;
+        //calculate box averages and post to database if "next box" was clicked, not "skip box"
+        if (numberOfFrames !== 0) {
+            let queenStr = '';
+            if (queenAvg === '') {
+                queenStr = 'Not Spotted';
+            } else {
+                queenStr = 'Frame ' + queenAvg;
+            }
+            let averageFrame = {
+                inspectionId: inspectionId,
+                boxNumber: box,
+                honey: Math.round(honeyTotal * 5),
+                nectar: Math.round(nectarTotal * 5),
+                brood: Math.round((broodCount.eggs / numberOfFrames) * 100) + "% EggsX" + Math.round((broodCount.larve / numberOfFrames) * 100) + "% LarveX" + Math.round((broodCount.pupae / numberOfFrames) * 100) + "% PupaeX" + Math.round((broodCount.none / numberOfFrames) * 100) + "% None",
+                cells: Math.round((cellsCount.queen / numberOfFrames) * 100) + "% QueenX" + Math.round((cellsCount.Supersedure / numberOfFrames) * 100) + "% SupersedureX" + Math.round((cellsCount.Supersedure / numberOfFrames) * 100) + "% None",
+                combPattern: Math.round((combCount.good / numberOfFrames) * 100) + "% GoodX" + Math.round((combCount.burr / numberOfFrames) * 100) + "% Burr",
+                queenSpotted: queenStr
+            }
+            addFrameAverage(averageFrame);
         }
-        let averageFrame = {
-            inspectionId: inspectionId,
-            boxNumber: box,
-            honey: Math.round(honeyTotal * 5),
-            nectar: Math.round(nectarTotal * 5),
-            brood: parseInt((broodCount.eggs / numberOfFrames) * 100) + "% Eggs " + parseInt((broodCount.larve / numberOfFrames) * 100) + "% Larve " + parseInt((broodCount.pupae / numberOfFrames) * 100) + "% Pupae " + parseInt((broodCount.none / numberOfFrames) * 100) + "% None",
-            cells: parseInt((cellsCount.queen / numberOfFrames) * 100) + "% Queen " + parseInt((cellsCount.Supersedure / numberOfFrames) * 100) + "% Supersedure " + parseInt((cellsCount.Supersedure / numberOfFrames) * 100) + "% None",
-            combPattern: parseInt((combCount.good / numberOfFrames) * 100) + "% Good " + parseInt((combCount.burr / numberOfFrames) * 100) + "% Burr",
-            queenSpotted: queenStr
+
+        if (box === 1) {
+            props.setFramesFinished(true);
+            props.setBoxes({
+                boxOne: box1,
+                boxTwo: box2,
+                boxThree: box3
+            });
         }
-        addFrameAverage(averageFrame);
-        
+
         //get all states ready for next box
+        //---------------------frame states
         setBox(box - 1);
         setFrameNum(FRAME_INITIAL_STATE);
         setHoney("");
@@ -121,24 +136,42 @@ function Frames(props) {
         setCells("");
         setQueen(false);
         setComb("");
-        numberOfFrames(0);
+        //---------------------average state
+        setNumberOfFrames(0);
+        setHoneyTotal(0);
+        setNectarTotal(0);
+        setBroodCount(BROOD_COUNT_INITIAL_STATE);
+        setCombCount(COMBCOUNT_INITIAL_STATE);
+        setCombCount(COMBCOUNT_INITIAL_STATE);
+        setQueenAvg('');
     }
     function nextFrame() {
-        if (frameNum.side === "A") {
-            setFrameNum({
-                number: frameNum.number,
-                side: "B"
-            })
+        if (frameNum.number === 10 && frameNum.side === "B") {
+            setFrameNum(FRAME_INITIAL_STATE);
         } else {
-            setFrameNum({
-                number: frameNum.number + 1,
-                side: "A"
-            })
+            if (frameNum.side === "A") {
+                setFrameNum({
+                    number: frameNum.number,
+                    side: "B"
+                })
+            } else {
+                setFrameNum({
+                    number: frameNum.number + 1,
+                    side: "A"
+                })
+            }
         }
     }
 
     function handleSubmit(e) {
         e.preventDefault();
+
+        //check if frame 10B
+        if (frameNum.number === 10 && frameNum.side === 'B') {
+            nextBox();
+        }
+
+
         setErrorMessage("");
         if (honey !== "" && nectar !== "" && comb !== "") {
             if (queen === true) {
@@ -239,28 +272,15 @@ function Frames(props) {
 
     }
 
-    function finishFrames() {
-        props.setFramesFinished(true);
-        props.setBoxes({
-            boxOne: box1,
-            boxTwo: box2,
-            boxThree: box3
-        })
-    }
-
     return <form onSubmit={handleSubmit}>
         <section id="frame-header">
             <div>
                 <h2>Box {box}</h2>
                 <h2>Frame {frameNum.number}{frameNum.side}</h2>
             </div>
-            {box > 1 &&
-                <button type="button" className="button" onClick={nextBox}>Skip Box</button>
-            }
-            {box === 1 &&
-                <button type="button" className="button" onClick={finishFrames}>Skip Box</button>
-            }
+            <button type="button" className="button" onClick={nextBox}>Skip Box</button>
         </section>
+        <h1>{numberOfFrames}</h1>
         <h3>Honey</h3>
         <section id="honey" className="button-group-row">
             <RadioButton label="Full" value={honey === 1} name="honey" color="green" id="h1" onChange={e => setHoney(1)} />
@@ -328,10 +348,10 @@ function Frames(props) {
         {frameNum.number === 10 && frameNum.side === "B" &&
             <div>
                 {box === 1 &&
-                    <button className="button" onClick={finishFrames}>Finish Frames</button>
+                    <button type="submit" className="button">Finish Frames</button>
                 }
                 {box !== 1 &&
-                    <button onClick={nextBox} className="button">Next Box</button>
+                    <button type="submit" className="button">Next Box</button>
                 }
             </div>
 
