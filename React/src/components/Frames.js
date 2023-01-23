@@ -32,7 +32,7 @@ function Frames(props) {
 
     /********************************** Average ***********************************************/
     const [honeyTotal, setHoneyTotal] = useState(0);
-    const [necatarTotal, setNectarTotal] = useState(0);
+    const [nectarTotal, setNectarTotal] = useState(0);
     const [broodCount, setBroodCount] = useState({
         eggs: 0,
         larve: 0,
@@ -49,6 +49,7 @@ function Frames(props) {
         burr: 0
     })
     const [queenAvg, setQueenAvg] = useState('');
+    const [numberOfFrames, setNumberOfFrames] = useState(0);
 
     /*************************** Checkbox functions *******************************************/
     const broodHandleChange = (position) => {
@@ -64,13 +65,13 @@ function Frames(props) {
                     return str + " " + broodsArray[index].name;
                 }
                 return str;
-            },""
+            }, ""
         );
         setBroods(brood);
     }
 
     const cellHandleChange = (position) => {
-        const updateCellChecked = cellChecked.map((item, index) => 
+        const updateCellChecked = cellChecked.map((item, index) =>
             index === position ? !item : item
         );
 
@@ -82,7 +83,7 @@ function Frames(props) {
                     return str + " " + cellsArray[index].name;
                 }
                 return str;
-            },""
+            }, ""
         );
         setCells(cell);
     }
@@ -90,16 +91,26 @@ function Frames(props) {
     /*************************** Next/Skip functions *******************************************/
 
     function nextBox() {
-    /*************************************************************************************************/
-     * 
-     * 
-     * Insert code to do math on average counts
-     * create frame average
-     * post to database
-     * addFrameAverage();
-     * 
-     * 
-     /**********************************************************************************************/
+        //calculate box averages and post to database
+        let queenStr = '';
+        if (queenAvg === '') {
+            queenStr = 'The queen was not spotted in box ' + box;
+        } else {
+            queenStr = 'The queen was spotted in frame ' + queenAvg;
+        }
+        let averageFrame = {
+            inspectionId: inspectionId,
+            boxNumber: box,
+            honey: Math.round(honeyTotal * 5),
+            nectar: Math.round(nectarTotal * 5),
+            brood: parseInt((broodCount.eggs / numberOfFrames) * 100) + "% Eggs " + parseInt((broodCount.larve / numberOfFrames) * 100) + "% Larve " + parseInt((broodCount.pupae / numberOfFrames) * 100) + "% Pupae " + parseInt((broodCount.none / numberOfFrames) * 100) + "% None",
+            cells: parseInt((cellsCount.queen / numberOfFrames) * 100) + "% Queen " + parseInt((cellsCount.Supersedure / numberOfFrames) * 100) + "% Supersedure " + parseInt((cellsCount.Supersedure / numberOfFrames) * 100) + "% None",
+            combPattern: parseInt((combCount.good / numberOfFrames) * 100) + "% Good " + parseInt((combCount.burr / numberOfFrames) * 100) + "% Burr",
+            queenSpotted: queenStr
+        }
+        addFrameAverage(averageFrame);
+        
+        //get all states ready for next box
         setBox(box - 1);
         setFrameNum(FRAME_INITIAL_STATE);
         setHoney("");
@@ -110,6 +121,7 @@ function Frames(props) {
         setCells("");
         setQueen(false);
         setComb("");
+        numberOfFrames(0);
     }
     function nextFrame() {
         if (frameNum.side === "A") {
@@ -127,8 +139,8 @@ function Frames(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        setErrorMessage(""); 
-        if(honey !== "" && nectar !== "" && comb !== ""){
+        setErrorMessage("");
+        if (honey !== "" && nectar !== "" && comb !== "") {
             if (queen === true) {
                 setQueenAvg(frameNum.number + frameNum.side);
                 if (box === 3) {
@@ -144,7 +156,7 @@ function Frames(props) {
             let frame = {
                 inspectionId: inspectionId,
                 boxNumber: box,
-                frameName: frameNum.number+frameNum.side,
+                frameName: frameNum.number + frameNum.side,
                 combPattern: comb,
                 honey: honey,
                 nectar: nectar,
@@ -153,16 +165,52 @@ function Frames(props) {
                 queenSpotted: queen
             }
             addNewFrame(frame);
-        /**********************************************************************************************************/
-         * 
-         * 
-         * Insert adding to average counts here
-         * 
-         * 
-         * 
-         /* *******************************************************************************************************/
-        
 
+            setNumberOfFrames(numberOfFrames + 1);
+            setHoneyTotal(honeyTotal + honey);
+            setNectarTotal(nectarTotal + nectar);
+            //brood parts count
+            let broodWords = broods.split(' ');
+            for (let i = 0; i < broodWords.length; i++) {
+                let type = broodWords[i];
+                let count = 0;
+                switch (type) {
+                    case 'Eggs': count = broodCount.eggs; break;
+                    case 'Larvae': count = broodCount.larve; break;
+                    case 'Pupae': count = broodCount.pupae; break;
+                    case 'None': count = broodCount.none; break;
+                    default: break;
+                }
+                setBroodCount(existingValues => ({
+                    ...existingValues,
+                    [type]: count + 1,
+                }));
+            }
+            //cells parts count
+            let cellsWords = cells.split(' ');
+            for (let i = 0; i < cellsWords.length; i++) {
+                let type = cellsWords[i];
+                let count = 0;
+                switch (type) {
+                    case 'Queen': count = cellsCount.queen; break;
+                    case 'Super': count = cellsCount.Supersedure; break;
+                    case 'None': count = cellsCount.none; break;
+                    default: break;
+                }
+                setCellsCount(existingValues => ({
+                    ...existingValues,
+                    [type]: count + 1,
+                }));
+            }
+            //Comb pattern count
+            if (comb === 'good') {
+                setCombCount({ good: combCount.good + 1, burr: combCount.burr })
+            }
+            if (comb === 'burr') {
+                setCombCount({ good: combCount.good, burr: combCount.burr + 1 })
+            }
+
+            //reset states
             e.target.reset();
             nextFrame();
             setHoney("");
@@ -175,20 +223,20 @@ function Frames(props) {
             setComb("");
         } else {
             let notFilledIn = [];
-            if(honey===""){
+            if (honey === "") {
                 notFilledIn.push("Honey");
             }
-            if(nectar===""){
+            if (nectar === "") {
                 notFilledIn.push("Nectar");
             }
-            if(comb===""){
+            if (comb === "") {
                 notFilledIn.push("Comb Pattern")
             }
             let str = notFilledIn.toString();
             setErrorMessage("Please select a value for the following: " + str);
         }
-        
-        
+
+
     }
 
     function finishFrames() {
@@ -247,12 +295,12 @@ function Frames(props) {
         </section>
         <h3>Queen Spotted</h3>
         <section id="queen" className="button-group-row">
-        <RadioButton label="Yes" value={queen === true} name="queen" color="green" id="qTrue" onChange={e => setQueen(true)} />
-        <RadioButton label="No" value={queen === false} name="queen" color="black" id="qFalse" onChange={e => setQueen(false)} />
+            <RadioButton label="Yes" value={queen === true} name="queen" color="green" id="qTrue" onChange={e => setQueen(true)} />
+            <RadioButton label="No" value={queen === false} name="queen" color="black" id="qFalse" onChange={e => setQueen(false)} />
         </section>
         <h3>Cells (Select Multiple)</h3>
         <section id="cells" className="button-group-row">
-        {cellsArray.map(({ name }, index) => {
+            {cellsArray.map(({ name }, index) => {
                 return (
                     <span key={index}>
                         <input
@@ -270,10 +318,10 @@ function Frames(props) {
         </section>
         <h3>Comb Pattern</h3>
         <section id="comb" className="button-group-row">
-        <RadioButton label="Good" value={comb === 'good'} name="comb" color="green" id="cg" onChange={e => setComb('good')} />
-        <RadioButton label="Burr" value={comb === 'burr'} name="comb" color="yellow" id="cb" onChange={e => setComb('burr')} />
+            <RadioButton label="Good" value={comb === 'good'} name="comb" color="green" id="cg" onChange={e => setComb('good')} />
+            <RadioButton label="Burr" value={comb === 'burr'} name="comb" color="yellow" id="cb" onChange={e => setComb('burr')} />
         </section>
-        {errorMessage.length>0 &&
+        {errorMessage.length > 0 &&
             <Alert key="danger" variant="danger">{errorMessage}</Alert>
         }
 

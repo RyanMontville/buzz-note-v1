@@ -6,5 +6,5 @@ public interface AverageDao {
 
     FrameAverage getFrameAverageByInspectionAndBox(int inspectionId, int boxNum);
 
-    void createAverage(FrameAverage frameAverage);
+    int createAverage(FrameAverage frameAverage);
 }

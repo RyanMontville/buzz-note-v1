@@ -30,12 +30,13 @@ public class JdbcAverageDao implements AverageDao{
     }
 
     @Override
-    public void createAverage(FrameAverage frameAverage) {
+    public int createAverage(FrameAverage frameAverage) {
         String sql = "INSERT INTO public.average(inspection_id, box_number, honey, nectar, brood, cells, " +
                 "comb_pattern, queen_spotted) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
-        jdbcTemplate.queryForRowSet(sql,frameAverage.getInspectionId(),frameAverage.getBoxNumber(),frameAverage.getHoney(),
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING avg_id;";
+        Integer id = jdbcTemplate.queryForObject(sql,Integer.class,frameAverage.getInspectionId(),frameAverage.getBoxNumber(),frameAverage.getHoney(),
                 frameAverage.getNectar(),frameAverage.getBrood(),frameAverage.getCells(),frameAverage.getCombPattern(),frameAverage.getQueenSpotted());
+        return id;
     }
 
     private FrameAverage mapRowToFrameAverage(SqlRowSet rowSet) {

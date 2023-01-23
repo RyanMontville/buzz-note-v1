@@ -50,7 +50,7 @@ function PastInspections(props) {
                         <button className={`button ${currentId === 0 ? "disabled" : ""}`} onClick={minusOne}>Next <i className="fa-solid fa-arrow-right"></i></button>
                     </section>
                     <InspectionDetail inspection={currentInspection} />
-                    <AverageDetails inspection={currentInspection} />
+                    <AverageDetails id={currentInspection.inspectionId} />
                     <FramesDetail inspection={currentInspection} />
                     <Notes notes={currentInspection.notes} id={currentInspection.inspectionId} />
                     

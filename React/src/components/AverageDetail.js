@@ -5,12 +5,12 @@ import { Table } from 'react-bootstrap';
 import { getAverages } from '../Services/InspectionService';
 
 function AverageDetails(props) {
-    const inspection = props.inspection;
+    const id = props.id;
     const [averages, setAverages] = useState({});
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
-        getAverages(inspection.inspectionId)
+        getAverages(id)
             .then((result) => {
                 setIsLoaded(true);
                 setAverages(result);
@@ -24,12 +24,12 @@ function AverageDetails(props) {
                     <>
                         <h3>Box {average.boxNumber}</h3>
                         <ul>
-                            <li>Honey: {average.honey}</li>
-                            <li>Nectar: {average.nectar}</li>
+                            <li>Honey: {average.honey} pound{average.honey>1 ? "s" : ""}</li>
+                            <li>Nectar: {average.nectar} pound{average.honey>1 ? "s" : ""}</li>
                             <li>Brood: {average.brood}</li>
                             <li>Cells: {average.cells}</li>
                             <li>Comb Pattern: {average.combPattern}</li>
-                            <li>Queen spotted in frame {average.queenSpotted}</li>
+                            <li>{average.queenSpotted}</li>
                         </ul>
                     </>
                 ))}

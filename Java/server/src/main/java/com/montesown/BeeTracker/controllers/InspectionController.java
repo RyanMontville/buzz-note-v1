@@ -78,9 +78,12 @@ public class InspectionController {
     @RequestMapping(path = "/inspections/{inspectionId}/average", method = RequestMethod.GET)
     public List<FrameAverage> getAveragesByInspectionId(@PathVariable int inspectionId) {
         List<FrameAverage> averages = new ArrayList<>();
-        averages.add(averageDao.getFrameAverageByInspectionAndBox(inspectionId,3));
-        averages.add(averageDao.getFrameAverageByInspectionAndBox(inspectionId,2));
-        averages.add(averageDao.getFrameAverageByInspectionAndBox(inspectionId,1));
+        FrameAverage three = averageDao.getFrameAverageByInspectionAndBox(inspectionId,3);
+        FrameAverage two = averageDao.getFrameAverageByInspectionAndBox(inspectionId,2);
+        FrameAverage one = averageDao.getFrameAverageByInspectionAndBox(inspectionId,1);
+        if(three != null){ averages.add(three); }
+        if(two != null){ averages.add(two); }
+        if(one != null){ averages.add(one); }
         return averages;
     }
 
@@ -104,7 +107,15 @@ public class InspectionController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/average",method = RequestMethod.POST)
-    public void postAverages(@RequestBody FrameAverage frameAverage) { averageDao.createAverage(frameAverage); }
+    public boolean postAverages(@RequestBody FrameAverage frameAverage) {
+        boolean success = false;
+        int id = 0;
+        id = averageDao.createAverage(frameAverage);
+        if(id!=0){
+            success = true;
+        }
+        return success;
+    }
 
     /************************************************* PUTS ***********************************************************/
     @RequestMapping(path = "/inspections/{inspectionId}/notes", method = RequestMethod.PUT)
