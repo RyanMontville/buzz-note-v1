@@ -3,11 +3,11 @@ My parents are bee keepers as a hobby. They wanted to start recording the state 
 
 <div>
   <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/homepage.png" alt="homepage" title="Homepage" style="width: 10%; display: inline-block;"></img>
-  <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/new-inspection_recoding-frames.png" alt="Recording a new inspection - Recoding the frames" title="Recording a new inspection - Recoding the frames" style="width: 10%; display: inline-block;"></img>
-  <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/new-inpsection_recoding-overall.png" alt="Recording a new inspection - Recoding facts about the inspection" title="Recording a new inspection - Recoding facts about the inspection" style="width: 10%; display: inline-block;"></img>
-  <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/new-inpsection_recoding-overall.png" alt="Recording a new inspection - Recoding facts about the inspection" title="Recording a new inspection - Recoding facts about the inspection" style="width: 10%; display: inline-block;"></img>
-  <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/viewing-a-past-inspection.png" alt="Viewing a past inspection" title="Viewing a past inspection" style="width: 10%; display: inline-block;"></img>
-  <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/search-page.png" alt="Search page" title="Search page" style="width: 10%; display: inline-block;"></img>
+  <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/new-inspection_recoding-frames.png" alt="Recording a new inspection - Recoding the frames" title="Recording a new inspection - Recoding the frames" style="width: 15%; display: inline-block;"></img>
+  <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/new-inpsection_recoding-overall.png" alt="Recording a new inspection - Recoding facts about the inspection" title="Recording a new inspection - Recoding facts about the inspection" style="width: 15%; display: inline-block;"></img>
+  <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/new-inpsection_recoding-overall.png" alt="Recording a new inspection - Recoding facts about the inspection" title="Recording a new inspection - Recoding facts about the inspection" style="width: 15%; display: inline-block;"></img>
+  <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/viewing-a-past-inspection.png" alt="Viewing a past inspection" title="Viewing a past inspection" style="width: 15%; display: inline-block;"></img>
+  <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/search-page.png" alt="Search page" title="Search page" style="width: 15%; display: inline-block;"></img>
 </div>
 
 ## V 0.1
