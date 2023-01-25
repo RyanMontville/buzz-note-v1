@@ -46,16 +46,19 @@ My parents are bee keepers as a hobby. They wanted to start recording the state 
 ## V 0.5
 I have created a React.js app working towards the finished project.
 
-## v 1.0 
+## V 1.0 
 The React app is now fully functional. 
 <br>-You are now able to start a new inspection, record all the frames, then record the overall observations. 
 <br>-You can view past inspections, add/updates notes
 <br>-You can search past inspections
 <br>-Things to work out: the weather api I was using has reached its max limit, so I need to find a different api or have the user manually input the weather. Updating the notes adds quotation marks around the string and if you update it, it then treats the quotes as escape characters and it get worse every update.
 
-## v 1.1
+## V 1.1
 -I have found a new weather api, Open Metro, so the weather can once again be properly recorded.
 <br>-I have also fixed the bug when adding/updating notes. I just pass the string instead of stringifying it.
 
-## v 1.2
+## V 1.2
 -I have completely redone the search page. Now you select a data range to search within, then the search term.
+
+## V 1.3
+-I have added averages for each box. When you record a frame, it add to the average, and then posts when the box is posted.
