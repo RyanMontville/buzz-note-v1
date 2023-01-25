@@ -1,5 +1,5 @@
 # Bee_Inspection
-My parents are bee keepers as a hobby. They wanted to start recording the state of the hives whenever they inspect the hive. I would like to create a web application that they can quickly and easily record the data using their phone. The purpose of recording the inspections is to try to find patterns and possibly use the data from last year to predict what will happen this year. 
+My parents are bee keepers as a hobby. They wanted to start recording the state of the hives whenever they inspect the hive. I have created a web application that they can quickly and easily record the data using their phone. The purpose of recording the inspections is to try to find patterns and possibly use the data from last year to predict what will happen this year. The app uses Java, SQL, JSON, HTML, CSS, Javascript, React.js, and Bootstrap.
 
 ## V 0.1
 -I have created a mock-up of what the web interface might look like. I have added some Javascript to simulate how the buttons will react when pressed, but doesn't do anything besides change color currently.
