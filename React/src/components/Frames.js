@@ -32,19 +32,19 @@ function Frames(props) {
 
     /********************************** Average ***********************************************/
     const BROOD_COUNT_INITIAL_STATE = {
-        eggs: 0,
-        larve: 0,
-        pupae: 0,
-        none: 0
+        Eggs: 0,
+        Larvae: 0,
+        Pupae: 0,
+        None: 0
     }
     const CELLS_COUNT_INITIAL_STATE = {
-        queen: 0,
+        Queen: 0,
         Supersedure: 0,
-        none: 0
+        None: 0
     }
     const COMBCOUNT_INITIAL_STATE = {
-        good: 0,
-        burr: 0
+        Good: 0,
+        Burr: 0
     }
     const [honeyTotal, setHoneyTotal] = useState(0);
     const [nectarTotal, setNectarTotal] = useState(0);
@@ -107,9 +107,9 @@ function Frames(props) {
                 boxNumber: box,
                 honey: Math.round(honeyTotal * 5),
                 nectar: Math.round(nectarTotal * 5),
-                brood: Math.round((broodCount.eggs / numberOfFrames) * 100) + "% EggsX" + Math.round((broodCount.larve / numberOfFrames) * 100) + "% LarveX" + Math.round((broodCount.pupae / numberOfFrames) * 100) + "% PupaeX" + Math.round((broodCount.none / numberOfFrames) * 100) + "% None",
-                cells: Math.round((cellsCount.queen / numberOfFrames) * 100) + "% QueenX" + Math.round((cellsCount.Supersedure / numberOfFrames) * 100) + "% SupersedureX" + Math.round((cellsCount.Supersedure / numberOfFrames) * 100) + "% None",
-                combPattern: Math.round((combCount.good / numberOfFrames) * 100) + "% GoodX" + Math.round((combCount.burr / numberOfFrames) * 100) + "% Burr",
+                brood: Math.round((broodCount.Eggs / numberOfFrames) * 100) + "% EggsX" + Math.round((broodCount.Larvae / numberOfFrames) * 100) + "% LarvaeX" + Math.round((broodCount.Pupae / numberOfFrames) * 100) + "% PupaeX" + Math.round((broodCount.None / numberOfFrames) * 100) + "% None",
+                cells: Math.round((cellsCount.Queen / numberOfFrames) * 100) + "% QueenX" + Math.round((cellsCount.Supersedure / numberOfFrames) * 100) + "% SupersedureX" + Math.round((cellsCount.None / numberOfFrames) * 100) + "% None",
+                combPattern: Math.round((combCount.Good / numberOfFrames) * 100) + "% GoodX" + Math.round((combCount.Burr / numberOfFrames) * 100) + "% Burr",
                 queenSpotted: queenStr
             }
             addFrameAverage(averageFrame);
@@ -150,15 +150,9 @@ function Frames(props) {
             setFrameNum(FRAME_INITIAL_STATE);
         } else {
             if (frameNum.side === "A") {
-                setFrameNum({
-                    number: frameNum.number,
-                    side: "B"
-                })
+                setFrameNum({ number: frameNum.number, side: "B" })
             } else {
-                setFrameNum({
-                    number: frameNum.number + 1,
-                    side: "A"
-                })
+                setFrameNum({ number: frameNum.number + 1, side: "A" })
             }
         }
     }
@@ -205,43 +199,26 @@ function Frames(props) {
             //brood parts count
             let broodWords = broods.split(' ');
             for (let i = 0; i < broodWords.length; i++) {
-                let type = broodWords[i];
-                let count = 0;
-                switch (type) {
-                    case 'Eggs': count = broodCount.eggs; break;
-                    case 'Larvae': count = broodCount.larve; break;
-                    case 'Pupae': count = broodCount.pupae; break;
-                    case 'None': count = broodCount.none; break;
-                    default: break;
-                }
-                setBroodCount(existingValues => ({
-                    ...existingValues,
-                    [type]: count + 1,
-                }));
+                if (broodWords[i] === 'Eggs') { setBroodCount(prevState => { return { ...prevState, Eggs: prevState.Eggs + 1 } }); }
+                if (broodWords[i] === 'Larvae') { setBroodCount(prevState => { return { ...prevState, Larvae: prevState.Larvae + 1 } }); }
+                if (broodWords[i] === 'Pupae') { setBroodCount(prevState => { return { ...prevState, Pupae: prevState.Pupae + 1 } }); }
+                if (broodWords[i] === 'None') { setBroodCount(prevState => { return { ...prevState, None: prevState.None + 1 } }); }
+
             }
             //cells parts count
             let cellsWords = cells.split(' ');
             for (let i = 0; i < cellsWords.length; i++) {
-                let type = cellsWords[i];
-                let count = 0;
-                switch (type) {
-                    case 'Queen': count = cellsCount.queen; break;
-                    case 'Super': count = cellsCount.Supersedure; break;
-                    case 'None': count = cellsCount.none; break;
+                switch (cellsWords[i]) {
+                    case 'Queen': setCellsCount(prevState => { return { ...prevState, Queen: prevState.Queen + 1 } }); break;
+                    case 'Super': setCellsCount(prevState => { return { ...prevState, Supersedure: prevState.Supersedure + 1 } }); break;
+                    case 'None': setCellsCount(prevState => { return { ...prevState, None: prevState.None + 1 } }); break;
                     default: break;
                 }
-                setCellsCount(existingValues => ({
-                    ...existingValues,
-                    [type]: count + 1,
-                }));
+
             }
             //Comb pattern count
-            if (comb === 'good') {
-                setCombCount({ good: combCount.good + 1, burr: combCount.burr })
-            }
-            if (comb === 'burr') {
-                setCombCount({ good: combCount.good, burr: combCount.burr + 1 })
-            }
+            if (comb === 'good') { setCombCount({ Good: combCount.Good + 1, Burr: combCount.Burr }); }
+            if (comb === 'burr') { setCombCount({ Good: combCount.Good, Burr: combCount.Burr + 1 }); }
 
             //reset states
             e.target.reset();
@@ -280,7 +257,7 @@ function Frames(props) {
             </div>
             <button type="button" className="button" onClick={nextBox}>Skip Box</button>
         </section>
-        <h1>{numberOfFrames}</h1>
+        <h1>{JSON.stringify(broodCount)}</h1>
         <h3>Honey</h3>
         <section id="honey" className="button-group-row">
             <RadioButton label="Full" value={honey === 1} name="honey" color="green" id="h1" onChange={e => setHoney(1)} />

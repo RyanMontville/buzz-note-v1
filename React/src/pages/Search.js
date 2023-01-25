@@ -134,7 +134,7 @@ function Search(props) {
                 <>
                     <button className='button red right' onClick={clearSearchTerms}>Clear Search Inputs</button>
                     <section className='include-notes'>
-                        <label for="notesSearch"><h3>Search Notes: </h3></label>
+                        <label for="notesSearch"><h3>Search Notes? </h3></label>
                         <RadioButton label="Yes" value={includeNotes === true} name="include-notes" color="green" id="iny" onChange={e => setIncludeNotes(true)} />
                         <RadioButton label="No" value={includeNotes === false} name="include-notes" color="red" id="inn" onChange={e => setIncludeNotes(false)} />
                     </section>
