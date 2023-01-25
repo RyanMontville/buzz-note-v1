@@ -257,7 +257,6 @@ function Frames(props) {
             </div>
             <button type="button" className="button" onClick={nextBox}>Skip Box</button>
         </section>
-        <h1>{JSON.stringify(broodCount)}</h1>
         <h3>Honey</h3>
         <section id="honey" className="button-group-row">
             <RadioButton label="Full" value={honey === 1} name="honey" color="green" id="h1" onChange={e => setHoney(1)} />
