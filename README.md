@@ -1,6 +1,15 @@
 # Bee_Inspection
 My parents are bee keepers as a hobby. They wanted to start recording the state of the hives whenever they inspect the hive. I have created a web application that they can quickly and easily record the data using their phone. The purpose of recording the inspections is to try to find patterns and possibly use the data from last year to predict what will happen this year. The app uses Java, SQL, JSON, HTML, CSS, Javascript, React.js, and Bootstrap.
 
+<div>
+  <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/homepage.png" alt="homepage" title="Homepage" style="width: 20%; display: inline-block;"></img>
+  <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/new-inspection_recoding-frames.png" alt="Recording a new inspection - Recoding the frames" title="Recording a new inspection - Recoding the frames" style="width: 20%; display: inline-block;"></img>
+  <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/new-inpsection_recoding-overall.png" alt="Recording a new inspection - Recoding facts about the inspection" title="Recording a new inspection - Recoding facts about the inspection" style="width: 20%; display: inline-block;"></img>
+  <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/new-inpsection_recoding-overall.png" alt="Recording a new inspection - Recoding facts about the inspection" title="Recording a new inspection - Recoding facts about the inspection" style="width: 20%; display: inline-block;"></img>
+  <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/viewing-a-past-inspection.png" alt="Viewing a past inspection" title="Viewing a past inspection" style="width: 20%; display: inline-block;"></img>
+  <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/search-page.png" alt="Search page" title="Search page" style="width: 20%; display: inline-block;"></img>
+</div>
+
 ## V 0.1
 -I have created a mock-up of what the web interface might look like. I have added some Javascript to simulate how the buttons will react when pressed, but doesn't do anything besides change color currently.
 <br>-My next step is to decide how the data will be stored / exported. I might try to store it all in a database and create a interface to view the inspections or maybe just have the application export the data to a csv that can be imported into a spreadsheet.
