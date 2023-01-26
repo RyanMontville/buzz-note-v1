@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from "react";
+import { LoadingContext } from "../App";
 import { Nav, Navbar, Container, Offcanvas } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import { startNewInspection } from '../Services/InspectionService';
 
 function Header(props) {
+  const setLoading = useContext(LoadingContext);
   let navigate = useNavigate();
   function handleStartClick() {
+    setLoading(true);
     startNewInspection()
       .then(data => {
         navigate(`/newInspection/${data}`);

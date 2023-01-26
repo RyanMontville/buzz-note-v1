@@ -25,7 +25,7 @@ function FramesDetail(props) {
                 setIsLoaded(true);
                 setFrames(result);
             })
-    });
+    },[inspection.inspectionId]);
 
     return <div>
         {isLoaded

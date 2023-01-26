@@ -42,7 +42,7 @@ function Frames(props) {
         Supersedure: 0,
         None: 0
     }
-    const COMBCOUNT_INITIAL_STATE = {
+    const COMB_COUNT_INITIAL_STATE = {
         Good: 0,
         Burr: 0
     }
@@ -50,7 +50,7 @@ function Frames(props) {
     const [nectarTotal, setNectarTotal] = useState(0);
     const [broodCount, setBroodCount] = useState(BROOD_COUNT_INITIAL_STATE);
     const [cellsCount, setCellsCount] = useState(CELLS_COUNT_INITIAL_STATE);
-    const [combCount, setCombCount] = useState(COMBCOUNT_INITIAL_STATE);
+    const [combCount, setCombCount] = useState(COMB_COUNT_INITIAL_STATE);
     const [queenAvg, setQueenAvg] = useState('');
     const [numberOfFrames, setNumberOfFrames] = useState(0);
 
@@ -141,8 +141,8 @@ function Frames(props) {
         setHoneyTotal(0);
         setNectarTotal(0);
         setBroodCount(BROOD_COUNT_INITIAL_STATE);
-        setCombCount(COMBCOUNT_INITIAL_STATE);
-        setCombCount(COMBCOUNT_INITIAL_STATE);
+        setCombCount(COMB_COUNT_INITIAL_STATE);
+        setCombCount(COMB_COUNT_INITIAL_STATE);
         setQueenAvg('');
     }
     function nextFrame() {

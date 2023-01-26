@@ -15,7 +15,7 @@ function AverageDetails(props) {
                 setIsLoaded(true);
                 setAverages(result);
             })
-    });
+    },[id]);
 
     return <div>
         {isLoaded
