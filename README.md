@@ -13,6 +13,7 @@ My parents are bee keepers as a hobby. They wanted to start recording the state 
   <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/viewing-a-past-inspection.png" alt="Viewing a past inspection" title="Viewing a past inspection" style="width: 17%; display: inline-block;"></img>
   <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/search-page.png" alt="Search page" title="Search page" style="width: 17%; display: inline-block;"></img>
 </div>
+
 [Back to Top](#top)
 
 <a id='notes'></a>
