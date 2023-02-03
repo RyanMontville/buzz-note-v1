@@ -1,7 +1,6 @@
 <a id='top'></a>
+[Screenshots](#screenshots) | [Version Notes](#notes)
 # Bee_Inspection
-[Screenshots](#screenshots)
-[Version Notes](#notes)
 
 My parents are bee keepers as a hobby. They wanted to start recording the state of the hives whenever they inspect the hive. I have created a web application that they can quickly and easily record the data using their phone. The purpose of recording the inspections is to try to find patterns and possibly use the data from last year to predict what will happen this year. The app uses Java, SQL, JSON, HTML, CSS, Javascript, React.js, and Bootstrap.
 
@@ -14,6 +13,7 @@ My parents are bee keepers as a hobby. They wanted to start recording the state 
   <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/viewing-a-past-inspection.png" alt="Viewing a past inspection" title="Viewing a past inspection" style="width: 17%; display: inline-block;"></img>
   <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/search-page.png" alt="Search page" title="Search page" style="width: 17%; display: inline-block;"></img>
 </div>
+[Back to Top](#top)
 
 <a id='notes'></a>
 ## Version Notes 
