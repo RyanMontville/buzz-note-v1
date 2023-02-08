@@ -103,3 +103,10 @@ input[type=number] {width: 50px;}
     margin: 0;
     padding: 0;
 }
+
+@media screen and  (max-width: 710px){
+    .right {
+        position: relative;
+        margin-bottom: 10px;
+    }
+}

@@ -136,7 +136,7 @@ function Frames(props) {
         setCells("");
         setQueen(false);
         setComb("");
-        //---------------------average state
+        //---------------------average states
         setNumberOfFrames(0);
         setHoneyTotal(0);
         setNectarTotal(0);
