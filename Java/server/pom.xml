@@ -58,9 +58,10 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.24</version>
+			<version>8.0.32</version>
 		</dependency>
-        <dependency>
+
+		<dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-dbcp2</artifactId>
             <version>2.1.1</version>
@@ -73,7 +74,7 @@
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<version>20200518</version>
+			<version>20220924</version>
 		</dependency>
 		<dependency>
 			<groupId>org.json</groupId>
