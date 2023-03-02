@@ -105,8 +105,8 @@ function Frames(props) {
             let averageFrame = {
                 inspectionId: inspectionId,
                 boxNumber: box,
-                honey: Math.round(honeyTotal * 5),
-                nectar: Math.round(nectarTotal * 5),
+                honey: Math.round((honeyTotal / 2) * 5),
+                nectar: Math.round((nectarTotal / 2) * 5),
                 brood: Math.round((broodCount.Eggs / numberOfFrames) * 100) + "% EggsX" + Math.round((broodCount.Larvae / numberOfFrames) * 100) + "% LarvaeX" + Math.round((broodCount.Pupae / numberOfFrames) * 100) + "% PupaeX" + Math.round((broodCount.None / numberOfFrames) * 100) + "% None",
                 cells: Math.round((cellsCount.Queen / numberOfFrames) * 100) + "% QueenX" + Math.round((cellsCount.Supersedure / numberOfFrames) * 100) + "% SupersedureX" + Math.round((cellsCount.None / numberOfFrames) * 100) + "% None",
                 combPattern: Math.round((combCount.Good / numberOfFrames) * 100) + "% GoodX" + Math.round((combCount.Burr / numberOfFrames) * 100) + "% Burr",
