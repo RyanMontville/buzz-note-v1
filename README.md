@@ -4,6 +4,8 @@
 
 My parents are bee keepers as a hobby. They wanted to start recording the state of the hives whenever they inspect the hive. I have created a web application that they can quickly and easily record the data using their phone. The purpose of recording the inspections is to try to find patterns and possibly use the data from last year to predict what will happen this year. The app uses Java, SQL, JSON, HTML, CSS, Javascript, React.js, and Bootstrap.
 
+You can view <a href="https://www.ryanmontville.com/bee-inspection/">a live demo</a> on Github pages.
+
 <a id='screenshots'></a>
 ## Screenshots
 <div>
