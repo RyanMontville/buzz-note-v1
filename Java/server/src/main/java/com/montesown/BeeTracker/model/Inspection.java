@@ -5,7 +5,7 @@ public class Inspection {
     private int inspectionId;
     private int weatherTemp;
     private String weatherCondition;
-    private String  startTime;
+    private String startTime;
     private String inspectionDate;
     private String beeTemperament;
     private String beePopulation;

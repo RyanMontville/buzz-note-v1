@@ -27,8 +27,8 @@ SET time_zone = "+00:00";
 -- Table structure for table `average`
 --
 
-CREATE TABLE `average` (
-  `avg_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `average` (
+  `avg_id` int(11) NOT NULL AUTO_INCREMENT,
   `inspection_id` int(11) NOT NULL,
   `box_number` int(11) NOT NULL,
   `honey` varchar(50) NOT NULL,
@@ -36,8 +36,9 @@ CREATE TABLE `average` (
   `brood` varchar(50) NOT NULL,
   `cells` varchar(50) NOT NULL,
   `comb_pattern` varchar(50) NOT NULL,
-  `queen_spotted` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `queen_spotted` varchar(50) NOT NULL,
+  PRIMARY KEY (`avg_id`)
+)ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
 
@@ -45,8 +46,8 @@ CREATE TABLE `average` (
 -- Table structure for table `frame`
 --
 
-CREATE TABLE `frame` (
-  `frame_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `frame` (
+  `frame_id` int(11) NOT NULL AUTO_INCREMENT,
   `inspection_id` int(11) NOT NULL,
   `box_number` int(11) NOT NULL,
   `frame_name` varchar(5) NOT NULL,
@@ -55,8 +56,9 @@ CREATE TABLE `frame` (
   `nectar` varchar(20) NOT NULL,
   `brood` varchar(50) NOT NULL,
   `queen_spotted` tinyint(1) NOT NULL,
-  `cells` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `cells` varchar(50) NOT NULL,
+  PRIMARY KEY (`frame_id`)
+)ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
 
