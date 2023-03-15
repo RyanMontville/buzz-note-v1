@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/bee-inspection/static/css/main.a845c5c2.css",
+    "main.js": "/bee-inspection/static/js/main.b9e3f2fc.js",
+    "static/media/loading.gif": "/bee-inspection/static/media/loading.810d939b0583c24eef2c.gif",
+    "index.html": "/bee-inspection/index.html",
+    "main.a845c5c2.css.map": "/bee-inspection/static/css/main.a845c5c2.css.map",
+    "main.b9e3f2fc.js.map": "/bee-inspection/static/js/main.b9e3f2fc.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a845c5c2.css",
+    "static/js/main.b9e3f2fc.js"
+  ]
+}
