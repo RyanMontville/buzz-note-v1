@@ -9,11 +9,11 @@ You can view <a href="https://ryanmontville.github.io/bee-inspection/">a live de
 <a id='screenshots'></a>
 ## Screenshots
 <div>
-  <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/homepage.png" alt="homepage" title="Homepage" style="width: 17%; display: inline-block;"></img>
-  <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/new-inspection_recoding-frames.png" alt="Recording a new inspection - Recoding the frames" title="Recording a new inspection - Recoding the frames" style="width: 17%; display: inline-block;"></img>
-  <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/new-inpsection_recoding-overall.png" alt="Recording a new inspection - Recoding facts about the inspection" title="Recording a new inspection - Recoding facts about the inspection" style="width: 17%; display: inline-block;"></img>
-  <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/viewing-a-past-inspection.png" alt="Viewing a past inspection" title="Viewing a past inspection" style="width: 17%; display: inline-block;"></img>
-  <img src="https://github.com/RyanMontville/Bee-Inspection/blob/main/screenshots/search-page.png" alt="Search page" title="Search page" style="width: 17%; display: inline-block;"></img>
+  <img src="/screenshots/bees-homepage.png" alt="homepage" title="Homepage" style="width: 17%; display: inline-block;" />
+  <img src="/screenshots/bees-inspection-frames.png" alt="Recording a new inspection - Recoding the frames" title="Recording a new inspection - Recoding the frames" style="width: 17%; display: inline-block;"></img>
+  <img src="/screenshots/bees-inspection-end.png" alt="Recording a new inspection - Recoding facts about the inspection" title="Recording a new inspection - Recoding facts about the inspection" style="width: 17%; display: inline-block;"></img>
+  <img src="/screenshots/bees-past-inspections.png" alt="Viewing a past inspection" title="Viewing a past inspection" style="width: 17%; display: inline-block;"></img>
+  <img src="/screenshots/bees-search.png" alt="Search page" title="Search page" style="width: 17%; display: inline-block;"></img>
 </div>
 
 [Back to Top](#top)
