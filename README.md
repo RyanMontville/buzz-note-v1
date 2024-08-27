@@ -2,7 +2,7 @@
 [Screenshots](#screenshots) | [Version Notes](#notes)
 # Bee Inspection App
 
-My parents are bee keepers as a hobby. They wanted to start recording the state of the hives whenever they inspect the hive. I have created a web application that they can quickly and easily record the data using their phone. The purpose of recording the inspections is to try to find patterns and possibly use the data from last year to predict what will happen this year. The app uses Java, SQL, JSON, HTML, CSS, Javascript, React.js, and Bootstrap.
+I created a web app for Monte's Own that can be used to track the health of bee hives. The app allows the user to quickly and easily record the data using their phone when the go to inspect the bee hives. The purpose of recording the inspections is to try to find patterns and possibly use the data from last year to predict what will happen this year. The app uses Java, SQL, JSON, HTML, CSS, Javascript, React.js, and Bootstrap.
 
 You can view <a href="https://ryanmontville.github.io/bee-inspection/">a live demo</a> on Github pages.
 
