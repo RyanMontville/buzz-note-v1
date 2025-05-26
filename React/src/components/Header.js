@@ -19,7 +19,7 @@ function Header(props) {
   return <div>
     <Navbar key="md" bg="warning" expand="md" className="m-4 rounded-4justify-content-around" variant="light">
       <Container>
-        <Navbar.Brand href="/">Bee Tracker</Navbar.Brand>
+        <Navbar.Brand href="/">BuzzNote</Navbar.Brand>
         <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-md`} />
         <Navbar.Offcanvas
           id={`offcanvasNavbar-expand-md`}
