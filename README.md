@@ -4,7 +4,7 @@
 
 I created a web app for Monte's Own that can be used to track the health of bee hives. The app allows the user to quickly and easily record the data using their phone when the go to inspect the bee hives. The purpose of recording the inspections is to try to find patterns and possibly use the data from last year to predict what will happen this year. The app uses Java, SQL, JSON, HTML, CSS, Javascript, React.js, and Bootstrap.
 
-5/26/2025 Updatte: Version 2 of the app is now live, which you can view the demo [here](https://ryanmontville.com/bees-v2/) and the GitHub repo [here](https://github.com/RyanMontville/buzz-note-v2)
+January 2026 Update: [Version 3.0 is now live](https://github.com/RyanMontville/buzz-note-v3).
 
 <a id='screenshots'></a>
 ## Screenshots
